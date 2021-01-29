@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Capstone_Nucleus.Models;
 
 namespace Capstone_Nucleus.Repositories
 {
-    interface IUserProfileRepository
+    public interface IUserProfileRepository
     {
+        void Add(UserProfile userProfile);
+
+        UserProfile GetByFirebaseUserId(string firebaseUserId);
     }
 }

@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace Capstone_Nucleus.Repositories
 {
-    interface IUserTypeRepository
+    public interface IUserTypeRepository
     {
+
+
     }
 }

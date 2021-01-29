@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Capstone_Nucleus.Repositories
 {
-    public class ItemRepository
+    public class ItemRepository : IItemRepository
     {
     }
 }

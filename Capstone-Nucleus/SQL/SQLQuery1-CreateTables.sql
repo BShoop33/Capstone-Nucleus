@@ -8,14 +8,23 @@ USE [Capstone_Nucleus]
 GO
 
 DROP TABLE IF EXISTS [Item];
-DROP TABLE IF EXISTS [RequisitionStatusLevel];
+
 DROP TABLE IF EXISTS [UserProfile];
 DROP TABLE IF EXISTS [UserType];
+
+
+DROP TABLE IF EXISTS [Department];
 GO
 
 CREATE TABLE [UserType] (
   [Id] int PRIMARY KEY IDENTITY,
   [Position] nvarchar(255) NOT NULL,
+)
+GO
+
+CREATE TABLE [Department] (
+  [Id] int PRIMARY KEY IDENTITY,
+  [Name] nvarchar(255) NOT NULL,
 )
 GO
 
@@ -41,13 +50,13 @@ GO
 CREATE TABLE [Item] (
   [Id] int PRIMARY KEY IDENTITY,
   [UserId] int NOT NULL,
-  [ItemLocation] nvarchar(255) NOT NULL,
+  [DepartmentId] int NOT NULL,
   [VendorName] nvarchar(255) NOT NULL,
   [ItemName] nvarchar(255) NOT NULL,
-  [ItemSKU]  int,
-  [UnitPrice] float,
+  [ItemSKU]  nvarchar(255),
+  [UnitPrice] float NOT NULL,
   [Quantity] int NOT NULL,
-  [DateReceived] datetime NOT NULL,
+  [DateReceived] datetime,
   [IsActive] bit
 
 CONSTRAINT [FK_Item_UserProfile] FOREIGN KEY ([UserId]) REFERENCES [UserProfile] ([Id]),
