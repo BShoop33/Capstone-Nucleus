@@ -30,16 +30,12 @@ const Login = () => {
 
     return (
         <>
-            <Row>""</Row>
-            <Row>""</Row>
-            <Row>""</Row>
-            <Row>""</Row>
-            <Row>""</Row>
+            <Row style={{ height: 15 }}>""</Row>
             <Col className="d-flex justify-content-center" align="center" >
                 <div className="login-form ">
                     <form style={{ width: 400 }} onSubmit={handleSubmit}>
                         <div >
-                            <img className="NucleusLoginLogo" src="NucleusLogo.png" alt="Nucleus Logo" />
+                            <img className="NucleusLoginLogo" src="\Images\NucleusLogo.png" alt="Nucleus Logo" />
                         </div>
                         <h2 className="my-3">Login</h2>
                         <div className="form-group">

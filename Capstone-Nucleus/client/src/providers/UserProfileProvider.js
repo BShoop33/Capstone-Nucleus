@@ -19,7 +19,6 @@ export function UserProfileProvider(props) {
     }, []);
 
     const login = (email, pw) => {
-        debugger;
         return firebase
             .auth()
             .signInWithEmailAndPassword(email, pw)
