@@ -13,6 +13,7 @@ const Register = () => {
     const [lastName, setLastName] = useState("");
     const [displayName, setDisplayName] = useState("");
     const [department, setDepartment] = useState("");
+    const [position, setPosition] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirm, setConfirm] = useState("");
@@ -32,6 +33,7 @@ const Register = () => {
             lastName,
             displayName,
             department,
+            position,
             email,
         };
         register(profile, password)
@@ -48,12 +50,12 @@ const Register = () => {
 
     return (
         <>
-            <Row>""</Row>
+            <Row style={{ height: 15 }}></Row>
             <Col className="d-flex justify-content-center" align="center" >
                 <div className="login-form ">
                     <form style={{ width: 400 }} onSubmit={handleSubmit}>
                         <div>
-                            <img className="NucleusLoginLogo" src="NucleusLogo.png" alt="Nucleus Logo" />
+                            <img className="NucleusLoginLogo" src="\Images\NucleusLogo.png" alt="Nucleus Logo" />
                         </div>
                         <h2 className="my-3">Register</h2>
                         <div className="form-group" >
@@ -98,7 +100,7 @@ const Register = () => {
                         </div>
                         <div className="form-group">
                             <Input
-                                onChange={(e) => setDepartment(e.target.value)}
+                                onChange={(e) => setPosition(e.target.value)}
                                 type="text"
                                 className="form-control border border-dark font-weight-bold"
                                 name="position"

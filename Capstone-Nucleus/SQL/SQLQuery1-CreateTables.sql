@@ -36,9 +36,9 @@ CREATE TABLE [UserProfile] (
   [LastName] nvarchar(255) NOT NULL,
   [DisplayName] nvarchar(255) NOT NULL,
   [Email] nvarchar(255) NOT NULL,
-  [DateRegistered] datetime NOT NULL,
-  [DateDeactivated] datetime,
-  [DateLastActivated] datetime,
+  [DateRegistered] datetime2 NOT NULL,
+  [DateDeactivated] datetime2,
+  [DateLastActivated] datetime2,
   [UserTypeId] int NOT NULL,
   [IsActive] bit,
 
@@ -56,7 +56,7 @@ CREATE TABLE [Item] (
   [ItemSKU]  nvarchar(255),
   [UnitPrice] float NOT NULL,
   [Quantity] int NOT NULL,
-  [DateReceived] datetime,
+  [DateReceived] datetime2,
   [IsActive] bit
 
 CONSTRAINT [FK_Item_UserProfile] FOREIGN KEY ([UserId]) REFERENCES [UserProfile] ([Id]),

@@ -1,6 +1,8 @@
-﻿using Capstone_Nucleus.Repositories;
+﻿using Capstone_Nucleus.Models;
+using Capstone_Nucleus.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Capstone_Nucleus.Controllers
 {
@@ -21,17 +23,18 @@ namespace Capstone_Nucleus.Controllers
             return Ok(_userProfileRepo.GetByFirebaseUserId(firebaseUserId));
         }
 
-        //[HttpPost]
-        //public IActionResult Post(UserProfile userProfile)
-        //{
-        //    userProfile.DateRegistered = DateTime.Now;
+        [HttpPost]
+        public IActionResult Post(UserProfile userProfile)
+        {
+            userProfile.UserTypeId = 2;
 
-        //    _userProfileRepo.Add(userProfile);
-        //    return CreatedAtAction(
-        //        nameof(GetUserProfile),
-        //        new { firebaseUserId = userProfile.FirebaseUserId },
-
-        //        userProfile);
-        //}
+            userProfile.DateRegistered = DateTime.Now;
+            userProfile.IsActive = true;
+            _userProfileRepo.Add(userProfile);
+            return CreatedAtAction(
+                nameof(GetUserProfile),
+                new { firebaseUserId = userProfile.FirebaseUserId },
+                userProfile);
+        }
     }
 }
