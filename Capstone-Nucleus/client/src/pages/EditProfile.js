@@ -111,6 +111,7 @@ const EditProfile = () => {
                         <input
                             className="firstNameInput mb-4 ml-4"
                             defaultValue={profileId ? item.firstName : ""}
+                            id="input"
                             name="firstName"
                             onChange={handleControlledInputChange}
                             ref={firstName}
@@ -129,6 +130,7 @@ const EditProfile = () => {
                         <input
                             className="lastNameInput mb-4 ml-4"
                             defaultValue={profileId ? item.lastName : ""}
+                            id="input"
                             name="lastName"
                             onChange={handleControlledInputChange}
                             ref={lastName}
@@ -147,6 +149,7 @@ const EditProfile = () => {
                         <input
                             className="displayName mb-4 ml-4"
                             defaultValue={profileId ? item.displayName : ""}
+                            id="input"
                             name="displayName"
                             onChange={handleControlledInputChange}
                             ref={displayName}
@@ -165,6 +168,7 @@ const EditProfile = () => {
                         <input
                             className="email mb-4 ml-4"
                             defaultValue={profileId ? item.email : ""}
+                            id="input"
                             name="email"
                             onChange={handleControlledInputChange}
                             ref={email}

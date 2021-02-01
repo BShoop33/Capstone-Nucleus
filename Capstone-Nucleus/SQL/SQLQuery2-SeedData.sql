@@ -45,9 +45,9 @@ insert into UserProfile (Id, FirebaseUserId, Department, FirstName, LastName, Di
 set identity_insert [UserProfile] off
 
 set identity_insert [Item] on
-insert into Item (Id, UserId, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, Quantity, DateReceived, IsActive) values (1, 1, 1, 'Tambee', 'Wine - Tribal Sauvignon', '28034', 18719.18, 832, '08/06/2019', 1);
-insert into Item (Id, UserId, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, Quantity, DateReceived, IsActive) values (2, 2, 3, 'Thoughtworks', 'Beef - Bones, Marrow', '28035', 10202.71, 616, '12/12/2020', 0);
-insert into Item (Id, UserId, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, Quantity, DateReceived, IsActive) values (3, 3, 5, 'Feedfish', 'Onions - Green', '28036', 4724.56, 993, '08/28/2020', 0);
-insert into Item (Id, UserId, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, Quantity, DateReceived, IsActive) values (4, 4, 7, 'Abatz', 'Anchovy In Oil', '28037', 9148.15, 547, '03/04/2020', 1);
-insert into Item (Id, UserId, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, Quantity, DateReceived, IsActive) values (5, 5, 9, 'Ailane', 'Rabbit - Whole', '28038', 3958.53, 523, '09/10/2020', 0);
+insert into Item (Id, UserId, ItemPicture, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, Quantity, DateReceived, IsActive) values (1, 1, 'Image', 1, 'CDW', 'Winco Privess Swing Away Wall Mounted Telescopic Privacy Curtain', '28034', 183.74, 20, '08/06/2019', 1);
+insert into Item (Id, UserId, ItemPicture, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, Quantity, DateReceived, IsActive) values (2, 1, 'Image', 1, 'CDW', 'Winco Privess Swing Away Wall Mounted Telescopic Privacy Curtain', '28034', 183.74, 20, '08/06/2019', 1);
+insert into Item (Id, UserId, ItemPicture, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, Quantity, DateReceived, IsActive) values (3, 1, 'Image', 1, 'CDW', 'Winco Privess Swing Away Wall Mounted Telescopic Privacy Curtain', '28034', 183.74, 20, '08/06/2019', 1);
+insert into Item (Id, UserId, ItemPicture, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, Quantity, DateReceived, IsActive) values (4, 1, 'Image', 1, 'CDW', 'Winco Privess Swing Away Wall Mounted Telescopic Privacy Curtain', '28034', 183.74, 20, '08/06/2019', 1);
+
 set identity_insert [Item] off

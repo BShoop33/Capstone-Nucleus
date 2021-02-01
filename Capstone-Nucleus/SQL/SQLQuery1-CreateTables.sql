@@ -50,6 +50,7 @@ GO
 CREATE TABLE [Item] (
   [Id] int PRIMARY KEY IDENTITY,
   [UserId] int NOT NULL,
+  [ItemPicture] nvarchar(255),
   [DepartmentId] int NOT NULL,
   [VendorName] nvarchar(255) NOT NULL,
   [ItemName] nvarchar(255) NOT NULL,

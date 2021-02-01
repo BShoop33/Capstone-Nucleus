@@ -25,7 +25,7 @@ namespace Capstone_Nucleus.Models
         public string ItemSKU { get; set; }
 
         [Required]
-        public float UnitPrice { get; set; }
+        public double UnitPrice { get; set; }
 
         [Required]
         public int Quantity { get; set; }
@@ -33,5 +33,7 @@ namespace Capstone_Nucleus.Models
         public DateTime DateReceived { get; set; }
 
         public bool IsActive { get; set; }
+
+        public Department Department { get; set; }
     }
 }
