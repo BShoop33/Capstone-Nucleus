@@ -12,6 +12,6 @@ namespace Capstone_Nucleus.Data
         public DbSet<UserProfile> UserProfile { get; set; }
         public DbSet<UserType> UserType { get; set; }
 
-        public DbSet<Department> Departments { get; set; }
+        public DbSet<Department> Department { get; set; }
     }
 }

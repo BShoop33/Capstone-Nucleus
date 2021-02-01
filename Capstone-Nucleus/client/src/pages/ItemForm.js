@@ -17,6 +17,7 @@ const ItemForm = () => {
     const itemUnitPrice = useRef();
     const itemQuantity = useRef();
 
+    const [value, setValue] = useState('');
     const [item, setNewItem] = useState({});
     const [image, setImage] = useState('')
     const [loading, setLoading] = useState(false)
@@ -134,6 +135,10 @@ const ItemForm = () => {
         hiddenFileInput.current.click();
     };
 
+    const handleSelect = (e) => {
+        setValue(e)
+    }
+
     return (
         <>
             <h1 className="AddItemHeader my-5">{itemId ? "Edit Item" : "Add Item"}</h1>
@@ -189,8 +194,8 @@ const ItemForm = () => {
                             <DropdownButton
                                 id="itemFormDropdown"
                                 style={{ width: 400, height: 35 }}
-                                title="Select Location"
-                            // onSelect={handleSelect}
+                                title={value ? value : "Select Location"}
+                                onSelect={handleSelect}
                             >
                                 <Dropdown.Item id="dropdownOptions" eventKey="Administrative Services">Administrative Services</Dropdown.Item>
                                 <Dropdown.Item id="dropdownOptions" eventKey="Anesthetics">Anesthetics</Dropdown.Item>
@@ -235,6 +240,7 @@ const ItemForm = () => {
                             <input
                                 className="vendorNameInput mb-4 ml-4"
                                 defaultValue={itemId ? item.vendorName : ""}
+                                id="input"
                                 name="vendorName"
                                 onChange={handleControlledInputChange}
                                 style={{ width: 400, height: 35 }}
@@ -255,6 +261,7 @@ const ItemForm = () => {
                             <input
                                 className="itemNameInput mb-4 ml-4"
                                 defaultValue={itemId ? item.vendorName : ""}
+                                id="input"
                                 name="itemName"
                                 onChange={handleControlledInputChange}
                                 ref={itemName}
@@ -275,6 +282,7 @@ const ItemForm = () => {
                         <input
                             className="itemSKUInput mb-4 ml-4"
                             defaultValue={itemId ? item.itemSKU : ""}
+                            id="input"
                             name="itemSKU"
                             onChange={handleControlledInputChange}
                             ref={itemSKU}
@@ -294,6 +302,7 @@ const ItemForm = () => {
                         <input
                             className="itemUnitPrice mb-4 ml-4"
                             defaultValue={itemId ? item.itemSerialNumber : ""}
+                            id="input"
                             name="itemSerialNumber"
                             onChange={handleControlledInputChange}
                             style={{ width: 400, height: 35 }}
@@ -312,6 +321,7 @@ const ItemForm = () => {
                         <textarea
                             className="itemQuantityInput mb-4 ml-4"
                             defaultValue={itemId ? item.itemQuantity : ""}
+                            id="input"
                             name="itemQuantity"
                             onChange={handleControlledInputChange}
                             ref={itemQuantity}
@@ -326,7 +336,7 @@ const ItemForm = () => {
                             onClick={item => {
                                 item.preventDefault()
                                 // constructItemObject()
-                                // history.push(`/`)
+                                history.push(`/`)
                             }}
                             style={{ width: 150, marginLeft: 75 }}
                             type="button"
@@ -344,15 +354,6 @@ const ItemForm = () => {
                             variant="danger"
                         >Cancel
                         </Button>
-
-                        {/* <Button
-                                className="CancelAddItem"
-                                onClick={showToast}
-                                style={{ width: 150, marginLeft: 30 }}
-                                type="submit"
-                                variant="danger"
-                            >Toast
-                            </Button> */}
 
                         <ToastContainer
                             autoClose={2000}

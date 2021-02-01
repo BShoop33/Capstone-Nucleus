@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react"
 import FormControl from 'react-bootstrap/FormControl';
+import "./Inventory.css";
 
 export const ItemSearch = () => {
     // const { setSearchTerms } = useContext(ItemContext)
@@ -11,13 +12,12 @@ export const ItemSearch = () => {
     return (
         <>
             <FormControl type="text"
-                className="mr-sm-2"
                 // className="SearchBar"
-                id="input"
+                id="itemSearch"
                 // onKeyUp={
                 //     (keyEvent) => setSearchTerms(keyEvent.target.value)
                 // }
-                placeholder="Search for an item " />
+                placeholder="Search by Item Name" />
         </>
     )
 }

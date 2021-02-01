@@ -12,6 +12,12 @@
     font-size: 12pt;
 }
 
+#hrStyling {
+    margin-bottom: 0;
+    margin-top: 1em;
+    border: 2px solid #343a40;
+}
+
 .imageUploadBoard{
     border: .5em;
     border-color: black;
@@ -29,6 +35,101 @@
     font-size: 14pt;
 }
 
+
+
+
+#itemCardPicture {
+    border-right-color: #343a40;
+    border-right-style: solid;
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    font-size: 11pt;
+    max-height: 4em;
+    overflow: auto;
+    text-align: left;
+}  
+
+#itemCardDepartment {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    font-size: 11pt;
+    max-height: 4em;
+    overflow: auto;
+    text-align: left;
+    display: table-cell;
+    vertical-align: middle;
+}  
+
+#itemCardVendor {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    font-size: 11pt;
+    max-height: 4em;
+    overflow: auto;
+    text-align: left;
+}  
+
+#itemCardName {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    font-size: 11pt;
+    max-height: 4em;
+    overflow: auto;
+    text-align: left;
+} 
+
+#itemCardSKU {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    font-size: 11pt;
+    max-height: 4em;
+    overflow: auto;
+    text-align: center;
+} 
+
+#itemCardPrice {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    font-size: 11pt;
+    max-height: 4em;
+    overflow: auto;
+    text-align: center;
+    justify-content: center;
+} 
+
+#itemCardQuantity {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    font-size: 11pt;
+    max-height: 4em;
+    overflow: auto;
+    text-align:center;
+}
+
+
+
+
+
+
 #itemFormDropdown {
     background-color: white;
     border-color:#636263;
@@ -41,6 +142,13 @@
 
 #itemSearch {
     border-color:black;
+    width: 16.75em;
+}
+
+#locationFilterDropdown {
+    align-self: right;
+    font-size: 14pt;
+    width: 20em;
 }
 
 #navLinks {
@@ -62,6 +170,13 @@
     border-style: solid;
     height: 12em;
     width: auto;
+}
+
+#removeFilterButton {
+    font-size: 14pt;
+    height: 2em;
+
+    width: 10em;
 }
 
 #required {
