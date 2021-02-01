@@ -1,13 +1,16 @@
 import React, { useContext, useState } from "react";
-import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
-import { Button, Col, Input, Row } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
+import { toast } from "react-toastify";
+import { Button, Col, Input, Row } from "reactstrap";
 import "./Login.css";
 
 const Register = () => {
+
+    const history = useHistory();
+
     const { register } = useContext(UserProfileContext);
+
     const [loading, setLoading] = useState(false);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -17,7 +20,6 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirm, setConfirm] = useState("");
-    const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -51,100 +53,116 @@ const Register = () => {
     return (
         <>
             <Row style={{ height: 15 }}></Row>
-            <Col className="d-flex justify-content-center" align="center" >
+            <Col align="center" className="d-flex justify-content-center">
                 <div className="login-form ">
-                    <form style={{ width: 400 }} onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} style={{ width: 400 }}>
                         <div>
-                            <img className="NucleusLoginLogo" src="\Images\NucleusLogo.png" alt="Nucleus Logo" />
+                            <img
+                                alt="Nucleus Logo"
+                                className="NucleusLoginLogo"
+                                src="\Images\NucleusLogo.png"
+                            />
                         </div>
-                        <h2 className="my-3">Register</h2>
+                        <h1 className="my-3 font-weight-bold">Register</h1>
                         <div className="form-group" >
                             <Input
-                                onChange={(e) => setFirstName(e.target.value)}
-                                type="text"
                                 className="form-control border border-dark font-weight-bold"
+                                id="input"
                                 name="firstName"
+                                onChange={(e) => setFirstName(e.target.value)}
                                 placeholder="First Name"
                                 required="required"
+                                type="text"
                             />
                         </div>
                         <div className="form-group">
                             <Input
-                                onChange={(e) => setLastName(e.target.value)}
-                                type="text"
                                 className="form-control border border-dark font-weight-bold"
+                                id="input"
                                 name="lastName"
+                                onChange={(e) => setLastName(e.target.value)}
                                 placeholder="Last Name"
                                 required="required"
+                                type="text"
                             />
                         </div>
                         <div className="form-group">
                             <Input
-                                onChange={(e) => setDisplayName(e.target.value)}
-                                type="text"
                                 className="form-control border border-dark font-weight-bold"
+                                id="input"
                                 name="displayName"
+                                onChange={(e) => setDisplayName(e.target.value)}
                                 placeholder="Display Name"
                                 required="required"
+                                type="text"
                             />
                         </div>
                         <div className="form-group">
                             <Input
-                                onChange={(e) => setDepartment(e.target.value)}
-                                type="text"
                                 className="form-control border border-dark font-weight-bold"
+                                id="input"
                                 name="departmentName"
+                                onChange={(e) => setDepartment(e.target.value)}
                                 placeholder="Department"
                                 required="required"
+                                type="text"
                             />
                         </div>
                         <div className="form-group">
                             <Input
-                                onChange={(e) => setPosition(e.target.value)}
-                                type="text"
                                 className="form-control border border-dark font-weight-bold"
+                                id="input"
                                 name="position"
+                                onChange={(e) => setPosition(e.target.value)}
                                 placeholder="Job Title"
                                 required="required"
+                                type="text"
                             />
                         </div>
                         <div className="form-group">
                             <Input
-                                onChange={(e) => setEmail(e.target.value)}
-                                type="email"
                                 className="form-control border border-dark font-weight-bold"
+                                id="input"
                                 name="email"
+                                onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Email"
                                 required="required"
+                                type="email"
                             />
                         </div>
                         <div className="form-group">
                             <Input
-                                onChange={(e) => setPassword(e.target.value)}
-                                type="password"
                                 className="form-control border border-dark font-weight-bold"
+                                id="input"
                                 name="password"
+                                onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Password"
                                 required="required"
+                                type="password"
                             />
                         </div>
                         <div className="form-group">
                             <Input
-                                onChange={(e) => setConfirm(e.target.value)}
-                                type="password"
                                 className="form-control border border-dark font-weight-bold"
+                                id="input"
                                 name="confirmPassword"
+                                onChange={(e) => setConfirm(e.target.value)}
                                 placeholder="Confirm Password"
                                 required="required"
+                                type="password"
                             />
                         </div>
                         <div className="form-group">
-                            <Button type="submit" block color="success" className="SignButton" disabled={loading}>
-                                Sign Up
+                            <Button type="submit"
+                                block color="success"
+                                className font-weight-bold="SignButton"
+                                disabled={loading}
+                                id="input"
+                                style={{ height: 40 }}
+                            >Register
                             </Button>
                         </div>
-                        <div className="text-center RedirectMessage">
-                            Already have an account?
+                        <div className="text-center RedirectMessage">Already have an account?
                             <div>
                                 <Link className="RedirectLink" to="/login">Log in here</Link>
                             </div>
