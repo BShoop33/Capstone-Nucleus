@@ -1,0 +1,72 @@
+.addItemButton {
+    height: auto;
+    width: 10em;
+}
+
+#columnHeaders {
+    font-size: 12pt;
+    font-weight: 700;
+}
+
+#dropdownOptions {
+    font-size: 12pt;
+}
+
+.imageUploadBoard{
+    border: .5em;
+    border-color: black;
+    border-style: solid;
+}
+
+#imageUploadButton {
+    font-size: 14pt;
+    height: 2.25em;
+    width: 8em;
+}
+
+#input {
+    align-self: right;
+    font-size: 14pt;
+}
+
+#itemFormDropdown {
+    background-color: white;
+    border-color:#636263;
+    color: black;
+    font-size: 12pt;
+    height: 2.5em;
+    margin-left: 1em;
+    width: 25em;
+}
+
+#itemSearch {
+    border-color:black;
+}
+
+#navLinks {
+    color: white;
+    font-size: 16pt;
+}
+ 
+    #navLinks:hover {
+        border: 2px;
+        border-color: rgb(11, 240, 190);
+        border-style: solid;
+        color: rgb(11, 240, 190);
+    }
+ 
+.NucleusInventoryLogo {
+    border-radius: .5em;
+    border: 2px;
+    border-color:black;
+    border-style: solid;
+    height: 12em;
+    width: auto;
+}
+
+#required {
+    color: red;
+    font-size: 14pt;
+    margin-left: 11em;
+    text-align: left;
+}

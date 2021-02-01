@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import firebase from "firebase/app";
+import './index.css';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,

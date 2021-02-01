@@ -1,26 +1,34 @@
+.form-control {
+    font-size: 14pt;
+}
+
+#input {
+    font-size: 14pt;
+}
+
 .login-form {
-  border: 1em;
-  border-radius: 1em;
-  border-style: solid;
-  padding: 1em;
+    border: 1em;
+    border-radius: 1em;
+    border-style: solid;
+    padding: 1em;
 }
 
 .NucleusLoginLogo {
-  height: 12em;
-  width: auto;
+    height: 18em;
+    width: auto;
 }   
 
 .RedirectLink {
-  color: blue;
-  font-size: 14pt;
-  font-weight: 600;
+    color: blue;
+    font-size: 14pt;
+    font-weight: 600;
 }
 
 .RedirectMessage {
-  font-size: 14pt;
-  font-weight: 400;
+    font-size: 14pt;
+    font-weight: 400;
 }   
 
 .SignButton {
-  font-size: 12pt;
+    font-size: 12pt;
 }
