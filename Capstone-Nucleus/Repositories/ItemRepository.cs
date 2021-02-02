@@ -24,5 +24,11 @@ namespace Capstone_Nucleus.Repositories
                 .Include(i => i.Department)
                 .ToList();
         }
+
+        public void Add(Item item)
+        {
+            _context.Add(item);
+            _context.SaveChanges();
+        }
     }
 }

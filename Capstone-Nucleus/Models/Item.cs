@@ -8,7 +8,9 @@ namespace Capstone_Nucleus.Models
         public int Id { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public int UserProfileId { get; set; }
+
+        public string ItemPicture { get; set; }
 
         [Required]
         public int DepartmentId { get; set; }
@@ -35,5 +37,7 @@ namespace Capstone_Nucleus.Models
         public bool IsActive { get; set; }
 
         public Department Department { get; set; }
+
+        public UserProfile UserProfile { get; set; }
     }
 }

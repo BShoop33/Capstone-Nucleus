@@ -35,10 +35,7 @@
     font-size: 14pt;
 }
 
-
-
-
-#itemCardPicture {
+#itemCardPicture-NoImage {
     border-right-color: #343a40;
     border-right-style: solid;
     border-bottom-color:#343a40;
@@ -50,7 +47,7 @@
     text-align: left;
 }  
 
-#itemCardDepartment {
+#itemCardDepartment-NoImage {
     border-right-color: #343a40;
     border-right-style: solid; 
     border-bottom-color:#343a40;
@@ -64,7 +61,7 @@
     vertical-align: middle;
 }  
 
-#itemCardVendor {
+#itemCardVendor-NoImage {
     border-right-color: #343a40;
     border-right-style: solid; 
     border-bottom-color:#343a40;
@@ -76,7 +73,7 @@
     text-align: left;
 }  
 
-#itemCardName {
+#itemCardName-NoImage {
     border-right-color: #343a40;
     border-right-style: solid; 
     border-bottom-color:#343a40;
@@ -88,7 +85,7 @@
     text-align: left;
 } 
 
-#itemCardSKU {
+#itemCardSKU-NoImage {
     border-right-color: #343a40;
     border-right-style: solid; 
     border-bottom-color:#343a40;
@@ -100,7 +97,7 @@
     text-align: center;
 } 
 
-#itemCardPrice {
+#itemCardPrice-NoImage {
     border-right-color: #343a40;
     border-right-style: solid; 
     border-bottom-color:#343a40;
@@ -113,7 +110,7 @@
     justify-content: center;
 } 
 
-#itemCardQuantity {
+#itemCardQuantity-NoImage {
     border-right-color: #343a40;
     border-right-style: solid; 
     border-bottom-color:#343a40;
@@ -125,10 +122,93 @@
     text-align:center;
 }
 
+#itemCardPicture-Image {
+    border-right-color: #343a40;
+    border-right-style: solid;
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    font-size: 11pt;
+    max-height: 14em;
+    overflow: auto;
+    text-align: left;
+    width: 22.15em;
+}  
 
+#itemCardDepartment-Image {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    font-size: 11pt;
+    max-height: 14em;
+    overflow: auto;
+    text-align: left;
+    display: table-cell;
+    vertical-align: middle;
+}  
 
+#itemCardVendor-Image {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    font-size: 11pt;
+    max-height: 14em;
+    overflow: auto;
+    text-align: left;
+}  
 
+#itemCardName-Image {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    font-size: 11pt;
+    max-height: 14em;
+    overflow: auto;
+    text-align: left;
+} 
 
+#itemCardSKU-Image {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    font-size: 11pt;
+    max-height: 14em;
+    overflow: auto;
+    text-align: center;
+} 
+
+#itemCardPrice-Image {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    font-size: 11pt;
+    max-height: 14em;
+    overflow: auto;
+    text-align: center;
+    justify-content: center;
+} 
+
+#itemCardQuantity-Image {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    font-size: 11pt;
+    max-height: 14em;
+    overflow: auto;
+    text-align:center;
+}
 
 #itemFormDropdown {
     background-color: white;
@@ -155,7 +235,6 @@
     color: white;
     font-size: 16pt;
 }
- 
     #navLinks:hover {
         border: 2px;
         border-color: rgb(11, 240, 190);
@@ -175,7 +254,6 @@
 #removeFilterButton {
     font-size: 14pt;
     height: 2em;
-
     width: 10em;
 }
 

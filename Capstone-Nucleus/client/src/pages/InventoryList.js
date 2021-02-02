@@ -4,16 +4,15 @@ import { UserProfileContext } from "../providers/UserProfileProvider";
 import { toast } from "react-toastify";
 import { ItemSearch } from "./ItemSearch";
 import ItemCard from "./ItemCard";
-import { Button, Col, Container, Dropdown, DropdownButton, Form, Nav, Navbar, Row } from 'react-bootstrap';
-// import { ItemCard } from "./ItemCard"
+import { Button, Col, Container, Dropdown, DropdownButton, Nav, Navbar, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Inventory.css";
 
 const InventoryList = () => {
 
     const history = useHistory();
+
     const [items, setItems] = useState([])
-    const [filteredItems, setFiltered] = useState([])
     const [value, setValue] = useState('');
 
     const { logout } = useContext(UserProfileContext);
@@ -24,49 +23,9 @@ const InventoryList = () => {
         });
     };
 
-    // const { item, getItems, searchTerms, roomFilter } = useContext(ItemContext)
-
-    // const [ShowResults, setShowResults] = React.useState(false)
-    // const Results = () => {
-    //     if (ShowResults == true && value != "") {
-    //         return <Button
-    //             className="ClearFilterButton"
-    //             variant="warning"
-    //             onClick={() => { setFiltered(item); setShowResults(false); setValue("") }}
-    //             type="button">Remove Filter
-    //                 </Button>;
-    //     }
-    //     else {
-    //         return null;
-    //     }
-    // }
-
     const handleSelect = (e) => {
         setValue(e)
     }
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-
-    const toggle = () => setDropdownOpen(prevState => !prevState);
-
-    // useEffect(() => {
-    //     getItems()
-    // }, [])
-
-    // useEffect(() => {
-    //     if (searchTerms !== "") {
-    //         const subset = item.filter(item => item.itemName.toLowerCase().includes(searchTerms.toLowerCase().trim()))
-    //         setFiltered(subset)
-    //     } else if (value !== "") {
-    //         const subset2 = item.filter(item => item.itemLocation.includes(value))
-    //         setFiltered(subset2)
-    //         setShowResults(true)
-    //     } else {
-    //         setFiltered(item)
-    //     }
-    // }, [searchTerms, value, item])
-
-
-
 
     useEffect(() => {
         fetch("/api/item")
@@ -76,9 +35,8 @@ const InventoryList = () => {
             });
     }, []);
 
-    const [ShowResults, setShowResults] = React.useState(false)
     const Results = () => {
-        if (value != "") {
+        if (value !== "") {
             return <Button
                 className="ClearFilterButton"
                 id="removeFilterButton"
@@ -112,7 +70,7 @@ const InventoryList = () => {
                         className="mt-1 mr-5"
                         id="navLinks"
                         onClick={() => {
-                            history.push(`/editprofile`)
+                            history.push(`/editprofile/${items.UserProfileId}`)
                         }}
                         variant="outline"
                     >Edit Profile

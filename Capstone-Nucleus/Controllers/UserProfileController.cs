@@ -24,10 +24,9 @@ namespace Capstone_Nucleus.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(UserProfile userProfile)
+        public IActionResult Add(UserProfile userProfile)
         {
             userProfile.UserTypeId = 2;
-
             userProfile.DateRegistered = DateTime.Now;
             userProfile.IsActive = true;
             _userProfileRepo.Add(userProfile);
@@ -36,5 +35,10 @@ namespace Capstone_Nucleus.Controllers
                 new { firebaseUserId = userProfile.FirebaseUserId },
                 userProfile);
         }
+
+
+
+
+
     }
 }
