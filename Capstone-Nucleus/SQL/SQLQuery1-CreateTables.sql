@@ -49,7 +49,7 @@ GO
 
 CREATE TABLE [Item] (
   [Id] int PRIMARY KEY IDENTITY,
-  [UserId] int NOT NULL,
+  [UserProfileId] int NOT NULL,
   [ItemPicture] nvarchar(255),
   [DepartmentId] int NOT NULL,
   [VendorName] nvarchar(255) NOT NULL,
@@ -60,6 +60,6 @@ CREATE TABLE [Item] (
   [DateReceived] datetime2,
   [IsActive] bit
 
-CONSTRAINT [FK_Item_UserProfile] FOREIGN KEY ([UserId]) REFERENCES [UserProfile] ([Id]),
+CONSTRAINT [FK_Item_UserProfile] FOREIGN KEY ([UserProfileId]) REFERENCES [UserProfile] ([Id]),
 )
 GO

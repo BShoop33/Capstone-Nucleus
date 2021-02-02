@@ -9,5 +9,7 @@ namespace Capstone_Nucleus.Repositories
     public interface IItemRepository
     {
         List<Item> Get();
+
+        void Add(Item item);
     }
 }
