@@ -14,7 +14,7 @@ const InventoryList = () => {
 
     const [items, setItems] = useState([])
     const [value, setValue] = useState('');
-
+    const { getToken, getCurrentUser } = useContext(UserProfileContext);
     const { logout } = useContext(UserProfileContext);
     const logoutAndReturn = () => {
         return logout().then(() => {
@@ -34,6 +34,23 @@ const InventoryList = () => {
                 setItems(items);
             });
     }, []);
+
+    const getItems = () => {
+        getToken().then((token) =>
+            fetch(`/api/item`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then((res) => res.json())
+                .then((items) => {
+                    setItems(items);
+                })
+        );
+    };
+
+
 
     const Results = () => {
         if (value !== "") {
@@ -154,7 +171,7 @@ const InventoryList = () => {
             <hr id="hrStyling" />
             {
                 items.map(item => {
-                    return <ItemCard key={item.id} item={item} />
+                    return <ItemCard key={item.id} item={item} getItems={getItems} />
                 })
             }
         </>

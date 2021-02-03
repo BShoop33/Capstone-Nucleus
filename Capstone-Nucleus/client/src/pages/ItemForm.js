@@ -6,6 +6,7 @@ import { UserProfileContext } from "../providers/UserProfileProvider";
 import 'react-toastify/dist/ReactToastify.css';
 import "./Inventory.css";
 
+
 const ItemForm = () => {
 
     const history = useHistory();
@@ -105,8 +106,6 @@ const ItemForm = () => {
         setValue(e)
     }
 
-    console.log(DepartmentId)
-
     if (itemId) {
         return (
             <>
@@ -134,7 +133,6 @@ const ItemForm = () => {
                                 <Button id="imageUploadButton" onClick={handleClick}>Upload a file
                                 </Button>
                                 <input
-
                                     name="file"
                                     onChange={uploadImage}
                                     placeholder="Upload an image"

@@ -30,5 +30,21 @@ namespace Capstone_Nucleus.Repositories
             _context.Add(item);
             _context.SaveChanges();
         }
+
+
+        public Item GetItemById(int id)
+        {
+            return _context.Item
+                .FirstOrDefault(c => c.Id == id);
+        }
+
+
+        public void Delete(int id)
+        {
+            var deletingItem = GetItemById(id);
+            deletingItem.IsActive = false;
+            _context.Entry(deletingItem).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+        }
     }
 }
