@@ -43,5 +43,12 @@ namespace Capstone_Nucleus.Controllers
             _itemRepo.Add(item);
             return Ok(item);
         }
+
+        [HttpDelete("deleteitem/{id}")]
+        public IActionResult Delete(int id)
+        {
+            _itemRepo.Delete(id);
+            return NoContent();
+        }
     }
 }
