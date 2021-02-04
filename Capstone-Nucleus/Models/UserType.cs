@@ -9,6 +9,5 @@ namespace Capstone_Nucleus.Models
         [Required]
         [MaxLength(75)]
         public string Position { get; set; }
-
     }
 }

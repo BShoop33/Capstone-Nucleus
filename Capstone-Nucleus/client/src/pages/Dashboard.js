@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import { toast } from "react-toastify";
@@ -6,8 +6,26 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Bar, Doughnut, Line, Pie } from 'react-chartjs-2';
 import "./Inventory.css";
 import { Button, Container, Nav, Navbar, Row } from 'react-bootstrap'
+import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from "react-dom/cjs/react-dom.development";
 
 const Dashboard = () => {
+
+    const [items, setItems] = useState([])
+
+
+    useEffect(() => {
+        fetch("/api/item")
+            .then((res) => res.json())
+            .then((items) => {
+                setItems(items);
+            });
+    }, []);
+
+
+    const userId = items;
+    console.log(userId);
+
+    var departments = userId.map(item => item.department.name);
 
     const { logout } = useContext(UserProfileContext);
     let test = [5, 26, 3, 5, 2, 3, 5, 26, 3, 5, 2, 3]
@@ -47,66 +65,46 @@ const Dashboard = () => {
                 </Navbar>
             </Container>
             <Row>
-                <div style={{ height: 400, width: 500 }}>
+                <div id="chartStyling" style={{ height: 400, width: 500, marginLeft: 300, marginRight: 300 }}>
                     <Bar
                         data={{
-                            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+
+                            labels: departments,
                             datasets: [{
-                                label: '# of Items',
+                                label: ["Price by Dept. YTD"],
                                 data: test,
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)',
                                     'rgba(0, 0, 0, 1)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.8)',
-                                    'rgba(75, 192, 192, 0.8)',
-                                    'rgba(153, 102, 255, 0.8)',
-                                    'rgba(250, 25, 141, 0.8)'
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(250, 25, 141, 1)'
                                 ]
-                            }]
+                            }],
+
                         }}
                         options={{
                             responsive: true,
-                            maintainAspectRatio: false
+                            maintainAspectRatio: false,
+                            title: {
+                                display: true,
+                                text: 'Custom Chart Title'
+                            },
+                            legend: {
+                                display: false
+                            }
                         }}
                     ></Bar>
                 </div>
 
-                <div style={{ height: 400, width: 500 }}>
-                    <Line
-                        data={{
-                            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                            datasets: [{
-                                label: '# of Items',
-                                data: [5, 26, 3, 5, 2, 3, 5, 26, 3, 5, 2, 3],
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)',
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)'
-                                ]
-                            }]
-                        }}
-                        options={{
-                            maintainAspectRatio: false
-                        }}
-                    ></Line>
-                </div>
-
-                <div style={{ height: 400, width: 500 }}>
+                <div id="chartStyling" style={{ height: 400, width: 500 }}>
                     <Doughnut
                         data={{
                             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -114,39 +112,35 @@ const Dashboard = () => {
                                 label: '# of Items',
                                 data: [5, 26, 3, 5, 2, 3, 5, 26, 3, 5, 2, 3],
                                 backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)',
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)'
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
                                 ]
                             }]
                         }}
                         options={{
-                            maintainAspectRatio: false
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            title: {
+                                display: true,
+                                text: 'Custom Chart Title'
+                            }
                         }}
                     ></Doughnut>
                 </div>
-
-
-
-
-
-
-
-
-
             </Row>
 
-            <Row>
-                <div style={{ height: 400, width: 500 }}>
+            <Row style={{ marginTop: 25 }}>
+                <div id="chartStyling" style={{ height: 400, width: 500, marginLeft: 300, marginRight: 300 }}>
                     <Line
                         data={{
                             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -170,42 +164,20 @@ const Dashboard = () => {
                             }]
                         }}
                         options={{
-                            maintainAspectRatio: false
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            title: {
+                                display: true,
+                                text: 'Custom Chart Title'
+                            },
+                            legend: {
+                                display: false
+                            }
                         }}
                     ></Line>
                 </div>
 
-                <div style={{ height: 400, width: 500 }}>
-                    <Bar
-                        data={{
-                            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                            datasets: [{
-                                label: '# of Items',
-                                data: [5, 26, 3, 5, 2, 3, 5, 26, 3, 5, 2, 3],
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)',
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)'
-                                ]
-                            }]
-                        }}
-                        options={{
-                            responsive: true,
-                            maintainAspectRatio: false
-                        }}
-                    ></Bar>
-                </div>
-
-                <div style={{ height: 400, width: 500 }}>
+                <div id="chartStyling" style={{ height: 400, width: 500 }}>
                     <Pie
                         data={{
                             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -213,33 +185,32 @@ const Dashboard = () => {
                                 label: '# of Items',
                                 data: [5, 26, 3, 5, 2, 3, 5, 26, 3, 5, 2, 3],
                                 backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)',
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)'
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
                                 ]
                             }]
                         }}
                         options={{
                             responsive: true,
-                            maintainAspectRatio: false
+                            maintainAspectRatio: false,
+                            title: {
+                                display: true,
+                                text: 'Custom Chart Title'
+                            }
                         }}
                     ></Pie>
                 </div>
-
-
             </Row>
-
-
-
         </>
     );
 };

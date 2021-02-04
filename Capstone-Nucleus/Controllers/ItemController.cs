@@ -23,6 +23,7 @@ namespace Capstone_Nucleus.Controllers
         public IActionResult Get()
         {
             var items = _itemRepo.Get();
+
             return Ok(items);
         }
 
@@ -32,6 +33,17 @@ namespace Capstone_Nucleus.Controllers
             return _userRepo.GetByFirebaseUserId(firebaseUserId);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var item = _itemRepo.GetItemById(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item);
+        }
+
         [HttpPost("additem")]
         public IActionResult Add(Item item)
         {
@@ -39,9 +51,17 @@ namespace Capstone_Nucleus.Controllers
             item.UserProfileId = user.Id;
             item.DateReceived = DateTime.Now;
             item.IsActive = true;
-            //item.ItemPicture = "";
             _itemRepo.Add(item);
             return Ok(item);
+        }
+
+        [HttpPut("edititem/{id}")]
+        public IActionResult Put(Item item)
+        {
+            var user = GetCurrentUserProfile();
+            item.UserProfileId = user.Id;
+            _itemRepo.Update(item);
+            return NoContent();
         }
 
         [HttpDelete("deleteitem/{id}")]

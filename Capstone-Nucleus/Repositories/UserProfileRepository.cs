@@ -1,5 +1,6 @@
 ﻿using Capstone_Nucleus.Data;
 using Capstone_Nucleus.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -21,9 +22,25 @@ namespace Capstone_Nucleus.Repositories
                 .FirstOrDefault(up => up.FirebaseUserId == firebaseUserId);
         }
 
+        
+
+
+        public UserProfile GetById(int userId)
+        {
+            return _context.UserProfile
+                .FirstOrDefault(up => up.Id == userId);
+        }
+
+
         public void Add(UserProfile userProfile)
         {
             _context.Add(userProfile);
+            _context.SaveChanges();
+        }
+
+        public void Update(UserProfile userProfile)
+        {
+            _context.Entry(userProfile).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
         }
     }

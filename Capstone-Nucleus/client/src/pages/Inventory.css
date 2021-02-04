@@ -1,3 +1,12 @@
+
+#chartStyling {
+    border: .1em;
+    border-color: black;
+    border-style: solid;
+}
+
+
+
 .addItemButton {
     height: auto;
     width: 10em;
@@ -33,6 +42,17 @@
 #input {
     align-self: right;
     font-size: 14pt;
+}
+
+#noImage {
+    border-right-color: #343a40;
+    border-right-style: solid;
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+    width: 17.7em;
+    font-size: 14pt;
+  
 }
 
 #itemCardPicture-NoImage {
@@ -128,16 +148,14 @@
     border-bottom-color:#343a40;
     border-bottom-style: dotted;
     border-bottom-width: .1em;
-    font-size: 11pt;
-    max-height: 14em;
-    overflow: auto;
-    text-align: left;
-    width: 22.15em;
+    font-size: 14pt;
+    text-align: center;
 }  
 
 #itemCardDepartment-Image {
     border-right-color: #343a40;
     border-right-style: solid; 
+
     border-bottom-color:#343a40;
     border-bottom-style: dotted;
     border-bottom-width: .1em;
@@ -220,6 +238,12 @@
     width: 25em;
 }
 
+#itemEditAndDeleteButtons-Image {
+    border-bottom-color:#343a40;
+    border-bottom-style: dotted;
+    border-bottom-width: .1em;
+}
+
 #itemSearch {
     border-color:black;
     width: 16.75em;
@@ -262,4 +286,18 @@
     font-size: 14pt;
     margin-left: 11em;
     text-align: left;
+}
+
+.itemEditButton {
+    width: 4.5em;
+    height:3em;
+    margin-right: .25em;
+    font-size: 12pt;
+}
+
+.itemDeleteButton {
+    width: 4.5em;
+    height:3em;
+    margin-right: .25em;
+    font-size: 12pt;
 }
