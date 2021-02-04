@@ -4,15 +4,21 @@ import { UserProfileContext } from "../providers/UserProfileProvider";
 import { toast } from "react-toastify";
 import { ItemSearch } from "./ItemSearch";
 import ItemCard from "./ItemCard";
-import { Button, Col, Container, Dropdown, DropdownButton, Nav, Navbar, Row } from 'react-bootstrap';
+import { Button, Col, Container, Dropdown, DropdownButton, FormControl, Nav, Navbar, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Inventory.css";
 
 const InventoryList = () => {
 
+
     const history = useHistory();
 
+    const [ShowResults, setShowResults] = React.useState(false)
+    const [searchTerms, setSearchTerms] = useState('')
+    const [filteredItems, setFiltered] = useState([])
+
     const [items, setItems] = useState([])
+
     const [value, setValue] = useState('');
     const { getToken, getCurrentUser } = useContext(UserProfileContext);
     const { logout } = useContext(UserProfileContext);
@@ -26,14 +32,6 @@ const InventoryList = () => {
     const handleSelect = (e) => {
         setValue(e)
     }
-
-    useEffect(() => {
-        fetch("/api/item")
-            .then((res) => res.json())
-            .then((items) => {
-                setItems(items);
-            });
-    }, []);
 
     const getItems = () => {
         getToken().then((token) =>
@@ -50,7 +48,33 @@ const InventoryList = () => {
         );
     };
 
+    useEffect(() => {
+        fetch("/api/item")
+            .then((res) => res.json())
+            .then((items) => {
+                setItems(items);
+            });
+    }, []);
 
+    useEffect(() => {
+        setSearchTerms("")
+    }, [setSearchTerms])
+
+    const currentUser = getCurrentUser();
+
+    useEffect(() => {
+        if (searchTerms !== "") {
+            const subset = items.filter(items => items.department.name.toLowerCase().includes(searchTerms.toLowerCase().trim()))
+            setFiltered(subset)
+        } else if (value !== "") {
+            const subset2 = items.filter(items => items.departmentId.includes(value))
+            setFiltered(subset2)
+            setShowResults(true)
+
+        } else {
+            setFiltered(items)
+        }
+    }, [searchTerms, value, items])
 
     const Results = () => {
         if (value !== "") {
@@ -67,6 +91,10 @@ const InventoryList = () => {
             return <div className="ClearFilterButton" id="removeFilterButton"></div>;
         }
     }
+
+
+
+
 
     return (
         <>
@@ -87,7 +115,7 @@ const InventoryList = () => {
                         className="mt-1 mr-5"
                         id="navLinks"
                         onClick={() => {
-                            history.push(`/editprofile/${items.UserProfileId}`)
+                            history.push(`/editprofile/${currentUser.id}`)
                         }}
                         variant="outline"
                     >Edit Profile
@@ -154,7 +182,13 @@ const InventoryList = () => {
                         </DropdownButton>
                     </Col>
                     <Col>
-                        <ItemSearch id="itemSearch" type="text" />
+                        <FormControl type="text"
+                            className="SearchBar"
+                            id="itemSearch"
+                            onKeyUp={
+                                (keyEvent) => setSearchTerms(keyEvent.target.value)
+                            }
+                            placeholder="Search by Item Name" />
                     </Col>
                 </Row>
             </Row>
@@ -170,7 +204,7 @@ const InventoryList = () => {
             </Row>
             <hr id="hrStyling" />
             {
-                items.map(item => {
+                filteredItems.map(item => {
                     return <ItemCard key={item.id} item={item} getItems={getItems} />
                 })
             }

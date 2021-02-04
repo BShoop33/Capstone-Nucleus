@@ -49,5 +49,4 @@ insert into Item (Id, UserProfileId, ItemPicture, DepartmentId, VendorName, Item
 insert into Item (Id, UserProfileId, ItemPicture, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, Quantity, DateReceived, IsActive) values (2, 1, 'Image', 1, 'CDW', 'Winco Privess Swing Away Wall Mounted Telescopic Privacy Curtain', '28034', 183.74, 20, '08/06/2019', 1);
 insert into Item (Id, UserProfileId, ItemPicture, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, Quantity, DateReceived, IsActive) values (3, 1, 'Image', 1, 'CDW', 'Winco Privess Swing Away Wall Mounted Telescopic Privacy Curtain', '28034', 183.74, 20, '08/06/2019', 1);
 insert into Item (Id, UserProfileId, ItemPicture, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, Quantity, DateReceived, IsActive) values (4, 1, 'Image', 1, 'CDW', 'Winco Privess Swing Away Wall Mounted Telescopic Privacy Curtain', '28034', 183.74, 20, '08/06/2019', 1);
-
 set identity_insert [Item] off

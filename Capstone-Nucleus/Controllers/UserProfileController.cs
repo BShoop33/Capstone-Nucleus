@@ -3,10 +3,11 @@ using Capstone_Nucleus.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Security.Claims;
 
 namespace Capstone_Nucleus.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
@@ -23,6 +24,20 @@ namespace Capstone_Nucleus.Controllers
             return Ok(_userProfileRepo.GetByFirebaseUserId(firebaseUserId));
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var currentUser = _userProfileRepo.GetById(id);
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+            return Ok(currentUser);
+        }
+
+
+
+
         [HttpPost]
         public IActionResult Add(UserProfile userProfile)
         {
@@ -37,8 +52,36 @@ namespace Capstone_Nucleus.Controllers
         }
 
 
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepo.GetByFirebaseUserId(firebaseUserId);
+        }
 
+     
 
+        [HttpPut("editprofile")]
+        public IActionResult Put(UserProfile userProfile)
+        {
+            var user = GetCurrentUserProfile();
+            if(user.Id == userProfile.Id)
+            {
+                user.FirstName = userProfile.FirstName;
+                user.LastName = userProfile.LastName;
+                user.DisplayName = userProfile.DisplayName;
+                user.Email = userProfile.Email;
+
+                //userProfile = new UserProfile();
+                _userProfileRepo.Update(user);
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+            
+            
+        }
 
     }
 }

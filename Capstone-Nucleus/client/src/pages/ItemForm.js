@@ -11,7 +11,7 @@ const ItemForm = () => {
 
     const history = useHistory();
 
-    const { getToken, getCurrentUser } = useContext(UserProfileContext);
+    const { getToken } = useContext(UserProfileContext);
 
     const hiddenFileInput = useRef(null);
 
@@ -27,7 +27,7 @@ const ItemForm = () => {
     const [UnitPrice, setItemUnitPrice] = useState(0);
     const [Quantity, setItemQuantity] = useState(0);
 
-    const { itemId } = useParams()
+    const { itemId } = useParams();
 
     const uploadImage = async e => {
         const files = e.target.files
@@ -47,6 +47,7 @@ const ItemForm = () => {
         setImage(file.secure_url)
         setLoading(false)
     }
+
 
     const addItem = () => {
         const item = {
@@ -75,6 +76,7 @@ const ItemForm = () => {
 
     const editItem = () => {
         const item = {
+            Id: itemId,
             ItemPicture,
             DepartmentId,
             vendorName,
@@ -84,7 +86,7 @@ const ItemForm = () => {
             Quantity
         };
         getToken().then((token) =>
-            fetch("/api/item/additem", {
+            fetch(`/api/item/edititem/${itemId}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -92,10 +94,28 @@ const ItemForm = () => {
                 },
                 body: JSON.stringify(item),
             }).then(() => {
+
                 history.push(`/`);
+
             })
         );
     };
+
+    const [currentItem, setCurrentItem] = useState({});
+
+    useEffect(() => {
+        fetch(`/api/item/${itemId}`)
+            .then((res) => res.json())
+            .then((item) => {
+                setCurrentItem(item);
+            });
+    }, []);
+
+
+    console.log(currentItem)
+
+
+
 
     const handleClick = event => {
         hiddenFileInput.current.click();
@@ -124,7 +144,7 @@ const ItemForm = () => {
                                             :
                                             <img
                                                 className="imageUploadBoard"
-                                                src={ItemPicture ? ItemPicture : item.itemPicture}
+                                                src={itemId ? currentItem.ItemPicture : ""}
                                                 style={{ width: 500, height: 400 }}
                                             />
                                     )
@@ -157,9 +177,9 @@ const ItemForm = () => {
                                 <DropdownButton
                                     id="itemFormDropdown"
                                     style={{ width: 400, height: 35 }}
-                                    title={value ? value : "Select Location"}
+                                    title={currentItem.department.name}
                                     onSelect={handleSelect}
-                                    defaultValue={0}
+                                    defaultValue={itemId ? currentItem.name : 0}
                                 >
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(1)} eventKey="Administrative Services">Administrative Services</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(2)} eventKey="Anesthetics">Anesthetics</Dropdown.Item>
@@ -203,7 +223,7 @@ const ItemForm = () => {
                                 </label>
                                 <input
                                     className="vendorNameInput mb-4 ml-4"
-                                    defaultValue={""}
+                                    defaultValue={itemId ? currentItem.vendorName : ""}
                                     id="input"
                                     name="vendorName"
                                     onChange={(e) => setvendorName(e.target.value)}
@@ -223,7 +243,7 @@ const ItemForm = () => {
                                 </label>
                                 <input
                                     className="itemNameInput mb-4 ml-4"
-                                    defaultValue={""}
+                                    defaultValue={itemId ? currentItem.itemName : ""}
                                     id="input"
                                     name="itemName"
                                     onChange={(e) => setItemName(e.target.value)}
@@ -242,7 +262,7 @@ const ItemForm = () => {
                             </label>
                             <input
                                 className="itemSKUInput mb-4 ml-4"
-                                defaultValue={""}
+                                defaultValue={itemId ? currentItem.itemSKU : ""}
                                 id="input"
                                 name="itemSKU"
                                 onChange={(e) => setItemSKU(e.target.value)}
@@ -261,6 +281,7 @@ const ItemForm = () => {
 
                             <input
                                 className="itemUnitPrice mb-4 ml-4"
+                                defaultValue={itemId ? currentItem.unitPrice : ""}
                                 id="input"
                                 name="itemUnitPrice"
                                 onChange={(e) => setItemUnitPrice(parseInt(e.target.value))}
@@ -278,6 +299,7 @@ const ItemForm = () => {
                             </label>
                             <input
                                 className="itemQuantityInput mb-4 ml-4"
+                                defaultValue={itemId ? currentItem.quantity : ""}
                                 id="input"
                                 name="itemQuantity"
                                 onChange={(e) => setItemQuantity(parseInt(e.target.value))}
@@ -290,7 +312,7 @@ const ItemForm = () => {
                                 id="input"
                                 onClick={item => {
                                     item.preventDefault()
-                                    addItem()
+                                    editItem()
                                     history.push(`/`)
                                 }}
                                 style={{ width: 150, marginLeft: 75 }}

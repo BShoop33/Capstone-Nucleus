@@ -29,7 +29,7 @@ const ApplicationViews = () => {
                 <ItemForm />
             </Route>
 
-            <Route exact path="/editprofile/">
+            <Route exact path="/editprofile/:userId(\d+)">
                 <EditProfile />
             </Route>
 
