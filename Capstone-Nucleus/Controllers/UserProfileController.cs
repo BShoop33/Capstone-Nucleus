@@ -24,7 +24,7 @@ namespace Capstone_Nucleus.Controllers
             return Ok(_userProfileRepo.GetByFirebaseUserId(firebaseUserId));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("editprofile/{id}")]
         public IActionResult Get(int id)
         {
             var currentUser = _userProfileRepo.GetById(id);
@@ -34,9 +34,6 @@ namespace Capstone_Nucleus.Controllers
             }
             return Ok(currentUser);
         }
-
-
-
 
         [HttpPost]
         public IActionResult Add(UserProfile userProfile)
@@ -60,7 +57,7 @@ namespace Capstone_Nucleus.Controllers
 
      
 
-        [HttpPut("editprofile")]
+        [HttpPut("editprofile/{id}")]
         public IActionResult Put(UserProfile userProfile)
         {
             var user = GetCurrentUserProfile();
@@ -79,9 +76,6 @@ namespace Capstone_Nucleus.Controllers
             {
                 return NotFound();
             }
-            
-            
         }
-
     }
 }

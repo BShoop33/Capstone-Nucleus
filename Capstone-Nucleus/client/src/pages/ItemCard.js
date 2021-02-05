@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from "react"
-import { useHistory, withRouter } from "react-router-dom"
+import React, { useState, useContext } from "react"
+import { useHistory } from "react-router-dom"
 import { Button, Col, Modal, ModalBody, Row } from "react-bootstrap"
 import { UserProfileContext } from "../providers/UserProfileProvider";
 // import ReactImageMagnify from 'react-image-magnify';
@@ -8,21 +8,12 @@ const ItemCard = ({ item, getItems }) => {
 
     const history = useHistory();
 
-    const [pendingDelete, setPendingDelete] = useState(false);
-    const [items, setItems] = useState([])
-    const { getToken, getCurrentUser } = useContext(UserProfileContext);
-
-    useEffect(() => {
-        fetch("/api/item")
-            .then((res) => res.json())
-            .then((items) => {
-                setItems(items);
-            });
-    }, []);
+    // const [pendingDelete, setPendingDelete] = useState(false);
+    const { getToken } = useContext(UserProfileContext);
 
     const deleteItem = () => {
         console.log(item.id)
-        debugger;
+
         const deletingItem = { id: item.id }
         getToken().then((token) =>
             fetch(`/api/item/deleteitem/${item.id}`, {
@@ -40,11 +31,11 @@ const ItemCard = ({ item, getItems }) => {
 
     const Image = () => {
         if (item.itemPicture !== "") {
-            return <img className="overflow-auto ml-2" style={{ height: 120, width: 300 }} md={2} src={item.itemPicture} />
+            return <img className="overflow-auto ml-2" alt="Item" style={{ height: 120, width: 300 }} md={2} src={item.itemPicture} />
         } else {
             return <>
                 {/* <div style={{ height: 120, width: 317 }} md={2}><br />No Image Available</div> */}
-                <img className="overflow-auto ml-2" style={{ height: 80, width: 120, marginTop: 2 }} md={2} src="Images\noimage.gif" />
+                <img className="overflow-auto ml-2" alt="Unavailable" style={{ height: 80, width: 120, marginTop: 2 }} md={2} src="Images\noimage.gif" />
             </>
         }
     }
@@ -80,9 +71,10 @@ const ItemCard = ({ item, getItems }) => {
                 <Image />
             </Col>
             <Col className="overflow-auto" id="itemCardDepartment-Image" md={2}>{item.department.name}</Col>
-            <Col className="overflow-auto" id="itemCardVendor-Image" md={2}>{item.vendorName}</Col>
+            <Col className="overflow-auto" id="itemCardVendor-Image" md={1}>{item.vendorName}</Col>
             <Col className="overflow-auto" id="itemCardName-Image" md={2}>{item.itemName}</Col>
             <Col className="overflow-auto" id="itemCardSKU-Image" md={1}>{item.itemSKU}</Col>
+            <Col className="overflow-auto" id="itemCardPrice-Image" md={1}>{item.unitPrice}</Col>
             <Col className="overflow-auto" id="itemCardPrice-Image" md={1}>{item.unitPrice}</Col>
             <Col className="overflow-auto" id="itemCardQuantity-Image" md={1}>{item.quantity}</Col>
             <Col id="itemEditAndDeleteButtons-Image">
@@ -110,18 +102,17 @@ const ItemCard = ({ item, getItems }) => {
             </Col>
         </Row>
 
-        {/* DELETE CONFIRM MODAL */ }
-        // <Modal isOpen={pendingDelete}>
-        //     <Modal.Header>Delete {item.itemName}?</Modal.Header>
-        //     <ModalBody>
-        //         Are you sure you want to delete this category? This action cannot be
-        //         undone.
-        //     </ModalBody>
-        //     <Modal.Footer>
-        //         <Button onClick={(e) => setPendingDelete(false)}>No, Cancel</Button>
-        //         <Button className="btn btn-outline-danger" onClick={deleteItem}>Yes, Delete</Button>
-        //     </Modal.Footer>
-        // </Modal>
+        {/* DELETE CONFIRM MODAL 
+        <Modal isOpen={pendingDelete}>
+            <Modal.Header>Delete {item.itemName}?</Modal.Header>
+            <ModalBody>
+                Are you sure you want to delete this category? This action cannot be undone.
+            </ModalBody>
+            <Modal.Footer>
+                <Button onClick={(e) => setPendingDelete(false)}>No, Cancel</Button>
+                <Button className="btn btn-outline-danger" onClick={deleteItem}>Yes, Delete</Button>
+            </Modal.Footer>
+        </Modal>*/ }
     }
     return (
         <>
@@ -131,14 +122,6 @@ const ItemCard = ({ item, getItems }) => {
 }
 
 export default ItemCard;
-
-
-
-
-
-
-
-
 
 
 

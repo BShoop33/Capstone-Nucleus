@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import { useHistory, useParams } from "react-router-dom"
 import { Button, Col, Row } from "react-bootstrap"
 import { ToastContainer } from 'react-toastify';
@@ -8,51 +8,42 @@ import "./Inventory.css";
 
 const EditProfile = () => {
 
+    const firstName = useRef();
+    const lastName = useRef();
+    const displayName = useRef();
+    const email = useRef();
+
     const history = useHistory();
-    const { getToken, getCurrentUser } = useContext(UserProfileContext);
-    const currentUser = getCurrentUser();
+
+    const { getToken } = useContext(UserProfileContext);
 
     const [user, setUser] = useState({});
 
-    const gettingUserId = useParams();
-    const userId = Object.values(gettingUserId).toString();
-    console.log(userId);
-
+    const { id } = useParams();
 
     useEffect(() => {
-        fetch(`/api/userprofile/${userId}`)
+        fetch(`/api/userprofile/editprofile/${id}`)
             .then((res) => res.json())
             .then((user) => {
                 setUser(user);
             });
-    }, []);
-
-
-
-
-
-
-
-
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [displayName, setDisplayName] = useState('');
-    const [email, setEmail] = useState('');
+    }, [id]);
 
     const editProfile = () => {
         const newUserProfile = {
-            id: currentUser.id,
-            userTypeId: currentUser.userTypeId,
-            firstName,
-            lastName,
-            displayName,
-            email,
-            department: "test department",
-            FirebaseUserId: "test firebase user id",
-
+            id: user.id,
+            FirebaseUserId: user.firebaseUserId,
+            department: user.department,
+            firstName: firstName.current.value,
+            lastName: lastName.current.value,
+            displayName: displayName.current.value,
+            email: email.current.value,
+            dateRegistered: user.dateRegistered,
+            userTypeId: user.userTypeId,
+            IsActive: true
         };
         getToken().then((token) =>
-            fetch(`/api/userprofile/editprofile`, {
+            fetch(`/api/userprofile/editprofile/${user.id}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -76,7 +67,7 @@ const EditProfile = () => {
                         <label
                             className="firstNameTitle text-left"
                             id="input"
-                            style={{ width: 200, height: 5 }}
+                            style={{ height: 5, width: 200 }}
                         >First Name:
                         </label>
                         <input
@@ -84,8 +75,8 @@ const EditProfile = () => {
                             defaultValue={user.firstName}
                             id="input"
                             name="firstName"
-                            onChange={(e) => setFirstName(e.target.value)}
-                            style={{ width: 400, height: 35 }}
+                            ref={firstName}
+                            style={{ height: 35, width: 400 }}
                             type="text"
                         />
                     </Row>
@@ -94,7 +85,7 @@ const EditProfile = () => {
                         <label
                             className="lastNameTitle text-left"
                             id="input"
-                            style={{ width: 200, height: 5 }}
+                            style={{ height: 5, width: 200 }}
                         >Last Name:
                         </label>
                         <input
@@ -102,8 +93,8 @@ const EditProfile = () => {
                             defaultValue={user.lastName}
                             id="input"
                             name="lastName"
-                            onChange={(e) => setLastName(e.target.value)}
-                            style={{ width: 400, height: 35 }}
+                            ref={lastName}
+                            style={{ height: 35, width: 400 }}
                             type="text"
                         />
                     </Row>
@@ -112,7 +103,7 @@ const EditProfile = () => {
                         <label
                             className="displayName text-left"
                             id="input"
-                            style={{ width: 200, height: 5 }}
+                            style={{ height: 5, width: 200 }}
                         >Display Name:
                         </label>
                         <input
@@ -120,8 +111,8 @@ const EditProfile = () => {
                             defaultValue={user.displayName}
                             id="input"
                             name="displayName"
-                            onChange={(e) => setDisplayName(e.target.value)}
-                            style={{ width: 400, height: 35 }}
+                            ref={displayName}
+                            style={{ height: 35, width: 400 }}
                             type="text"
                         />
                     </Row>
@@ -130,7 +121,7 @@ const EditProfile = () => {
                         <label
                             className="email text-left"
                             id="input"
-                            style={{ width: 197, height: 5 }}
+                            style={{ height: 5, width: 197 }}
                         >Email:
                         </label>
                         <input
@@ -138,8 +129,8 @@ const EditProfile = () => {
                             defaultValue={user.email}
                             id="input"
                             name="email"
-                            onChange={(e) => setEmail(e.target.value)}
-                            style={{ width: 400, height: 35 }}
+                            ref={email}
+                            style={{ height: 35, width: 400 }}
                             type="text"
                         />
                     </Row>
@@ -152,7 +143,7 @@ const EditProfile = () => {
                                 editProfile();
                                 history.push(`/`)
                             }}
-                            style={{ width: 150, marginLeft: 75 }}
+                            style={{ marginLeft: 75, width: 150 }}
                             type="button"
                             variant="success"
                         >Save Edits
@@ -163,7 +154,7 @@ const EditProfile = () => {
                             onClick={() => {
                                 history.push(`/`)
                             }}
-                            style={{ width: 150, marginLeft: 150 }}
+                            style={{ marginLeft: 150, width: 150 }}
                             type="submit"
                             variant="danger"
                         >Cancel

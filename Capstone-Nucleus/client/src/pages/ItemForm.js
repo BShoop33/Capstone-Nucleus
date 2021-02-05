@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState, useRef } from "react"
-import { useHistory, useParams, Route, withRouter } from "react-router-dom"
+import React, { useContext, useEffect, useRef, useState } from "react"
+import { useHistory, useParams } from "react-router-dom"
 import { Button, Col, Form, Dropdown, DropdownButton, Row } from "react-bootstrap"
 import { ToastContainer, toast } from 'react-toastify';
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import 'react-toastify/dist/ReactToastify.css';
 import "./Inventory.css";
-
 
 const ItemForm = () => {
 
@@ -26,8 +25,114 @@ const ItemForm = () => {
     const [itemSKU, setItemSKU] = useState('');
     const [UnitPrice, setItemUnitPrice] = useState(0);
     const [Quantity, setItemQuantity] = useState(0);
+    const [editCheck, setEditCheck] = useState(0)
+    const [currentItem, setCurrentItem] = useState({});
 
     const { itemId } = useParams();
+
+    const vendorNameEdit = useRef();
+    const itemNameEdit = useRef();
+    const itemSKUEdit = useRef();
+    const unitPriceEdit = useRef();
+    const quantityEdit = useRef();
+
+    // const pictureAdd = useRef();
+    // const departmentAdd = useRef();
+    // const vendorNameAdd = useRef();
+    // const itemNameAdd = useRef();
+    // const itemSKUAdd = useRef();
+    // const unitPriceAdd = useRef();
+    // const quantityAdd = useRef();
+
+    // const showToast1 = () => {
+    //     toast.error("Item Location is a required field")
+    // };
+
+    // const showToast2 = () => {
+    //     toast.error("Vendor Name is a required field")
+    // };
+
+    // const showToast3 = () => {
+    //     toast.error("Item Name is a required field")
+    // };
+
+    // const showToast4 = () => {
+    //     toast.error("Item SKU is a required field")
+    // };
+
+    // const showToast5 = () => {
+    //     toast.error("Unit Price is a required field")
+    // };
+
+    // const showToast6 = () => {
+    //     toast.error("Quantity is a required field")
+    // };
+
+    useEffect(() => {
+        if (itemId !== undefined) {
+            fetch(`/api/item/${itemId}`)
+                .then((res) => res.json())
+                .then((item) => {
+                    setCurrentItem(item);
+                });
+        }
+    }, [itemId]);
+
+    useEffect(() => {
+        if (editCheck !== 0) {
+            console.log(editCheck)
+            if (editCheck !== 0 && editCheck !== -1) {
+                editUniqueItem(editCheck);
+            } else {
+
+                // if (departmentAdd.current.value === "") {
+                //     showToast1();
+                // }
+                // else if (vendorName.current.value === "") {
+                //     showToast2();
+                // }
+                // else if (itemName.current.value === "") {
+                //     showToast3();
+                // }
+                // else if (itemSKU.current.value === "") {
+                //     showToast4();
+                // }
+                // else if (UnitPrice.current.value === "") {
+                //     showToast5();
+                // }
+                // else if (Quantity.current.value === "") {
+                //     showToast6();
+                // }
+                // else {
+                //adding item with no previous entries
+
+                const item = {
+                    ItemPicture,
+                    DepartmentId,
+                    vendorName,
+                    itemName,
+                    itemSKU,
+                    UnitPrice,
+                    Quantity
+                };
+                getToken().then((token) => {
+                    fetch("/api/item/additem", {
+                        method: "POST",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(item),
+                    }).then(() => {
+                        setEditCheck(0)
+                        history.push(`/`);
+                    })
+                }
+                );
+            }
+        }
+        // }
+    }, [DepartmentId, editCheck, getToken, history, itemName, ItemPicture, itemSKU, Quantity, UnitPrice, vendorName]);
 
     const uploadImage = async e => {
         const files = e.target.files
@@ -43,14 +148,45 @@ const ItemForm = () => {
             }
         )
         const file = await res.json()
-
         setImage(file.secure_url)
         setLoading(false)
     }
 
+    const getItems = () => {
+        getToken().then((token) =>
+            fetch(`/api/item`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    return res
+                })
+                .then((items) => {
+                    let itemCheck = 0
+                    items.map(item => {
+                        if (itemSKU === item.itemSKU && DepartmentId === item.departmentId && vendorName === item.vendorName) {
+                            let total = Quantity + item.quantity
+                            setItemQuantity(total)
+                            itemCheck = item.id
+                        }
+                    })
+                    if (itemCheck !== 0) {
+                        setEditCheck(itemCheck)
+                    } else {
+                        setEditCheck(-1)
+                    }
+                })
+        );
+    };
 
-    const addItem = () => {
+
+    //adding item with previous entries
+    const editUniqueItem = (id) => {
         const item = {
+            Id: id,
             ItemPicture,
             DepartmentId,
             vendorName,
@@ -59,9 +195,9 @@ const ItemForm = () => {
             UnitPrice,
             Quantity
         };
-        getToken().then((token) => {
-            fetch("/api/item/additem", {
-                method: "POST",
+        getToken().then((token) =>
+            fetch(`/api/item/edititem/${id}`, {
+                method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
@@ -70,20 +206,20 @@ const ItemForm = () => {
             }).then(() => {
                 history.push(`/`);
             })
-        }
         );
     };
 
+    //actual edit item
     const editItem = () => {
         const item = {
             Id: itemId,
-            ItemPicture,
-            DepartmentId,
-            vendorName,
-            itemName,
-            itemSKU,
-            UnitPrice,
-            Quantity
+            ItemPicture: "",
+            DepartmentId: 1,
+            vendorName: vendorNameEdit.current.value,
+            itemName: itemNameEdit.current.value,
+            itemSKU: itemSKUEdit.current.value,
+            UnitPrice: unitPriceEdit.current.value,
+            Quantity: quantityEdit.current.value
         };
         getToken().then((token) =>
             fetch(`/api/item/edititem/${itemId}`, {
@@ -94,37 +230,23 @@ const ItemForm = () => {
                 },
                 body: JSON.stringify(item),
             }).then(() => {
-
                 history.push(`/`);
-
             })
         );
     };
-
-    const [currentItem, setCurrentItem] = useState({});
-
-    useEffect(() => {
-        fetch(`/api/item/${itemId}`)
-            .then((res) => res.json())
-            .then((item) => {
-                setCurrentItem(item);
-            });
-    }, []);
-
-
-    console.log(currentItem)
-
-
-
 
     const handleClick = event => {
         hiddenFileInput.current.click();
     };
 
     const handleSelect = (e) => {
-        console.log(e)
         setValue(e)
     }
+
+
+    console.log(currentItem.department)
+
+
 
     if (itemId) {
         return (
@@ -140,9 +262,10 @@ const ItemForm = () => {
                                     <h3 className="NewToolPictureLoading">Loading . . .</h3>
                                 ) : (
                                         ItemPicture === "" ?
-                                            <img src="\Images\NucleusLogo.png" style={{ width: 400, height: 300 }} />
+                                            <img alt="Logo" src="\Images\NucleusLogo.png" style={{ width: 400, height: 300 }} />
                                             :
                                             <img
+                                                alt="Preview"
                                                 className="imageUploadBoard"
                                                 src={itemId ? currentItem.ItemPicture : ""}
                                                 style={{ width: 500, height: 400 }}
@@ -177,7 +300,7 @@ const ItemForm = () => {
                                 <DropdownButton
                                     id="itemFormDropdown"
                                     style={{ width: 400, height: 35 }}
-                                    title={currentItem.department.name}
+                                    title={"Select Location"} //currentItem ? currentItem.departmentId : 
                                     onSelect={handleSelect}
                                     defaultValue={itemId ? currentItem.name : 0}
                                 >
@@ -207,8 +330,6 @@ const ItemForm = () => {
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(24)} eventKey="Surgery">Surgery</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(25)} eventKey="Urology">Urology</Dropdown.Item>
                                 </DropdownButton>
-                                {/* <RoomFilter key={item.id} item={item} /> */}
-                                {/* <ItemSearch type="text" /> */}
                             </Form>
                         </Row>
 
@@ -226,8 +347,9 @@ const ItemForm = () => {
                                     defaultValue={itemId ? currentItem.vendorName : ""}
                                     id="input"
                                     name="vendorName"
-                                    onChange={(e) => setvendorName(e.target.value)}
+                                    // onChange={(e) => setvendorName(e.target.value)}
                                     style={{ width: 400, height: 35 }}
+                                    ref={vendorNameEdit}
                                 />
                             </form>
                         </Row>
@@ -246,8 +368,9 @@ const ItemForm = () => {
                                     defaultValue={itemId ? currentItem.itemName : ""}
                                     id="input"
                                     name="itemName"
-                                    onChange={(e) => setItemName(e.target.value)}
+                                    // onChange={(e) => setItemName(e.target.value)}
                                     style={{ width: 400, height: 35 }}
+                                    ref={itemNameEdit}
                                 />
                             </form>
                         </Row>
@@ -265,8 +388,9 @@ const ItemForm = () => {
                                 defaultValue={itemId ? currentItem.itemSKU : ""}
                                 id="input"
                                 name="itemSKU"
-                                onChange={(e) => setItemSKU(e.target.value)}
+                                // onChange={(e) => setItemSKU(e.target.value)}
                                 style={{ width: 400, height: 35 }}
+                                ref={itemSKUEdit}
                             />
                         </Row>
 
@@ -284,8 +408,9 @@ const ItemForm = () => {
                                 defaultValue={itemId ? currentItem.unitPrice : ""}
                                 id="input"
                                 name="itemUnitPrice"
-                                onChange={(e) => setItemUnitPrice(parseInt(e.target.value))}
+                                // onChange={(e) => setItemUnitPrice(parseInt(e.target.value))}
                                 style={{ width: 400, height: 35 }}
+                                ref={unitPriceEdit}
                             />
                         </Row>
 
@@ -302,8 +427,9 @@ const ItemForm = () => {
                                 defaultValue={itemId ? currentItem.quantity : ""}
                                 id="input"
                                 name="itemQuantity"
-                                onChange={(e) => setItemQuantity(parseInt(e.target.value))}
+                                // onChange={(e) => setItemQuantity(parseInt(e.target.value))}
                                 style={{ width: 400 }}
+                                ref={quantityEdit}
                             />
                         </Row>
 
@@ -362,9 +488,10 @@ const ItemForm = () => {
                                     <h3 className="NewToolPictureLoading">Loading . . .</h3>
                                 ) : (
                                         ItemPicture === "" ?
-                                            <img src="\Images\NucleusLogo.png" style={{ width: 400, height: 300 }} />
+                                            <img alt="Logo" src="\Images\NucleusLogo.png" style={{ width: 400, height: 300 }} />
                                             :
                                             <img
+                                                alt="Preview"
                                                 className="imageUploadBoard"
                                                 src={ItemPicture ? ItemPicture : item.itemPicture}
                                                 style={{ width: 500, height: 400 }}
@@ -400,9 +527,10 @@ const ItemForm = () => {
                                 <DropdownButton
                                     id="itemFormDropdown"
                                     style={{ width: 400, height: 35 }}
-                                    title={value ? value : "Select Location"}
+                                    title={value ? value : "Select Location"} //value ? value : "Select Location"
                                     onSelect={handleSelect}
                                     defaultValue={0}
+                                // ref={departmentAdd}
                                 >
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(1)} eventKey="Administrative Services">Administrative Services</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(2)} eventKey="Anesthetics">Anesthetics</Dropdown.Item>
@@ -430,49 +558,43 @@ const ItemForm = () => {
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(24)} eventKey="Surgery">Surgery</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(25)} eventKey="Urology">Urology</Dropdown.Item>
                                 </DropdownButton>
-                                {/* <RoomFilter key={item.id} item={item} /> */}
-                                {/* <ItemSearch type="text" /> */}
                             </Form>
                         </Row>
 
                         <p className="mb-4" id="required" ><i>* Required</i></p>
                         <Row className="justify-content-md-left" style={{ marginTop: -15 }}>
-                            <form action="/action_page.php">
-                                <label
-                                    className="vendorNameTitle text-left"
-                                    id="input"
-                                    style={{ width: 200, height: 5 }}
-                                >Vendor Name:
-                                </label>
-                                <input
-                                    className="vendorNameInput mb-4 ml-4"
-                                    defaultValue={""}
-                                    id="input"
-                                    name="vendorName"
-                                    onChange={(e) => setvendorName(e.target.value)}
-                                    style={{ width: 400, height: 35 }}
-                                />
-                            </form>
+                            <label
+                                className="vendorNameTitle text-left"
+                                id="input"
+                                style={{ width: 200, height: 5 }}
+                            >Vendor Name:
+                            </label>
+                            <input
+                                className="vendorNameInput mb-4 ml-4"
+                                id="input"
+                                name="vendorName"
+                                onChange={(e) => setvendorName(e.target.value)}
+                                style={{ width: 400, height: 35 }}
+                            // ref={vendorNameAdd}
+                            />
                         </Row>
 
                         <p className="mb-4" id="required"><i>* Required</i></p>
                         <Row className="justify-content-md-left" style={{ marginTop: -15 }}>
-                            <form action="/action_page.php">
-                                <label
-                                    className="itemNameTitle text-left"
-                                    id="input"
-                                    style={{ width: 200, height: 5 }}
-                                >Item Name:
-                                </label>
-                                <input
-                                    className="itemNameInput mb-4 ml-4"
-                                    defaultValue={""}
-                                    id="input"
-                                    name="itemName"
-                                    onChange={(e) => setItemName(e.target.value)}
-                                    style={{ width: 400, height: 35 }}
-                                />
-                            </form>
+                            <label
+                                className="itemNameTitle text-left"
+                                id="input"
+                                style={{ width: 200, height: 5 }}
+                            >Item Name:
+                            </label>
+                            <input
+                                className="itemNameInput mb-4 ml-4"
+                                id="input"
+                                name="itemName"
+                                onChange={(e) => setItemName(e.target.value)}
+                                style={{ width: 400, height: 35 }}
+                            // ref={itemNameAdd}
+                            />
                         </Row>
 
                         <p id="required" className="mb-4"><i>* Required</i></p>
@@ -485,11 +607,11 @@ const ItemForm = () => {
                             </label>
                             <input
                                 className="itemSKUInput mb-4 ml-4"
-                                defaultValue={""}
                                 id="input"
                                 name="itemSKU"
                                 onChange={(e) => setItemSKU(e.target.value)}
                                 style={{ width: 400, height: 35 }}
+                            // ref={itemSKUAdd}
                             />
                         </Row>
 
@@ -508,6 +630,7 @@ const ItemForm = () => {
                                 name="itemUnitPrice"
                                 onChange={(e) => setItemUnitPrice(parseInt(e.target.value))}
                                 style={{ width: 400, height: 35 }}
+                            // ref={unitPriceAdd}
                             />
                         </Row>
 
@@ -525,6 +648,7 @@ const ItemForm = () => {
                                 name="itemQuantity"
                                 onChange={(e) => setItemQuantity(parseInt(e.target.value))}
                                 style={{ width: 400 }}
+                            // ref={quantityAdd}
                             />
                         </Row>
 
@@ -533,8 +657,7 @@ const ItemForm = () => {
                                 id="input"
                                 onClick={item => {
                                     item.preventDefault()
-                                    addItem()
-                                    history.push(`/`)
+                                    getItems()
                                 }}
                                 style={{ width: 150, marginLeft: 75 }}
                                 type="submit"

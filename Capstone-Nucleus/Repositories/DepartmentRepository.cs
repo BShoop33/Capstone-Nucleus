@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Capstone_Nucleus.Repositories
+﻿namespace Capstone_Nucleus.Repositories
 {
     public class DepartmentRepository : IDepartmentRepository
     {
-
-
     }
 }

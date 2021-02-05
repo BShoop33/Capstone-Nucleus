@@ -1,6 +1,5 @@
 ﻿using Capstone_Nucleus.Data;
 using Capstone_Nucleus.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,19 +28,16 @@ namespace Capstone_Nucleus.Repositories
             _context.Add(item);
             _context.SaveChanges();
         }
-
         
         public Item GetItemById(int id)
         {
             return _context.Item
                 .Include(i => i.Department)
-            .FirstOrDefault(i => i.Id == id);
+                .FirstOrDefault(i => i.Id == id);
         }
-
 
         public void Update(Item item)
         {
-
             item.IsActive = true;
             _context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
