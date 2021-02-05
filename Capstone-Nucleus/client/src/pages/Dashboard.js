@@ -1,17 +1,25 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { UserProfileContext } from "../providers/UserProfileProvider";
-import { toast } from "react-toastify";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Bar, Doughnut, Line, Pie } from 'react-chartjs-2';
-import "./Inventory.css";
 import { Button, Container, Nav, Navbar, Row } from 'react-bootstrap'
-import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from "react-dom/cjs/react-dom.development";
+import { toast } from "react-toastify";
+import { UserProfileContext } from "../providers/UserProfileProvider";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./Inventory.css";
+// import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from "react-dom/cjs/react-dom.development";
 
 const Dashboard = () => {
 
+    const { logout } = useContext(UserProfileContext);
+    const history = useHistory();
     const [items, setItems] = useState([])
 
+    const logoutAndReturn = () => {
+        return logout().then(() => {
+            toast.dark("You are now logged out");
+            history.push("/login");
+        });
+    };
 
     useEffect(() => {
         fetch("/api/item")
@@ -21,25 +29,19 @@ const Dashboard = () => {
             });
     }, []);
 
-
     const userId = items;
     console.log(userId);
 
-    var departments = userId.map(item => item.department.name);
+    var departmentNames = userId.map(item => item.department.name);
+    console.log(departmentNames)
 
-    const { logout } = useContext(UserProfileContext);
+    var receiveDate = userId.map(item => item.dateReceived);
+    console.log(receiveDate)
+
+    var price = userId.map(item => item.unitPrice);
+    console.log(price)
+
     let test = [5, 26, 3, 5, 2, 3, 5, 26, 3, 5, 2, 3]
-
-
-
-    const logoutAndReturn = () => {
-        return logout().then(() => {
-            toast.dark("You are now logged out");
-            history.push("/login");
-        });
-    };
-
-    const history = useHistory();
 
     return (
         <>
@@ -68,8 +70,7 @@ const Dashboard = () => {
                 <div id="chartStyling" style={{ height: 400, width: 500, marginLeft: 300, marginRight: 300 }}>
                     <Bar
                         data={{
-
-                            labels: departments,
+                            labels: departmentNames,
                             datasets: [{
                                 label: ["Price by Dept. YTD"],
                                 data: test,
@@ -88,17 +89,18 @@ const Dashboard = () => {
                                     'rgba(250, 25, 141, 1)'
                                 ]
                             }],
-
                         }}
                         options={{
                             responsive: true,
                             maintainAspectRatio: false,
                             title: {
                                 display: true,
-                                text: 'Custom Chart Title'
+                                text: 'Custom Chart Title',
+                                fontColor: 'black',
+                                fontSize: '18'
                             },
                             legend: {
-                                display: false
+                                display: false,
                             }
                         }}
                     ></Bar>
@@ -132,7 +134,9 @@ const Dashboard = () => {
                             maintainAspectRatio: false,
                             title: {
                                 display: true,
-                                text: 'Custom Chart Title'
+                                text: 'Custom Chart Title',
+                                fontColor: 'black',
+                                fontSize: '18'
                             }
                         }}
                     ></Doughnut>
@@ -168,7 +172,9 @@ const Dashboard = () => {
                             maintainAspectRatio: false,
                             title: {
                                 display: true,
-                                text: 'Custom Chart Title'
+                                text: 'Custom Chart Title',
+                                fontColor: 'black',
+                                fontSize: '18'
                             },
                             legend: {
                                 display: false
@@ -205,7 +211,9 @@ const Dashboard = () => {
                             maintainAspectRatio: false,
                             title: {
                                 display: true,
-                                text: 'Custom Chart Title'
+                                text: 'Custom Chart Title',
+                                fontColor: 'black',
+                                fontSize: '18'
                             }
                         }}
                     ></Pie>

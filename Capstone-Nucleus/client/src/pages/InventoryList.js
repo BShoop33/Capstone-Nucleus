@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import { toast } from "react-toastify";
-import { ItemSearch } from "./ItemSearch";
 import ItemCard from "./ItemCard";
 import { Button, Col, Container, Dropdown, DropdownButton, FormControl, Nav, Navbar, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,28 +9,29 @@ import "./Inventory.css";
 
 const InventoryList = () => {
 
-
     const history = useHistory();
 
-    const [ShowResults, setShowResults] = React.useState(false)
-    const [searchTerms, setSearchTerms] = useState('')
     const [filteredItems, setFiltered] = useState([])
-
     const [items, setItems] = useState([])
-
+    const [locationFilterValue, setLocationFilterValue] = useState(0)
+    const [searchTerms, setSearchTerms] = useState('')
     const [value, setValue] = useState('');
+
     const { getToken, getCurrentUser } = useContext(UserProfileContext);
     const { logout } = useContext(UserProfileContext);
+
+    const currentUser = getCurrentUser();
+
+    const handleSelect = (e) => {
+        setValue(e)
+    }
+
     const logoutAndReturn = () => {
         return logout().then(() => {
             toast.dark("You are now logged out");
             history.push("/login");
         });
     };
-
-    const handleSelect = (e) => {
-        setValue(e)
-    }
 
     const getItems = () => {
         getToken().then((token) =>
@@ -49,6 +49,18 @@ const InventoryList = () => {
     };
 
     useEffect(() => {
+        if (searchTerms !== "") {
+            const subset = items.filter(items => items.itemName.toLowerCase().includes(searchTerms.toLowerCase().trim()))
+            setFiltered(subset)
+        } else if (value !== "") {
+            const subset2 = items.filter(items => items.departmentId === locationFilterValue)
+            setFiltered(subset2)
+        } else {
+            setFiltered(items)
+        }
+    }, [items, locationFilterValue, searchTerms, value])
+
+    useEffect(() => {
         fetch("/api/item")
             .then((res) => res.json())
             .then((items) => {
@@ -60,21 +72,11 @@ const InventoryList = () => {
         setSearchTerms("")
     }, [setSearchTerms])
 
-    const currentUser = getCurrentUser();
 
-    useEffect(() => {
-        if (searchTerms !== "") {
-            const subset = items.filter(items => items.department.name.toLowerCase().includes(searchTerms.toLowerCase().trim()))
-            setFiltered(subset)
-        } else if (value !== "") {
-            const subset2 = items.filter(items => items.departmentId.includes(value))
-            setFiltered(subset2)
-            setShowResults(true)
 
-        } else {
-            setFiltered(items)
-        }
-    }, [searchTerms, value, items])
+
+
+
 
     const Results = () => {
         if (value !== "") {
@@ -91,7 +93,6 @@ const InventoryList = () => {
             return <div className="ClearFilterButton" id="removeFilterButton"></div>;
         }
     }
-
 
 
 
@@ -154,31 +155,31 @@ const InventoryList = () => {
                             onSelect={handleSelect}
                             title={value ? value : "Filter by Location"}
                         >
-                            <Dropdown.Item eventKey="Administrative Services" id="dropdownOptions">Administrative Services</Dropdown.Item>
-                            <Dropdown.Item eventKey="Anesthetics" id="dropdownOptions">Anesthetics</Dropdown.Item>
-                            <Dropdown.Item eventKey="Billing" id="dropdownOptions">Billing</Dropdown.Item>
-                            <Dropdown.Item eventKey="Cardiology" id="dropdownOptions">Cardiology</Dropdown.Item>
-                            <Dropdown.Item eventKey="Dermatology" id="dropdownOptions">Dermatology</Dropdown.Item>
-                            <Dropdown.Item eventKey="Ear, Nose, and Throat (ENT)" id="dropdownOptions">Ear, Nose, and Throat (ENT)</Dropdown.Item>
-                            <Dropdown.Item eventKey="Emergency Department (ED)" id="dropdownOptions">Emergency Department (ED)</Dropdown.Item>
-                            <Dropdown.Item eventKey="Gastroenterology" id="dropdownOptions">Gastroenterology</Dropdown.Item>
-                            <Dropdown.Item eventKey="Gynecology" id="dropdownOptions">Gynecology</Dropdown.Item>
-                            <Dropdown.Item eventKey="Hematology" id="dropdownOptions">Hematology</Dropdown.Item>
-                            <Dropdown.Item eventKey="Human Resources (HR)" id="dropdownOptions">Human Resources (HR)</Dropdown.Item>
-                            <Dropdown.Item eventKey="Imaging and Radiology" id="dropdownOptions">Imaging and Radiology</Dropdown.Item>
-                            <Dropdown.Item eventKey="Information Technology (IT)" id="dropdownOptions">Information Technology (IT)</Dropdown.Item>
-                            <Dropdown.Item eventKey="Intensive Care Unit (ICU)" id="dropdownOptions">Intensive Care Unit (ICU)</Dropdown.Item>
-                            <Dropdown.Item eventKey="Materials Management" id="dropdownOptions">Materials Management</Dropdown.Item>
-                            <Dropdown.Item eventKey="Neonatal" id="dropdownOptions">Neonatal</Dropdown.Item>
-                            <Dropdown.Item eventKey="Neurology" id="dropdownOptions">Neurology</Dropdown.Item>
-                            <Dropdown.Item eventKey="Nutrition and Dietics" id="dropdownOptions">Nutrition and Dietics</Dropdown.Item>
-                            <Dropdown.Item eventKey="Oncology" id="dropdownOptions">Oncology</Dropdown.Item>
-                            <Dropdown.Item eventKey="Orthopedics" id="dropdownOptions">Orthopedics</Dropdown.Item>
-                            <Dropdown.Item eventKey="Pharmacy" id="dropdownOptions">Pharmacy</Dropdown.Item>
-                            <Dropdown.Item eventKey="Physiotherapy" id="dropdownOptions">Physiotherapy</Dropdown.Item>
-                            <Dropdown.Item eventKey="Records and Billing" id="dropdownOptions">Records and Billing</Dropdown.Item>
-                            <Dropdown.Item eventKey="Surgery" id="dropdownOptions">Surgery</Dropdown.Item>
-                            <Dropdown.Item eventKey="Urology" id="dropdownOptions">Urology</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(1)} eventKey="Administrative Services" id="dropdownOptions">Administrative Services</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(2)} eventKey="Anesthetics" id="dropdownOptions">Anesthetics</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(3)} eventKey="Billing" id="dropdownOptions">Billing</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(4)} eventKey="Cardiology" id="dropdownOptions">Cardiology</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(5)} eventKey="Dermatology" id="dropdownOptions">Dermatology</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(6)} eventKey="Ear, Nose, and Throat (ENT)" id="dropdownOptions">Ear, Nose, and Throat (ENT)</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(7)} eventKey="Emergency Department (ED)" id="dropdownOptions">Emergency Department (ED)</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(8)} eventKey="Gastroenterology" id="dropdownOptions">Gastroenterology</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(9)} eventKey="Gynecology" id="dropdownOptions">Gynecology</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(10)} eventKey="Hematology" id="dropdownOptions">Hematology</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(11)} eventKey="Human Resources (HR)" id="dropdownOptions">Human Resources (HR)</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(12)} eventKey="Imaging and Radiology" id="dropdownOptions">Imaging and Radiology</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(13)} eventKey="Information Technology (IT)" id="dropdownOptions">Information Technology (IT)</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(14)} eventKey="Intensive Care Unit (ICU)" id="dropdownOptions">Intensive Care Unit (ICU)</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(15)} eventKey="Materials Management" id="dropdownOptions">Materials Management</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(16)} eventKey="Neonatal" id="dropdownOptions">Neonatal</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(17)} eventKey="Neurology" id="dropdownOptions">Neurology</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(18)} eventKey="Nutrition and Dietics" id="dropdownOptions">Nutrition and Dietics</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(19)} eventKey="Oncology" id="dropdownOptions">Oncology</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(20)} eventKey="Orthopedics" id="dropdownOptions">Orthopedics</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(21)} eventKey="Pharmacy" id="dropdownOptions">Pharmacy</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(22)} eventKey="Physiotherapy" id="dropdownOptions">Physiotherapy</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(23)} eventKey="Records and Billing" id="dropdownOptions">Records and Billing</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(24)} eventKey="Surgery" id="dropdownOptions">Surgery</Dropdown.Item>
+                            <Dropdown.Item onSelect={() => setLocationFilterValue(25)} eventKey="Urology" id="dropdownOptions">Urology</Dropdown.Item>
                         </DropdownButton>
                     </Col>
                     <Col>
@@ -196,11 +197,12 @@ const InventoryList = () => {
             <Row className="justify-content-md-left">
                 <Col id="columnHeaders" md="2">Image</Col>
                 <Col id="columnHeaders" md="2">Department</Col>
-                <Col id="columnHeaders" md="2">Vendor Name</Col>
+                <Col id="columnHeaders" md="1">Vendor Name</Col>
                 <Col id="columnHeaders" md="2">Item Name</Col>
                 <Col id="columnHeaders" md="1">Item SKU</Col>
                 <Col id="columnHeaders" md="1">Unit Price</Col>
-                <Col id="columnHeaders" md="1">Quantity</Col>
+                <Col id="columnHeaders" md="1">Total Price of All Units</Col>
+                <Col id="columnHeaders" md="1">Quantity by Department</Col>
             </Row>
             <hr id="hrStyling" />
             {

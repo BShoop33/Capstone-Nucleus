@@ -14,8 +14,5 @@ namespace Capstone_Nucleus.Repositories
         public void Update(Item item);
 
         public void Delete(int id);
-
-
-
     }
 }
