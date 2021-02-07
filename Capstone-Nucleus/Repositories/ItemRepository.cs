@@ -20,6 +20,7 @@ namespace Capstone_Nucleus.Repositories
             return _context.Item
                 .Where(i => i.IsActive)
                 .Include(i => i.Department)
+                .OrderBy(i => i.Department.Name)
                 .ToList();
         }
 

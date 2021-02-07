@@ -8,11 +8,8 @@ USE [Capstone_Nucleus]
 GO
 
 DROP TABLE IF EXISTS [Item];
-
 DROP TABLE IF EXISTS [UserProfile];
 DROP TABLE IF EXISTS [UserType];
-
-
 DROP TABLE IF EXISTS [Department];
 GO
 
@@ -56,6 +53,7 @@ CREATE TABLE [Item] (
   [ItemName] nvarchar(255) NOT NULL,
   [ItemSKU]  nvarchar(255),
   [UnitPrice] float NOT NULL,
+  [TotalPrice] float,
   [Quantity] int NOT NULL,
   [DateReceived] datetime2,
   [IsActive] bit
