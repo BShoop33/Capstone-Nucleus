@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
 import { useHistory, useParams } from "react-router-dom"
 import { Button, Col, Form, Dropdown, DropdownButton, Row } from "react-bootstrap"
-import { ToastContainer, toast } from 'react-toastify';
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import 'react-toastify/dist/ReactToastify.css';
 import "./Inventory.css";
@@ -36,37 +35,8 @@ const ItemForm = () => {
     const unitPriceEdit = useRef();
     const quantityEdit = useRef();
 
-    // const pictureAdd = useRef();
-    // const departmentAdd = useRef();
-    // const vendorNameAdd = useRef();
-    // const itemNameAdd = useRef();
-    // const itemSKUAdd = useRef();
-    // const unitPriceAdd = useRef();
-    // const quantityAdd = useRef();
-
-    // const showToast1 = () => {
-    //     toast.error("Item Location is a required field")
-    // };
-
-    // const showToast2 = () => {
-    //     toast.error("Vendor Name is a required field")
-    // };
-
-    // const showToast3 = () => {
-    //     toast.error("Item Name is a required field")
-    // };
-
-    // const showToast4 = () => {
-    //     toast.error("Item SKU is a required field")
-    // };
-
-    // const showToast5 = () => {
-    //     toast.error("Unit Price is a required field")
-    // };
-
-    // const showToast6 = () => {
-    //     toast.error("Quantity is a required field")
-    // };
+    const unitPriceAdd = useRef();
+    const quantityAdd = useRef();
 
     useEffect(() => {
         if (itemId !== undefined) {
@@ -76,63 +46,62 @@ const ItemForm = () => {
                     setCurrentItem(item);
                 });
         }
-    }, [itemId]);
+    }, []);
+
 
     useEffect(() => {
         if (editCheck !== 0) {
-            console.log(editCheck)
             if (editCheck !== 0 && editCheck !== -1) {
                 editUniqueItem(editCheck);
-            } else {
-
-                // if (departmentAdd.current.value === "") {
-                //     showToast1();
-                // }
-                // else if (vendorName.current.value === "") {
-                //     showToast2();
-                // }
-                // else if (itemName.current.value === "") {
-                //     showToast3();
-                // }
-                // else if (itemSKU.current.value === "") {
-                //     showToast4();
-                // }
-                // else if (UnitPrice.current.value === "") {
-                //     showToast5();
-                // }
-                // else if (Quantity.current.value === "") {
-                //     showToast6();
-                // }
-                // else {
-                //adding item with no previous entries
-
-                const item = {
-                    ItemPicture,
-                    DepartmentId,
-                    vendorName,
-                    itemName,
-                    itemSKU,
-                    UnitPrice,
-                    Quantity
-                };
-                getToken().then((token) => {
-                    fetch("/api/item/additem", {
-                        method: "POST",
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(item),
-                    }).then(() => {
-                        setEditCheck(0)
-                        history.push(`/`);
-                    })
+            }
+            else {
+                if (DepartmentId === 0) {
+                    return
+                } else if (vendorName === "") {
+                    return
+                } else if (itemName === "") {
+                    return
+                } else if (itemSKU === "") {
+                    return
+                } else if (UnitPrice === 0) {
+                    return
+                } else if (Quantity === 0) {
+                    return
+                } else {
+                    const item = {
+                        ItemPicture,
+                        DepartmentId,
+                        vendorName,
+                        itemName,
+                        itemSKU,
+                        UnitPrice,
+                        TotalPrice: UnitPrice * Quantity,
+                        Quantity
+                    };
+                    getToken().then((token) => {
+                        fetch("/api/item/additem", {
+                            method: "POST",
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(item),
+                        }).then(() => {
+                            setEditCheck(0)
+                            history.push(`/`);
+                        })
+                    }
+                    );
                 }
-                );
             }
         }
-        // }
-    }, [DepartmentId, editCheck, getToken, history, itemName, ItemPicture, itemSKU, Quantity, UnitPrice, vendorName]);
+    }, [DepartmentId, editCheck, getToken, history, itemName, ItemPicture, itemSKU, Quantity, UnitPrice]);
+
+
+    const [oldUnitPrice, setOldUnitPrice] = useState(0)
+
+
+
 
     const uploadImage = async e => {
         const files = e.target.files
@@ -170,6 +139,7 @@ const ItemForm = () => {
                         if (itemSKU === item.itemSKU && DepartmentId === item.departmentId && vendorName === item.vendorName) {
                             let total = Quantity + item.quantity
                             setItemQuantity(total)
+                            setOldUnitPrice(item.unitPrice)
                             itemCheck = item.id
                         }
                     })
@@ -182,9 +152,9 @@ const ItemForm = () => {
         );
     };
 
-
     //adding item with previous entries
     const editUniqueItem = (id) => {
+        console.log(oldUnitPrice)
         const item = {
             Id: id,
             ItemPicture,
@@ -192,7 +162,8 @@ const ItemForm = () => {
             vendorName,
             itemName,
             itemSKU,
-            UnitPrice,
+            UnitPrice: (UnitPrice + oldUnitPrice) / 2,
+            TotalPrice: UnitPrice * Quantity,
             Quantity
         };
         getToken().then((token) =>
@@ -219,6 +190,7 @@ const ItemForm = () => {
             itemName: itemNameEdit.current.value,
             itemSKU: itemSKUEdit.current.value,
             UnitPrice: unitPriceEdit.current.value,
+            TotalPrice: unitPriceAdd.current.value * quantityEdit.current.value,
             Quantity: quantityEdit.current.value
         };
         getToken().then((token) =>
@@ -243,8 +215,6 @@ const ItemForm = () => {
         setValue(e)
     }
 
-
-    console.log(currentItem.department)
 
 
 
@@ -300,9 +270,9 @@ const ItemForm = () => {
                                 <DropdownButton
                                     id="itemFormDropdown"
                                     style={{ width: 400, height: 35 }}
-                                    title={"Select Location"} //currentItem ? currentItem.departmentId : 
+                                    title={currentItem.departmentId} //currentItem ? currentItem.departmentId : 
                                     onSelect={handleSelect}
-                                    defaultValue={itemId ? currentItem.name : 0}
+                                // defaultValue={itemId ? currentItem.name : 0}
                                 >
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(1)} eventKey="Administrative Services">Administrative Services</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(2)} eventKey="Anesthetics">Anesthetics</Dropdown.Item>
@@ -311,8 +281,8 @@ const ItemForm = () => {
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(5)} eventKey="Dermatology">Dermatology</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(6)} eventKey="Ear, Nose, and Throat (ENT)">Ear, Nose, and Throat (ENT)</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(7)} eventKey="Emergency Department (ED)">Emergency Department (ED)</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(8)} eventKey="Gastroenterology">Gastroenterology</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(9)} eventKey="Gynecology">Gynecology</Dropdown.Item>
+                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(8)} eventKey="Environmental Services">Environmental Services</Dropdown.Item>
+                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(9)} eventKey="Gastroenterology">Gastroenterology</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(10)} eventKey="Hematology">Hematology</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(11)} eventKey="Human Resources (HR)">Human Resources (HR)</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(12)} eventKey="Imaging and Radiology">Imaging and Radiology</Dropdown.Item>
@@ -328,7 +298,6 @@ const ItemForm = () => {
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(22)} eventKey="Physiotherapy">Physiotherapy</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(23)} eventKey="Records and Billing">Records and Billing</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(24)} eventKey="Surgery">Surgery</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(25)} eventKey="Urology">Urology</Dropdown.Item>
                                 </DropdownButton>
                             </Form>
                         </Row>
@@ -458,17 +427,7 @@ const ItemForm = () => {
                             >Cancel
                             </Button>
 
-                            <ToastContainer
-                                autoClose={2000}
-                                closeOnClick
-                                draggable
-                                hideProgressBar={false}
-                                newestOnTop={false}
-                                pauseOnFocusLoss
-                                pauseOnHover
-                                position="top-center"
-                                rtl={false}
-                            />
+
                         </Row>
                     </Col>
                 </Row>
@@ -539,8 +498,8 @@ const ItemForm = () => {
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(5)} eventKey="Dermatology">Dermatology</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(6)} eventKey="Ear, Nose, and Throat (ENT)">Ear, Nose, and Throat (ENT)</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(7)} eventKey="Emergency Department (ED)">Emergency Department (ED)</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(8)} eventKey="Gastroenterology">Gastroenterology</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(9)} eventKey="Gynecology">Gynecology</Dropdown.Item>
+                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(8)} eventKey="Environmental Services">Environmental Services</Dropdown.Item>
+                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(9)} eventKey="Gastroenterology">Gastroenterology</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(10)} eventKey="Hematology">Hematology</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(11)} eventKey="Human Resources (HR)">Human Resources (HR)</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(12)} eventKey="Imaging and Radiology">Imaging and Radiology</Dropdown.Item>
@@ -556,7 +515,6 @@ const ItemForm = () => {
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(22)} eventKey="Physiotherapy">Physiotherapy</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(23)} eventKey="Records and Billing">Records and Billing</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(24)} eventKey="Surgery">Surgery</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(25)} eventKey="Urology">Urology</Dropdown.Item>
                                 </DropdownButton>
                             </Form>
                         </Row>
@@ -630,7 +588,7 @@ const ItemForm = () => {
                                 name="itemUnitPrice"
                                 onChange={(e) => setItemUnitPrice(parseInt(e.target.value))}
                                 style={{ width: 400, height: 35 }}
-                            // ref={unitPriceAdd}
+                                ref={unitPriceAdd}
                             />
                         </Row>
 
@@ -676,20 +634,21 @@ const ItemForm = () => {
                             >Cancel
                             </Button>
 
-                            <ToastContainer
-                                autoClose={2000}
-                                closeOnClick
-                                draggable
-                                hideProgressBar={false}
-                                newestOnTop={false}
-                                pauseOnFocusLoss
-                                pauseOnHover
-                                position="top-center"
-                                rtl={false}
-                            />
+
                         </Row>
                     </Col>
                 </Row>
+                {/* <ToastContainer
+                    autoClose={2000}
+                    closeOnClick
+                    draggable
+                    hideProgressBar={false}
+                    newestOnTop
+                    pauseOnFocusLoss
+                    pauseOnHover
+                    position="top-center"
+                    rtl={false}
+                /> */}
             </>
         )
     }

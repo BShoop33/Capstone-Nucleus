@@ -12,7 +12,6 @@ const ItemCard = ({ item, getItems }) => {
     const { getToken } = useContext(UserProfileContext);
 
     const deleteItem = () => {
-        console.log(item.id)
 
         const deletingItem = { id: item.id }
         getToken().then((token) =>
@@ -29,20 +28,21 @@ const ItemCard = ({ item, getItems }) => {
         )
     }
 
+    const totalPrice = (item.unitPrice * item.quantity)
+
     const Image = () => {
-        if (item.itemPicture !== "") {
+        if (item.itemPicture !== "" && item.itemPicture !== null) {
             return <img className="overflow-auto ml-2" alt="Item" style={{ height: 120, width: 300 }} md={2} src={item.itemPicture} />
         } else {
             return <>
-                {/* <div style={{ height: 120, width: 317 }} md={2}><br />No Image Available</div> */}
-                <img className="overflow-auto ml-2" alt="Unavailable" style={{ height: 80, width: 120, marginTop: 2 }} md={2} src="Images\noimage.gif" />
+                <img className="overflow-auto ml-2" alt="Unavailable" style={{ height: 80, width: 120, marginTop: 2 }} md={2} src="\Images\noimage.gif" />
             </>
         }
     }
 
     const Preview = () => {
         return <Row >
-            {/* <ReactImageMagnify id="pictureBorder" style={{ backgroundColor: "blue" }} {...{
+            {/* <ReactImageMagnify id="pictureBorder" {...{
                     smallImage: {
                         alt: 'Tool Picture',
                         isFluidWidth: false,
@@ -74,8 +74,8 @@ const ItemCard = ({ item, getItems }) => {
             <Col className="overflow-auto" id="itemCardVendor-Image" md={1}>{item.vendorName}</Col>
             <Col className="overflow-auto" id="itemCardName-Image" md={2}>{item.itemName}</Col>
             <Col className="overflow-auto" id="itemCardSKU-Image" md={1}>{item.itemSKU}</Col>
-            <Col className="overflow-auto" id="itemCardPrice-Image" md={1}>{item.unitPrice}</Col>
-            <Col className="overflow-auto" id="itemCardPrice-Image" md={1}>{item.unitPrice}</Col>
+            <Col className="overflow-auto" id="itemCardPrice-Image" md={1}>${item.unitPrice}</Col>
+            <Col className="overflow-auto" id="itemCardPrice-Image" md={1}>${totalPrice}</Col>
             <Col className="overflow-auto" id="itemCardQuantity-Image" md={1}>{item.quantity}</Col>
             <Col id="itemEditAndDeleteButtons-Image">
                 <Row className="itemEditAndDeleteButtons">
