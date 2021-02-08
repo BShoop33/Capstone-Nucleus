@@ -4,6 +4,9 @@ Nucleus is an app designed to serve as a basic inventory management system for a
 ## Purpose
 The purpose of Nucleus is to provide a portal that makes it easy for hospital workers to view items in, add items to, edit items, and remove items from their hospital's inventory.
 
+## Usage
+Upon arriving at the Nucleus login page (either by hosting the Nucleus application locally or by accessing a version of it hosted on the internet), an existing user may log into Nuclues by entering a valid email address and password combination and then clicking the <em>SIGN IN</em> button. If the user is not an existing Nucleus user, he or she may register for Nucleus by cliking the link that says <em>Sign up here</em>. After clicking that link, a registration form will appear prompting the user to enter a first name, last name, display name, department, job title, email address, password, and password confirmation (Note that in a real production environment a user would be unable to register for Nucleus because his or her authentication credentials would be assigned and managed with a system like Active Directory rather than self-appointed). When all that information is entered, the user may then click the <em>REGISTER</em> button to finalize the registration process and enter the Nucleus portal. If the user preferred to return to the Login page rather than registering, he or she could do so by clicking the <em>Log in here</em> link rather than clicking the <em>REGISTER</em> button.
+
 ## Status
 -Nucleus Version 1.0 is complete.
 
