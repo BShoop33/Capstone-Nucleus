@@ -6,6 +6,7 @@ The purpose of Nucleus is to provide a portal that is easy for hospital workers 
 
 ## Status
 -Nucleus Version 1.0 is complete.
+
 -Nucleus Verison 1.1 will feature a delete function that allows users to remove a given quantity of an item rather than having to delete all quantities simultaneously.
 
 ## Planning Documentation
