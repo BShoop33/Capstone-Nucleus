@@ -191,7 +191,7 @@ const ItemForm = () => {
             itemSKU: itemSKUEdit.current.value,
             UnitPrice: unitPriceEdit.current.value,
             TotalPrice: unitPriceAdd.current.value * quantityEdit.current.value,
-            Quantity: quantityEdit.current.value
+            Quantity: quantityEdit.current.value,
         };
         getToken().then((token) =>
             fetch(`/api/item/edititem/${itemId}`, {
