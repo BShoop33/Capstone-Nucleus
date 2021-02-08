@@ -1,18 +1,18 @@
-#Capstone-Nucleus
+# Capstone-Nucleus
 Nucleus is an app designed to serve as a basic inventory management system for a hospital.
 
-##Purpose
+## Purpose
 The purpose of Nucleus is to provide a portal that is easy for hospital workers to access to view, add to, edit, and remove from items in their hospital's inventory.
 
-##Status
+## Status
 -Nuclues Version 1.0 is complete.
 -Nucleus Verison 1.1 will feature a delete function that allows users to remove a given quantity of an item rather than having to delete all quantities simultaneously.
 
-##Planning Documentation
+## Planning Documentation
 *Entity Relationship Diagram (ERD): https://dbdiagram.io/d/5f68b6017da1ea736e2eb421
 *Wireframes: https://miro.com/app/board/o9J_lb9rSlk=/
 
-##Technologies Used in Current Version
+## Technologies Used in Current Version
 *React Bootrap for styling
 *ReactJS for front-end, client-side management
 *.NET Entity framework for back-end, server-side management
@@ -20,7 +20,7 @@ The purpose of Nucleus is to provide a portal that is easy for hospital workers 
 *T-SQL for database queries
 *Cloudinary integration for image hosting
 
-##Asset Installation
+## Asset Installation
 For this project, please ensure you have Node.js, Node Package Manager (NPM), ReactJS, ReactJS Router DOM, React-Bootstrap, and Cloudinary installed on your device. To install those assets, please reference the following instructions:
 
 -To install Node.js please visit https://nodejs.org/en/ and click on the install button that contains the letters "LTS". When downloading that software be sure to accept all of the defaults settings.
@@ -41,7 +41,7 @@ Finally install Cloudinary with the following command (Note that Cloudinary impl
 
 
 
-##Available Scripts
+## Available Scripts
 In the project directory, you can run:
 
 npm start
