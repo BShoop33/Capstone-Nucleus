@@ -9,11 +9,14 @@ The purpose of Nucleus is to provide a portal that is easy for hospital workers 
 
 -Nucleus Verison 1.1 will feature a delete function that allows users to remove a given quantity of an item rather than having to delete all quantities simultaneously.
 
+-Nucleus Version 1.2 will feature an inventory requisition capability that enables users to submit supply requisitions along an approval workflow that ultimately arrives at a Materials Manager who could use that information to order items and enter them into inventory upon receipt.
+
 ## Planning Documentation
 *Entity Relationship Diagram (ERD): https://dbdiagram.io/d/5f68b6017da1ea736e2eb421
 *Wireframes: https://miro.com/app/board/o9J_lb9rSlk=/
 
 ## Technologies Used in Current Version
+*Firebase for authentication management
 *React Bootrap for styling
 *ReactJS for front-end, client-side management
 *.NET Entity framework for back-end, server-side management
@@ -33,14 +36,15 @@ From a command line interface, create the directory where you want this project 
 
 Then install the ReactJS Router DOM with the following command (For more information about React Router Dom integration, please reference https://www.npmjs.com/package/react-router-dom):
     <strong>npm i --save react-router-dom</strong>
-    
+
+Then install Firebase with the following command (Note that Firebase implementation requires you to create a Firebase account and to configure certain settings prior to use. Also note that Firebase implementation may vary significantly depending on your usage preferencers. For more information about Firebase integration, please visit https://firebase.google.com/docs):
+    <strong>npm install --save firebase</strong>
+
 Then install React Bootstrap with the following command (For more information about React-Bootstrap integration, please reference https://react-bootstrap.github.io/getting-started/introduction):
     <strong>npm install react-bootstrap bootstrap</strong>
 
 Finally install Cloudinary with the following command (Note that Cloudinary implementation requires you to create a Cloudinary account and to configure certain settings prior to use. Also note that Cloudinary implementation may vary significantly depending on the SDK you use. For more information about Cloudinary integration, please visit https://cloudinary.com/documentation/how_to_integrate_cloudinary):
     <strong>npm install cloudinary</strong>
-
-
 
 ## Available Scripts
 In the project directory, you can run:
