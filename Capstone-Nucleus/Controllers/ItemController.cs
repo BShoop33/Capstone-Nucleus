@@ -60,6 +60,7 @@ namespace Capstone_Nucleus.Controllers
         {
             var user = GetCurrentUserProfile();
             item.UserProfileId = user.Id;
+            item.DateReceived = DateTime.Now;
             _itemRepo.Update(item);
             return NoContent();
         }
@@ -70,5 +71,32 @@ namespace Capstone_Nucleus.Controllers
             _itemRepo.Delete(id);
             return NoContent();
         }
+
+
+
+        [HttpGet("count")]
+        public IActionResult GetByCount()
+        {
+            var item = _itemRepo.GetByCount();
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item);
+        }
+
+
+        [HttpGet("month")]
+        public IActionResult GetByMonth()
+        {
+            var item = _itemRepo.GetByMonth();
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item);
+        }
+        
+
     }
 }

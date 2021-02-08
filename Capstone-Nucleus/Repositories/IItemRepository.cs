@@ -14,5 +14,9 @@ namespace Capstone_Nucleus.Repositories
         public void Update(Item item);
 
         public void Delete(int id);
+
+        public List<GetByCount> GetByCount();
+
+        public List<GetByMonth> GetByMonth();
     }
 }
