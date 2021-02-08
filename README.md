@@ -5,7 +5,7 @@ Nucleus is an app designed to serve as a basic inventory management system for a
 The purpose of Nucleus is to provide a portal that is easy for hospital workers to access to view, add to, edit, and remove from items in their hospital's inventory.
 
 ## Status
--Nuclues Version 1.0 is complete.
+-Nucleus Version 1.0 is complete.
 -Nucleus Verison 1.1 will feature a delete function that allows users to remove a given quantity of an item rather than having to delete all quantities simultaneously.
 
 ## Planning Documentation
