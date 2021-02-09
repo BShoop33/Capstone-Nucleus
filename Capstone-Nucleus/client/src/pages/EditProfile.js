@@ -1,33 +1,24 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
 import { useHistory, useParams } from "react-router-dom"
 import { Button, Col, Row } from "react-bootstrap"
-import { ToastContainer } from 'react-toastify';
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import 'react-toastify/dist/ReactToastify.css';
 import "./Inventory.css";
 
 const EditProfile = () => {
 
+    const history = useHistory();
+
+    const { getToken } = useContext(UserProfileContext);
+
+    const { id } = useParams();
+
     const firstName = useRef();
     const lastName = useRef();
     const displayName = useRef();
     const email = useRef();
 
-    const history = useHistory();
-
-    const { getToken } = useContext(UserProfileContext);
-
     const [user, setUser] = useState({});
-
-    const { id } = useParams();
-
-    useEffect(() => {
-        fetch(`/api/userprofile/editprofile/${id}`)
-            .then((res) => res.json())
-            .then((user) => {
-                setUser(user);
-            });
-    }, [id]);
 
     const editProfile = () => {
         const newUserProfile = {
@@ -56,6 +47,14 @@ const EditProfile = () => {
         );
     };
 
+    useEffect(() => {
+        fetch(`/api/userprofile/editprofile/${id}`)
+            .then((res) => res.json())
+            .then((user) => {
+                setUser(user);
+            });
+    }, [id]);
+
     return (
         <>
             <h1 className="my-5">Edit Profile</h1>
@@ -63,7 +62,8 @@ const EditProfile = () => {
             <Row>
                 <Col></Col>
                 <Col className="ml-5" id="textInputs">
-                    <Row className="justify-content-md-left my-4" style={{ marginTop: -15 }}>
+                    <p id="requiredProfile" className="mb-1"><i>* Required</i></p>
+                    <Row className="justify-content-md-left mb-4 mt-1" >
                         <label
                             className="firstNameTitle text-left"
                             id="input"
@@ -71,7 +71,7 @@ const EditProfile = () => {
                         >First Name:
                         </label>
                         <input
-                            className="firstNameInput mb-4 ml-4"
+                            className="firstNameInput ml-4"
                             defaultValue={user.firstName}
                             id="input"
                             name="firstName"
@@ -81,7 +81,8 @@ const EditProfile = () => {
                         />
                     </Row>
 
-                    <Row className="justify-content-md-left mb-4" style={{ marginTop: -15 }}>
+                    <p id="requiredProfile" className="mb-1"><i>* Required</i></p>
+                    <Row className="justify-content-md-left mb-4 mt-1" >
                         <label
                             className="lastNameTitle text-left"
                             id="input"
@@ -89,7 +90,7 @@ const EditProfile = () => {
                         >Last Name:
                         </label>
                         <input
-                            className="lastNameInput mb-4 ml-4"
+                            className="lastNameInput ml-4"
                             defaultValue={user.lastName}
                             id="input"
                             name="lastName"
@@ -99,7 +100,8 @@ const EditProfile = () => {
                         />
                     </Row>
 
-                    <Row className="justify-content-md-left mb-4" style={{ marginTop: -15 }}>
+                    <p id="requiredProfile" className="mb-1"><i>* Required</i></p>
+                    <Row className="justify-content-md-left mb-4 mt-1">
                         <label
                             className="displayName text-left"
                             id="input"
@@ -107,7 +109,7 @@ const EditProfile = () => {
                         >Display Name:
                         </label>
                         <input
-                            className="displayName mb-4 ml-4"
+                            className="displayName ml-4"
                             defaultValue={user.displayName}
                             id="input"
                             name="displayName"
@@ -117,7 +119,8 @@ const EditProfile = () => {
                         />
                     </Row>
 
-                    <Row className="justify-content-md-left mb-4" style={{ marginTop: -15 }}>
+                    <p id="requiredProfile" className="mb-1"><i>* Required</i></p>
+                    <Row className="justify-content-md-left mb-4 mt-1" style={{ marginTop: -15 }}>
                         <label
                             className="email text-left"
                             id="input"
@@ -159,18 +162,6 @@ const EditProfile = () => {
                             variant="danger"
                         >Cancel
                         </Button>
-
-                        <ToastContainer
-                            autoClose={2000}
-                            closeOnClick
-                            draggable
-                            hideProgressBar={false}
-                            newestOnTop={false}
-                            pauseOnFocusLoss
-                            pauseOnHover
-                            position="top-center"
-                            rtl={false}
-                        />
                     </Row>
                 </Col>
                 <Col></Col>

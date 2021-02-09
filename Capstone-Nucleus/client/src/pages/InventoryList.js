@@ -17,7 +17,7 @@ const InventoryList = () => {
     const [searchTerms, setSearchTerms] = useState('')
     const [value, setValue] = useState('');
 
-    const { getToken, getCurrentUser } = useContext(UserProfileContext);
+    const { getCurrentUser, getToken } = useContext(UserProfileContext);
     const { logout } = useContext(UserProfileContext);
 
     const currentUser = getCurrentUser();
@@ -92,7 +92,7 @@ const InventoryList = () => {
         <>
             <Container fluid>
                 <Navbar bg="dark" variant="tabs">
-                    <img alt="Nucleus Logo" className="NucleusInventoryLogo" src="\Images\NucleusLogo.png" />
+                    <img alt="Nucleus Logo" id="nucleusLogo" src="\Images\NucleusLogo.png" />
                     <Button
                         className="mt-1 ml-5"
                         id="navLinks"
@@ -124,11 +124,12 @@ const InventoryList = () => {
 
             <Row>
                 <Button
-                    className="addItemButton ml-5"
+                    className="ml-5"
                     id="input"
                     onClick={() => {
                         history.push(`/additem`)
                     }}
+                    style={{ width: 185 }}
                     type="button"
                     variant="success"
                 >Add New Item
@@ -141,7 +142,6 @@ const InventoryList = () => {
                     <Col>
                         <DropdownButton
                             alignRight
-                            className="mx-5"
                             id="locationFilterDropdown"
                             onSelect={handleSelect}
                             title={value ? value : "Filter by Location"}
@@ -174,7 +174,6 @@ const InventoryList = () => {
                     </Col>
                     <Col>
                         <FormControl type="text"
-                            className="SearchBar"
                             id="itemSearch"
                             onKeyUp={
                                 (keyEvent) => setSearchTerms(keyEvent.target.value)
