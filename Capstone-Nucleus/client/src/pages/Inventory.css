@@ -1,16 +1,8 @@
-
 #chartStyling {
     border: .1em;
     border-color: black;
     border-style: solid;
     padding: 2em;
-}
-
-
-
-.addItemButton {
-    height: auto;
-    width: 10em;
 }
 
 #columnHeaders {
@@ -23,12 +15,12 @@
 }
 
 #hrStyling {
+    border: 2px solid #343a40;
     margin-bottom: 0;
     margin-top: 1em;
-    border: 2px solid #343a40;
 }
 
-.imageUploadBoard{
+#imageUploadBoard{
     border: .5em;
     border-color: black;
     border-style: solid;
@@ -45,188 +37,39 @@
     font-size: 14pt;
 }
 
-#noImage {
-    border-right-color: #343a40;
-    border-right-style: solid;
-    border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    width: 17.7em;
-    font-size: 14pt;
-  
+#itemDeleteButton {
+    font-size: 12pt;
+    height:3em;
+    margin-right: .25em;
+    width: 4.5em;    
 }
 
-#itemCardPicture-NoImage {
-    border-right-color: #343a40;
-    border-right-style: solid;
-    border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    font-size: 11pt;
-    max-height: 4em;
-    overflow: auto;
-    text-align: left;
-}  
-
-#itemCardDepartment-NoImage {
+#itemDepartment {
     border-right-color: #343a40;
     border-right-style: solid; 
     border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    font-size: 11pt;
-    max-height: 4em;
-    overflow: auto;
-    text-align: left;
+    border-bottom-style: solid;
+    border-bottom-width: .15em;
     display: table-cell;
+    font-size: 11pt;
+    max-height: 14em;
+    overflow: auto;
+    text-align: left;
     vertical-align: middle;
-}  
-
-#itemCardVendor-NoImage {
-    border-right-color: #343a40;
-    border-right-style: solid; 
-    border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    font-size: 11pt;
-    max-height: 4em;
-    overflow: auto;
-    text-align: left;
-}  
-
-#itemCardName-NoImage {
-    border-right-color: #343a40;
-    border-right-style: solid; 
-    border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    font-size: 11pt;
-    max-height: 4em;
-    overflow: auto;
-    text-align: left;
 } 
 
-#itemCardSKU-NoImage {
-    border-right-color: #343a40;
-    border-right-style: solid; 
+#itemEditAndDeleteButtons {
     border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    font-size: 11pt;
-    max-height: 4em;
-    overflow: auto;
-    text-align: center;
-} 
-
-#itemCardPrice-NoImage {
-    border-right-color: #343a40;
-    border-right-style: solid; 
-    border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    font-size: 11pt;
-    max-height: 4em;
-    overflow: auto;
-    text-align: center;
-    justify-content: center;
-} 
-
-#itemCardQuantity-NoImage {
-    border-right-color: #343a40;
-    border-right-style: solid; 
-    border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    font-size: 11pt;
-    max-height: 4em;
-    overflow: auto;
-    text-align:center;
+    border-bottom-style: solid;
+    border-bottom-width: .2em;
+    margin-top: 5em;
 }
 
-#itemCardPicture-Image {
-    border-right-color: #343a40;
-    border-right-style: solid;
-    border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    font-size: 14pt;
-    text-align: center;
-}  
-
-#itemCardDepartment-Image {
-    border-right-color: #343a40;
-    border-right-style: solid; 
-
-    border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    font-size: 11pt;
-    max-height: 14em;
-    overflow: auto;
-    text-align: left;
-    display: table-cell;
-    vertical-align: middle;
-}  
-
-#itemCardVendor-Image {
-    border-right-color: #343a40;
-    border-right-style: solid; 
-    border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    font-size: 11pt;
-    max-height: 14em;
-    overflow: auto;
-    text-align: left;
-}  
-
-#itemCardName-Image {
-    border-right-color: #343a40;
-    border-right-style: solid; 
-    border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    font-size: 11pt;
-    max-height: 14em;
-    overflow: auto;
-    text-align: left;
-} 
-
-#itemCardSKU-Image {
-    border-right-color: #343a40;
-    border-right-style: solid; 
-    border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    font-size: 11pt;
-    max-height: 14em;
-    overflow: auto;
-    text-align: center;
-} 
-
-#itemCardPrice-Image {
-    border-right-color: #343a40;
-    border-right-style: solid; 
-    border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    font-size: 11pt;
-    max-height: 14em;
-    overflow: auto;
-    text-align: center;
-    justify-content: center;
-} 
-
-#itemCardQuantity-Image {
-    border-right-color: #343a40;
-    border-right-style: solid; 
-    border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
-    font-size: 11pt;
-    max-height: 14em;
-    overflow: auto;
-    text-align:center;
+#itemEditButton {
+    font-size: 12pt;
+    height:3em;
+    margin-right: .25em;
+    width: 4.5em;
 }
 
 #itemFormDropdown {
@@ -239,10 +82,51 @@
     width: 25em;
 }
 
-#itemEditAndDeleteButtons-Image {
+#itemName {
+    border-right-color: #343a40;
+    border-right-style: solid; 
     border-bottom-color:#343a40;
-    border-bottom-style: dotted;
-    border-bottom-width: .1em;
+    border-bottom-style: solid;
+    border-bottom-width: .15em;
+    font-size: 11pt;
+    max-height: 14em;
+    overflow: auto;
+    text-align: left;
+} 
+
+#itemPicture {
+    border-right-color: #343a40;
+    border-right-style: solid;
+    border-bottom-color:#343a40;
+    border-bottom-style: solid;
+    border-bottom-width: .15em;
+    font-size: 14pt;
+    text-align: center;
+}  
+
+#itemPrice {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: solid;
+    border-bottom-width: .15em;
+    font-size: 11pt;
+    justify-content: center;
+    max-height: 14em;
+    overflow: auto;
+    text-align: center;
+} 
+
+#itemQuantity {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: solid;
+    border-bottom-width: .15em;
+    font-size: 11pt;
+    max-height: 14em;
+    overflow: auto;
+    text-align:center;
 }
 
 #itemSearch {
@@ -250,9 +134,34 @@
     width: 16.75em;
 }
 
+#itemSKU {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: solid;
+    border-bottom-width: .15em;
+    font-size: 11pt;
+    max-height: 14em;
+    overflow: auto;
+    text-align: center;
+} 
+
+#itemVendor {
+    border-right-color: #343a40;
+    border-right-style: solid; 
+    border-bottom-color:#343a40;
+    border-bottom-style: solid;
+    border-bottom-width: .15em;
+    font-size: 11pt;
+    max-height: 14em;
+    overflow: auto;
+    text-align: left;
+}  
+
 #locationFilterDropdown {
     align-self: right;
     font-size: 14pt;
+    margin-right: 2.6em;
     width: 20em;
 }
 
@@ -267,10 +176,10 @@
         color: rgb(11, 240, 190);
     }
  
-.NucleusInventoryLogo {
-    border-radius: .5em;
+#nucleusLogo {
     border: 2px;
     border-color:black;
+    border-radius: .5em;    
     border-style: solid;
     height: 12em;
     width: auto;
@@ -289,16 +198,9 @@
     text-align: left;
 }
 
-.itemEditButton {
-    width: 4.5em;
-    height:3em;
-    margin-right: .25em;
-    font-size: 12pt;
-}
-
-.itemDeleteButton {
-    width: 4.5em;
-    height:3em;
-    margin-right: .25em;
-    font-size: 12pt;
+#requiredProfile {
+    color: red;
+    font-size: 14pt;
+    margin-left: 11em;
+    text-align: left;
 }

@@ -9,6 +9,7 @@ import Register from "../pages/Register";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 const ApplicationViews = () => {
+
     const { isLoggedIn } = useContext(UserProfileContext);
 
     return (
@@ -37,14 +38,10 @@ const ApplicationViews = () => {
                 <Login />
             </Route>
 
-
             <Route path="/register">
                 <Register />
             </Route>
 
-            {/* <Route path="/404">
-                <NotFoundForm />
-            </Route> */}
         </Switch>
     );
 };

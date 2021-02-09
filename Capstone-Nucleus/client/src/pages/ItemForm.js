@@ -48,7 +48,6 @@ const ItemForm = () => {
         }
     }, []);
 
-
     useEffect(() => {
         if (editCheck !== 0) {
             if (editCheck !== 0 && editCheck !== -1) {
@@ -69,7 +68,7 @@ const ItemForm = () => {
                     return
                 } else {
                     const item = {
-                        ItemPicture,
+                        ItemPicture: ItemPicture ? ItemPicture : "https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif",
                         DepartmentId,
                         vendorName,
                         itemName,
@@ -97,11 +96,7 @@ const ItemForm = () => {
         }
     }, [DepartmentId, editCheck, getToken, history, itemName, ItemPicture, itemSKU, Quantity, UnitPrice]);
 
-
     const [oldUnitPrice, setOldUnitPrice] = useState(0)
-
-
-
 
     const uploadImage = async e => {
         const files = e.target.files
@@ -184,13 +179,13 @@ const ItemForm = () => {
     const editItem = () => {
         const item = {
             Id: itemId,
-            ItemPicture: "",
+            ItemPicture: ItemPicture ? ItemPicture : currentItem.itemPicture,
             DepartmentId: 1,
             vendorName: vendorNameEdit.current.value,
             itemName: itemNameEdit.current.value,
             itemSKU: itemSKUEdit.current.value,
             UnitPrice: unitPriceEdit.current.value,
-            TotalPrice: unitPriceAdd.current.value * quantityEdit.current.value,
+            TotalPrice: unitPriceEdit.current.value * quantityEdit.current.value,
             Quantity: quantityEdit.current.value,
         };
         getToken().then((token) =>
@@ -215,9 +210,6 @@ const ItemForm = () => {
         setValue(e)
     }
 
-
-
-
     if (itemId) {
         return (
             <>
@@ -231,21 +223,14 @@ const ItemForm = () => {
                                 {loading ? (
                                     <h3 className="NewToolPictureLoading">Loading . . .</h3>
                                 ) : (
-                                        ItemPicture === "" ?
-                                            <img alt="Logo" src="\Images\NucleusLogo.png" style={{ width: 400, height: 300 }} />
-                                            :
-                                            <img
-                                                alt="Preview"
-                                                className="imageUploadBoard"
-                                                src={itemId ? currentItem.ItemPicture : ""}
-                                                style={{ width: 500, height: 400 }}
-                                            />
+                                        <img alt="Logo" src={ItemPicture ? ItemPicture : currentItem.itemPicture} style={{ width: 400, height: 300 }} />
                                     )
                                 }
                                 <h1 className="UploadTitle my-5">Upload Image</h1>
                                 <Button id="imageUploadButton" onClick={handleClick}>Upload a file
                                 </Button>
                                 <input
+                                    defaultValue={ItemPicture}
                                     name="file"
                                     onChange={uploadImage}
                                     placeholder="Upload an image"
@@ -316,9 +301,8 @@ const ItemForm = () => {
                                     defaultValue={itemId ? currentItem.vendorName : ""}
                                     id="input"
                                     name="vendorName"
-                                    // onChange={(e) => setvendorName(e.target.value)}
-                                    style={{ width: 400, height: 35 }}
                                     ref={vendorNameEdit}
+                                    style={{ width: 400, height: 35 }}
                                 />
                             </form>
                         </Row>
@@ -337,9 +321,8 @@ const ItemForm = () => {
                                     defaultValue={itemId ? currentItem.itemName : ""}
                                     id="input"
                                     name="itemName"
-                                    // onChange={(e) => setItemName(e.target.value)}
-                                    style={{ width: 400, height: 35 }}
                                     ref={itemNameEdit}
+                                    style={{ width: 400, height: 35 }}
                                 />
                             </form>
                         </Row>
@@ -357,9 +340,8 @@ const ItemForm = () => {
                                 defaultValue={itemId ? currentItem.itemSKU : ""}
                                 id="input"
                                 name="itemSKU"
-                                // onChange={(e) => setItemSKU(e.target.value)}
-                                style={{ width: 400, height: 35 }}
                                 ref={itemSKUEdit}
+                                style={{ width: 400, height: 35 }}
                             />
                         </Row>
 
@@ -377,9 +359,8 @@ const ItemForm = () => {
                                 defaultValue={itemId ? currentItem.unitPrice : ""}
                                 id="input"
                                 name="itemUnitPrice"
-                                // onChange={(e) => setItemUnitPrice(parseInt(e.target.value))}
-                                style={{ width: 400, height: 35 }}
                                 ref={unitPriceEdit}
+                                style={{ width: 400, height: 35 }}
                             />
                         </Row>
 
@@ -396,9 +377,8 @@ const ItemForm = () => {
                                 defaultValue={itemId ? currentItem.quantity : ""}
                                 id="input"
                                 name="itemQuantity"
-                                // onChange={(e) => setItemQuantity(parseInt(e.target.value))}
-                                style={{ width: 400 }}
                                 ref={quantityEdit}
+                                style={{ width: 400 }}
                             />
                         </Row>
 
@@ -426,8 +406,6 @@ const ItemForm = () => {
                                 variant="danger"
                             >Cancel
                             </Button>
-
-
                         </Row>
                     </Col>
                 </Row>
@@ -447,12 +425,12 @@ const ItemForm = () => {
                                     <h3 className="NewToolPictureLoading">Loading . . .</h3>
                                 ) : (
                                         ItemPicture === "" ?
-                                            <img alt="Logo" src="\Images\NucleusLogo.png" style={{ width: 400, height: 300 }} />
+                                            <img alt="Logo" src="https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif" style={{ width: 400, height: 300 }} />
                                             :
                                             <img
                                                 alt="Preview"
                                                 className="imageUploadBoard"
-                                                src={ItemPicture ? ItemPicture : item.itemPicture}
+                                                src={ItemPicture ? ItemPicture : "https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif"}
                                                 style={{ width: 500, height: 400 }}
                                             />
                                     )
@@ -461,13 +439,12 @@ const ItemForm = () => {
                                 <Button id="imageUploadButton" onClick={handleClick}>Upload a file
                                 </Button>
                                 <input
-
                                     name="file"
                                     onChange={uploadImage}
                                     placeholder="Upload an image"
+                                    ref={hiddenFileInput}
                                     style={{ display: 'none' }}
                                     type="file"
-                                    ref={hiddenFileInput}
                                 />
                             </div>
                         </Row>
@@ -489,7 +466,6 @@ const ItemForm = () => {
                                     title={value ? value : "Select Location"} //value ? value : "Select Location"
                                     onSelect={handleSelect}
                                     defaultValue={0}
-                                // ref={departmentAdd}
                                 >
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(1)} eventKey="Administrative Services">Administrative Services</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(2)} eventKey="Anesthetics">Anesthetics</Dropdown.Item>
@@ -533,7 +509,6 @@ const ItemForm = () => {
                                 name="vendorName"
                                 onChange={(e) => setvendorName(e.target.value)}
                                 style={{ width: 400, height: 35 }}
-                            // ref={vendorNameAdd}
                             />
                         </Row>
 
@@ -551,7 +526,6 @@ const ItemForm = () => {
                                 name="itemName"
                                 onChange={(e) => setItemName(e.target.value)}
                                 style={{ width: 400, height: 35 }}
-                            // ref={itemNameAdd}
                             />
                         </Row>
 
@@ -569,7 +543,6 @@ const ItemForm = () => {
                                 name="itemSKU"
                                 onChange={(e) => setItemSKU(e.target.value)}
                                 style={{ width: 400, height: 35 }}
-                            // ref={itemSKUAdd}
                             />
                         </Row>
 
@@ -606,7 +579,6 @@ const ItemForm = () => {
                                 name="itemQuantity"
                                 onChange={(e) => setItemQuantity(parseInt(e.target.value))}
                                 style={{ width: 400 }}
-                            // ref={quantityAdd}
                             />
                         </Row>
 
@@ -633,22 +605,9 @@ const ItemForm = () => {
                                 variant="danger"
                             >Cancel
                             </Button>
-
-
                         </Row>
                     </Col>
                 </Row>
-                {/* <ToastContainer
-                    autoClose={2000}
-                    closeOnClick
-                    draggable
-                    hideProgressBar={false}
-                    newestOnTop
-                    pauseOnFocusLoss
-                    pauseOnHover
-                    position="top-center"
-                    rtl={false}
-                /> */}
             </>
         )
     }

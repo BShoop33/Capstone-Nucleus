@@ -8,7 +8,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Inventory.css";
 
 const Dashboard = () => {
-
     const { logout } = useContext(UserProfileContext);
     const history = useHistory();
     const [count, setCount] = useState([])
@@ -48,11 +47,6 @@ const Dashboard = () => {
         return count.map(count => count.totalPrice)
     };
     const totalExpenditureYTD = getTotalExpenditure();
-
-    const getTotalExpenditureDepartments = () => {
-        return count.map(count => count.departmentId)
-    };
-    const totalExpenditureDepartments = getTotalExpenditureDepartments();
 
     //Monthly Expenditure YTD
     const getMonthlyExpenditure = () => {
@@ -142,8 +136,6 @@ const Dashboard = () => {
         else { return "" }
     })
 
-    console.log(convertedDepartments)
-
     let convertedMonths = month.map(month => {
         if (month.dateReceived === 1) {
             return "January"
@@ -184,69 +176,11 @@ const Dashboard = () => {
         else { return "" }
     })
 
-
-
-
-
-
-    // let allDepartmentIds = itemGroupOne.map(item => item.departmentId)
-    // let allUnitPrices = itemGroupOne.map(item => item.unitPrice)
-
-    // const uniqueDepartmentIds = allDepartmentIds.filter(unique)
-    // console.log(uniqueDepartmentIds)
-
-    // const itemPrice = () => {
-    //     if (itemGroupOne.map(item => item.departmentId) === uniqueDepartmentIds) {
-    //         return itemGroupOne.map(item => item.unitPrice)
-    //     }
-    // }
-    // let price = itemPrice()
-    // console.log(price)
-
-    // let check = departmentNameCheck = () => {
-    //     if (item.departmentId === )
-    // }
-    // console.log(priceOne)
-
-    // let priceTesting = 0
-
-    // const SettingVendor = () => {
-    //     if (itemGroupOne.map(item => item.id) === itemGroupTwo.map(item => item.id)) {
-    //         priceTesting = itemGroupOne.id
-    //     }
-    //     return priceTesting
-    // }
-    // console.log(SettingVendor())
-
-    // let priceTesting = userId.map(item => {
-    //     // item.forEach(item => {
-    //     if (item.id === item.id) {
-    //         return item.unitPrice += item.unitPrice
-    //     } else { return item.unitPrice }
-    //     // })
-    // })
-    // console.log(priceTesting)
-
-    // var quantities = userId.map(item => item.quantity);
-    // console.log(quantities)
-    // var departmentNames = userId.map(item => item.department.name)
-
-
-    // const filteredDepartmentNames = departmentNameFilter();
-    // console.log(departmentNames)
-
-    // var receiveDate = userId.map(item => item.dateReceived);
-    // console.log(receiveDate)
-
-    // var price = userId.map(item => item.unitPrice);
-    // console.log(price)
-
-
     return (
         <>
             <Container fluid>
                 <Navbar bg="dark" variant="tabs">
-                    <img className="NucleusInventoryLogo" src="\Images\NucleusLogo.png" alt="Nucleus Logo" />
+                    <img id="nucleusLogo" src="\Images\NucleusLogo.png" alt="Nucleus Logo" />
                     <Button
                         id="navLinks"
                         className="mt-1 ml-5"
@@ -428,7 +362,7 @@ const Dashboard = () => {
                                 label: 'Expenditure $',
                                 data: monthlyExpenditureYTD,
                                 backgroundColor: [
-                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(54, 162, 235, .7)',
                                 ]
                             }]
                         }}
