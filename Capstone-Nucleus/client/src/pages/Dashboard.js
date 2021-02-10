@@ -13,6 +13,10 @@ const Dashboard = () => {
     const [count, setCount] = useState([])
     const [month, setMonth] = useState([])
 
+
+
+
+
     const logoutAndReturn = () => {
         return logout().then(() => {
             toast.dark("You are now logged out");
@@ -59,6 +63,18 @@ const Dashboard = () => {
         return month.map(month => month.monthlyTotalQuantity)
     };
     const monthlyQuantityYTD = getMonthlyQuantity()
+
+
+    console.log(totalExpenditureYTD)
+    console.log(totalQuantityYTD)
+    console.log(monthlyExpenditureYTD)
+    console.log(monthlyQuantityYTD)
+
+
+
+
+
+
 
     let convertedDepartments = count.map(count => {
         if (count.departmentId === 1) {

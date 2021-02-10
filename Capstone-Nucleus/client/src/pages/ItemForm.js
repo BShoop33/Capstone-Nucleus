@@ -115,6 +115,9 @@ const ItemForm = () => {
         setLoading(false)
     }
 
+
+
+
     const getItems = () => {
         getToken().then((token) =>
             fetch(`/api/item`, {
@@ -130,7 +133,7 @@ const ItemForm = () => {
                 .then((items) => {
                     let itemCheck = 0
                     items.map(item => {
-                        if (itemSKU === item.itemSKU && DepartmentId === item.departmentId && vendorName === item.vendorName) {
+                        if (itemSKU === currentItem.itemSKU && DepartmentId === currentItem.departmentId && vendorName === currentItem.vendorName) {
                             let total = Quantity + item.quantity
                             setItemQuantity(total)
                             setOldUnitPrice(item.unitPrice)
@@ -146,12 +149,25 @@ const ItemForm = () => {
         );
     };
 
+    console.log(itemSKU) //returns nothing
+    // console.log(currentItem.itemSKU) //returns zzzzzzzzzzzz
+
+    console.log(DepartmentId) //returns 0
+    //console.log(currentItem.departmentId) //returns 1
+
+    console.log(vendorName) //returns nothing
+    //console.log(currentItem.vendorName) // returns r
+
+
+
+
+
     //adding item with previous entries
     const editUniqueItem = (id) => {
         console.log(oldUnitPrice)
         const item = {
             Id: id,
-            ItemPicture,
+            ItemPicture: ItemPicture ? ItemPicture : currentItem.itemPicture,
             DepartmentId,
             vendorName,
             itemName,
@@ -179,7 +195,7 @@ const ItemForm = () => {
         const item = {
             Id: itemId,
             ItemPicture: ItemPicture ? ItemPicture : currentItem.itemPicture,
-            DepartmentId: 1,
+            DepartmentId: DepartmentId ? DepartmentId : currentItem.departmentId,
             vendorName: vendorNameEdit.current.value,
             itemName: itemNameEdit.current.value,
             itemSKU: itemSKUEdit.current.value,
@@ -208,8 +224,6 @@ const ItemForm = () => {
     const handleSelect = (e) => {
         setValue(e)
     }
-
-    console.log(currentItem)
 
     if (itemId) {
         return (
@@ -260,7 +274,8 @@ const ItemForm = () => {
                                     // title={currentItem.department.name ? currentItem.department.name : "Select Department"} //currentItem ? currentItem.departmentId : 
                                     title={value ? value : currentItem.department.name} //value ? value : "Select Location"
                                     onSelect={handleSelect}
-                                    defaultValue={itemId ? currentItem.departmentId : 0}
+                                    defaultValue={currentItem.departmentId}
+                                // ref={itemDepartmentEdit}
                                 >
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(1)} eventKey="Administrative Services">Administrative Services</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(2)} eventKey="Anesthetics">Anesthetics</Dropdown.Item>
@@ -465,7 +480,7 @@ const ItemForm = () => {
                                     style={{ width: 400, height: 35 }}
                                     title={value ? value : "Select Location"} //value ? value : "Select Location"
                                     onSelect={handleSelect}
-                                    defaultValue={0}
+                                // defaultValue={0}
                                 >
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(1)} eventKey="Administrative Services">Administrative Services</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(2)} eventKey="Anesthetics">Anesthetics</Dropdown.Item>

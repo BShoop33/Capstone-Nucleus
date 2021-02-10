@@ -1,13 +1,13 @@
 import React, { useState, useContext } from "react"
 import { useHistory } from "react-router-dom"
 import { Button, Col, Row } from "react-bootstrap"
-// import { Modal, ModalBody } from 'reactstrap';
+import { Modal } from 'react-bootstrap';
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import ReactImageMagnify from 'react-image-magnify';
 
 const ItemCard = ({ item, getItems }) => {
     const history = useHistory();
-    // const [pendingDelete, setPendingDelete] = useState(false)
+    // const [confirmDelete, setConfirmDelete] = useState(false)
     const { getToken, getCurrentUser } = useContext(UserProfileContext);
     const currentUser = getCurrentUser();
     const totalPrice = (item.unitPrice * item.quantity)
@@ -57,7 +57,7 @@ const ItemCard = ({ item, getItems }) => {
             }} />
         } else {
             return <>
-                <img className="overflow-auto ml-2" alt="Unavailable" style={{ height: 150, width: 120, marginTop: 2, paddingTop: 10, paddingBottom: 10 }} md={2} src="\Images\noimage.gif" />
+                <img className="overflow-auto ml-2" alt="Unavailable" style={{ height: 150, width: 120, marginTop: 2, paddingTop: 10, paddingBottom: 10 }} md={2} src="https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif" />
             </>
         }
     }
@@ -78,7 +78,6 @@ const ItemCard = ({ item, getItems }) => {
                 <Button
                     onClick={() => {
                         deleteItem()
-                        // setPendingDelete(true)
                     }}
                     id="itemDeleteButton"
                     variant="danger"
@@ -90,6 +89,9 @@ const ItemCard = ({ item, getItems }) => {
             return ""
         }
     }
+
+
+
 
     const Preview = () => {
         return <Row >
@@ -106,18 +108,19 @@ const ItemCard = ({ item, getItems }) => {
             <Col id="itemEditAndDeleteButtons">
                 <EditAndDelete />
             </Col>
-
-            {/* DELETE CONFIRM MODAL */}
-            {/* <Modal show={true}>
+            {/* DELETE CONFIRM MODAL
+            <Modal ref={this} show={pendingDelete}>
                 <Modal.Header>Delete {item.itemName}?</Modal.Header>
-                <ModalBody>
-                    Are you sure you want to delete this item? This action cannot be undone.
-                </ModalBody>
-                <Modal.Footer>
+                 <ModalBody> 
+                    Are you sure you want to delete this item? This action cannot be undone. 
+                    </ModalBody> 
+                    <Modal.Footer>
                     <Button onClick={(e) => setPendingDelete(false)}>No, Cancel</Button>
                     <Button className="btn btn-outline-danger" onClick={deleteItem}>Yes, Delete</Button>
                 </Modal.Footer>
-            </Modal> */}
+            </Modal> 
+            */}
+
         </Row>
     }
     return (
