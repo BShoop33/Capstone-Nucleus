@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react"
 import { useHistory, useParams } from "react-router-dom"
 import { Button, Col, Form, Dropdown, DropdownButton, Row } from "react-bootstrap"
 import { UserProfileContext } from "../providers/UserProfileProvider";
-import 'react-toastify/dist/ReactToastify.css';
 import "./Inventory.css";
 
 const ItemForm = () => {
@@ -25,7 +24,7 @@ const ItemForm = () => {
     const [UnitPrice, setItemUnitPrice] = useState(0);
     const [Quantity, setItemQuantity] = useState(0);
     const [editCheck, setEditCheck] = useState(0)
-    const [currentItem, setCurrentItem] = useState({});
+    const [currentItem, setCurrentItem] = useState({ department: { name: "" } });
 
     const { itemId } = useParams();
 
@@ -210,6 +209,8 @@ const ItemForm = () => {
         setValue(e)
     }
 
+    console.log(currentItem)
+
     if (itemId) {
         return (
             <>
@@ -252,12 +253,14 @@ const ItemForm = () => {
                             >Item Location
                             </label>
                             <Form inline>
+                                {/* {currentItem.department ? null : */}
                                 <DropdownButton
                                     id="itemFormDropdown"
                                     style={{ width: 400, height: 35 }}
-                                    title={currentItem.departmentId} //currentItem ? currentItem.departmentId : 
+                                    // title={currentItem.department.name ? currentItem.department.name : "Select Department"} //currentItem ? currentItem.departmentId : 
+                                    title={value ? value : currentItem.department.name} //value ? value : "Select Location"
                                     onSelect={handleSelect}
-                                // defaultValue={itemId ? currentItem.name : 0}
+                                    defaultValue={itemId ? currentItem.departmentId : 0}
                                 >
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(1)} eventKey="Administrative Services">Administrative Services</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(2)} eventKey="Anesthetics">Anesthetics</Dropdown.Item>
@@ -284,47 +287,44 @@ const ItemForm = () => {
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(23)} eventKey="Records and Billing">Records and Billing</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(24)} eventKey="Surgery">Surgery</Dropdown.Item>
                                 </DropdownButton>
+                                {/* } */}
                             </Form>
                         </Row>
 
                         <p className="mb-4" id="required" ><i>* Required</i></p>
                         <Row className="justify-content-md-left" style={{ marginTop: -15 }}>
-                            <form action="/action_page.php">
-                                <label
-                                    className="vendorNameTitle text-left"
-                                    id="input"
-                                    style={{ width: 200, height: 5 }}
-                                >Vendor Name:
+                            <label
+                                className="vendorNameTitle text-left"
+                                id="input"
+                                style={{ width: 200, height: 5 }}
+                            >Vendor Name:
                                 </label>
-                                <input
-                                    className="vendorNameInput mb-4 ml-4"
-                                    defaultValue={itemId ? currentItem.vendorName : ""}
-                                    id="input"
-                                    name="vendorName"
-                                    ref={vendorNameEdit}
-                                    style={{ width: 400, height: 35 }}
-                                />
-                            </form>
+                            <input
+                                className="vendorNameInput mb-4 ml-4"
+                                defaultValue={itemId ? currentItem.vendorName : ""}
+                                id="input"
+                                name="vendorName"
+                                ref={vendorNameEdit}
+                                style={{ width: 400, height: 35 }}
+                            />
                         </Row>
 
                         <p className="mb-4" id="required"><i>* Required</i></p>
                         <Row className="justify-content-md-left" style={{ marginTop: -15 }}>
-                            <form action="/action_page.php">
-                                <label
-                                    className="itemNameTitle text-left"
-                                    id="input"
-                                    style={{ width: 200, height: 5 }}
-                                >Item Name:
+                            <label
+                                className="itemNameTitle text-left"
+                                id="input"
+                                style={{ width: 200, height: 5 }}
+                            >Item Name:
                                 </label>
-                                <input
-                                    className="itemNameInput mb-4 ml-4"
-                                    defaultValue={itemId ? currentItem.itemName : ""}
-                                    id="input"
-                                    name="itemName"
-                                    ref={itemNameEdit}
-                                    style={{ width: 400, height: 35 }}
-                                />
-                            </form>
+                            <input
+                                className="itemNameInput mb-4 ml-4"
+                                defaultValue={itemId ? currentItem.itemName : ""}
+                                id="input"
+                                name="itemName"
+                                ref={itemNameEdit}
+                                style={{ width: 400, height: 35 }}
+                            />
                         </Row>
 
                         <p id="required" className="mb-4"><i>* Required</i></p>
@@ -388,7 +388,7 @@ const ItemForm = () => {
                                 onClick={item => {
                                     item.preventDefault()
                                     editItem()
-                                    history.push(`/`)
+                                    getItems()
                                 }}
                                 style={{ width: 150, marginLeft: 75 }}
                                 type="submit"
@@ -494,24 +494,28 @@ const ItemForm = () => {
                                 </DropdownButton>
                             </Form>
                         </Row>
-
-                        <p className="mb-4" id="required" ><i>* Required</i></p>
-                        <Row className="justify-content-md-left" style={{ marginTop: -15 }}>
-                            <label
-                                className="vendorNameTitle text-left"
-                                id="input"
-                                style={{ width: 200, height: 5 }}
-                            >Vendor Name:
+                        <Form>
+                            <p className="mb-4" id="required" ><i>* Required</i></p>
+                            <Row className="justify-content-md-left" style={{ marginTop: -15 }}>
+                                <label
+                                    className="vendorNameTitle text-left"
+                                    id="input"
+                                    style={{ width: 200, height: 5 }}
+                                >Vendor Name:
                             </label>
-                            <input
-                                className="vendorNameInput mb-4 ml-4"
-                                id="input"
-                                name="vendorName"
-                                onChange={(e) => setvendorName(e.target.value)}
-                                style={{ width: 400, height: 35 }}
-                            />
-                        </Row>
-
+                                <div className="form-group">
+                                    <input
+                                        className="vendorNameInput mb-4 ml-4"
+                                        id="input"
+                                        name="vendorName"
+                                        onChange={(e) => setvendorName(e.target.value)}
+                                        required="required"
+                                        style={{ width: 400, height: 35 }}
+                                        type="Vendor Name"
+                                    />
+                                </div>
+                            </Row>
+                        </Form>
                         <p className="mb-4" id="required"><i>* Required</i></p>
                         <Row className="justify-content-md-left" style={{ marginTop: -15 }}>
                             <label
@@ -525,7 +529,9 @@ const ItemForm = () => {
                                 id="input"
                                 name="itemName"
                                 onChange={(e) => setItemName(e.target.value)}
+                                required="required"
                                 style={{ width: 400, height: 35 }}
+                                type="Item Name"
                             />
                         </Row>
 
@@ -542,7 +548,9 @@ const ItemForm = () => {
                                 id="input"
                                 name="itemSKU"
                                 onChange={(e) => setItemSKU(e.target.value)}
+                                required="required"
                                 style={{ width: 400, height: 35 }}
+                                type="Item SKU"
                             />
                         </Row>
 
@@ -560,7 +568,9 @@ const ItemForm = () => {
                                 id="input"
                                 name="itemUnitPrice"
                                 onChange={(e) => setItemUnitPrice(parseInt(e.target.value))}
+                                required="required"
                                 style={{ width: 400, height: 35 }}
+                                type="Unit Price"
                                 ref={unitPriceAdd}
                             />
                         </Row>
@@ -573,12 +583,15 @@ const ItemForm = () => {
                                 style={{ width: 197, height: 5 }}
                             >Quantity:
                             </label>
+
                             <input
                                 className="itemQuantityInput mb-4 ml-4"
                                 id="input"
                                 name="itemQuantity"
                                 onChange={(e) => setItemQuantity(parseInt(e.target.value))}
+                                required="required"
                                 style={{ width: 400 }}
+                                type="Quantity"
                             />
                         </Row>
 

@@ -16,7 +16,7 @@ const EditProfile = () => {
     const firstName = useRef();
     const lastName = useRef();
     const displayName = useRef();
-    const email = useRef();
+    // const email = useRef();
 
     const [user, setUser] = useState({});
 
@@ -28,7 +28,7 @@ const EditProfile = () => {
             firstName: firstName.current.value,
             lastName: lastName.current.value,
             displayName: displayName.current.value,
-            email: email.current.value,
+            email: user.email,
             dateRegistered: user.dateRegistered,
             userTypeId: user.userTypeId,
             IsActive: true
@@ -48,11 +48,19 @@ const EditProfile = () => {
     };
 
     useEffect(() => {
-        fetch(`/api/userprofile/editprofile/${id}`)
+        getToken()
+            .then((token) =>
+                fetch(`/api/userprofile/editprofile/${id}`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+            )
             .then((res) => res.json())
             .then((user) => {
                 setUser(user);
-            });
+            })
     }, [id]);
 
     return (
@@ -119,7 +127,7 @@ const EditProfile = () => {
                         />
                     </Row>
 
-                    <p id="requiredProfile" className="mb-1"><i>* Required</i></p>
+                    {/* <p id="requiredProfile" className="mb-1"><i>* Required</i></p>
                     <Row className="justify-content-md-left mb-4 mt-1" style={{ marginTop: -15 }}>
                         <label
                             className="email text-left"
@@ -136,7 +144,7 @@ const EditProfile = () => {
                             style={{ height: 35, width: 400 }}
                             type="text"
                         />
-                    </Row>
+                    </Row> */}
 
                     <Row className="justify-content-md-left mb-4" style={{ marginTop: 20 }}>
                         <Button

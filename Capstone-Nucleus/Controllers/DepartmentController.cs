@@ -7,7 +7,5 @@ namespace Capstone_Nucleus.Controllers
     public class DepartmentController : ControllerBase
     {
 
-
-
     }
 }

@@ -14,6 +14,12 @@ namespace Capstone_Nucleus.Repositories
             _context = context;
         }
 
+        public void Add(UserProfile userProfile)
+        {
+            _context.Add(userProfile);
+            _context.SaveChanges();
+        }
+
         public UserProfile GetByFirebaseUserId(string firebaseUserId)
         {
             return _context.UserProfile
@@ -25,12 +31,6 @@ namespace Capstone_Nucleus.Repositories
         {
             return _context.UserProfile
                 .FirstOrDefault(up => up.Id == id);
-        }
-
-        public void Add(UserProfile userProfile)
-        {
-            _context.Add(userProfile);
-            _context.SaveChanges();
         }
 
         public void Update(UserProfile userProfile)
