@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace Capstone_Nucleus.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
@@ -18,10 +18,16 @@ namespace Capstone_Nucleus.Controllers
             _userProfileRepo = userProfileRepo;
         }
 
-        [HttpGet("{firebaseUserId}")]
-        public IActionResult GetUserProfile(string firebaseUserId)
+        [HttpPost]
+        public IActionResult Add(UserProfile userProfile)
         {
-            return Ok(_userProfileRepo.GetByFirebaseUserId(firebaseUserId));
+            userProfile.DateRegistered = DateTime.Now;
+            userProfile.IsActive = true;
+            _userProfileRepo.Add(userProfile);
+            return CreatedAtAction(
+                nameof(GetUserProfile),
+                new { firebaseUserId = userProfile.FirebaseUserId },
+                userProfile);
         }
 
         [HttpGet("editprofile/{id}")]
@@ -35,40 +41,28 @@ namespace Capstone_Nucleus.Controllers
             return Ok(currentUser);
         }
 
-        [HttpPost]
-        public IActionResult Add(UserProfile userProfile)
-        {
-            userProfile.UserTypeId = 2;
-            userProfile.DateRegistered = DateTime.Now;
-            userProfile.IsActive = true;
-            _userProfileRepo.Add(userProfile);
-            return CreatedAtAction(
-                nameof(GetUserProfile),
-                new { firebaseUserId = userProfile.FirebaseUserId },
-                userProfile);
-        }
-
-
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return _userProfileRepo.GetByFirebaseUserId(firebaseUserId);
         }
 
-     
+        [HttpGet("{firebaseUserId}")]
+        public IActionResult GetUserProfile(string firebaseUserId)
+        {
+            return Ok(_userProfileRepo.GetByFirebaseUserId(firebaseUserId));
+        }
 
         [HttpPut("editprofile/{id}")]
         public IActionResult Put(UserProfile userProfile)
         {
             var user = GetCurrentUserProfile();
-            if(user.Id == userProfile.Id)
+            if (user.Id == userProfile.Id)
             {
                 user.FirstName = userProfile.FirstName;
                 user.LastName = userProfile.LastName;
                 user.DisplayName = userProfile.DisplayName;
                 user.Email = userProfile.Email;
-
-                //userProfile = new UserProfile();
                 _userProfileRepo.Update(user);
                 return NoContent();
             }

@@ -65,6 +65,7 @@ const ItemCard = ({ item, getItems }) => {
     const EditAndDelete = () => {
         if (currentUser.userTypeId !== 1) {
             return <Row className="itemEditAndDeleteButtons">
+                {/* <Col> */}
                 <Button
                     onClick={() => {
                         history.push(`/edititem/${item.id}`)
@@ -83,6 +84,7 @@ const ItemCard = ({ item, getItems }) => {
                     variant="danger"
                 >Delete
                         </Button>
+                {/* </Col> */}
             </Row>
         } else {
             return ""

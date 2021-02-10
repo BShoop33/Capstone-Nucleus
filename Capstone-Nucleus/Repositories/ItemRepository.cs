@@ -16,6 +16,12 @@ namespace Capstone_Nucleus.Repositories
             _context = context;
         }
 
+        public void Add(Item item)
+        {
+            _context.Add(item);
+            _context.SaveChanges();
+        }
+
         public List<Item> Get()
         {
             return _context.Item
@@ -24,16 +30,6 @@ namespace Capstone_Nucleus.Repositories
                 .OrderBy(i => i.Department.Name)
                 .ToList();
         }
-
-        //public List<GetByCount> GetByCount()
-        //{
-        //    return _context.Item
-        //        .Where(g => g.IsActive)
-        //        .GroupBy(i => new { i.DepartmentId, i.DateReceived.Month })
-        //        .OrderBy(i => i.Key.DepartmentId)
-        //        .Select(i => new GetByCount { DepartmentId = i.Key.DepartmentId, DateReceived = i.Key.Month, TotalQuantity = i.Sum(g => g.Quantity), TotalPrice = i.Sum(g => g.UnitPrice * g.Quantity)})
-        //        .ToList();
-        //}
 
         public List<GetByCount> GetByCount()
         {
@@ -60,18 +56,6 @@ namespace Capstone_Nucleus.Repositories
                 .Select(i => new GetByMonth { DateReceived = i.Key.Month, MonthlyTotalQuantity = i.Sum(g => g.Quantity), MonthlyTotalPrice = i.Sum(g => g.UnitPrice * g.Quantity) })
                 .ToList();
         }
-
-
-
-
-
-
-
-        public void Add(Item item)
-        {
-            _context.Add(item);
-            _context.SaveChanges();
-        }
         
         public Item GetItemById(int id)
         {
@@ -83,7 +67,7 @@ namespace Capstone_Nucleus.Repositories
         public void Update(Item item)
         {
             item.IsActive = true;
-            _context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Entry(item).State = EntityState.Modified;
             _context.SaveChanges();
         }
 
@@ -91,7 +75,7 @@ namespace Capstone_Nucleus.Repositories
         {
             var deletingItem = GetItemById(id);
             deletingItem.IsActive = false;
-            _context.Entry(deletingItem).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Entry(deletingItem).State = EntityState.Modified;
             _context.SaveChanges();
         }
     }

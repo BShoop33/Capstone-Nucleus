@@ -19,12 +19,44 @@ namespace Capstone_Nucleus.Controllers
             _userRepo = userRepo;
         }
 
+        [HttpPost("additem")]
+        public IActionResult Add(Item item)
+        {
+            var user = GetCurrentUserProfile();
+            item.UserProfileId = user.Id;
+            item.DateReceived = DateTime.Now;
+            item.IsActive = true;
+            _itemRepo.Add(item);
+            return Ok(item);
+        }
+
         [HttpGet]
         public IActionResult Get()
         {
             var items = _itemRepo.Get();
-
             return Ok(items);
+        }
+
+        [HttpGet("count")]
+        public IActionResult GetByCount()
+        {
+            var item = _itemRepo.GetByCount();
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item);
+        }
+
+        [HttpGet("month")]
+        public IActionResult GetByMonth()
+        {
+            var item = _itemRepo.GetByMonth();
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item);
         }
 
         private UserProfile GetCurrentUserProfile()
@@ -44,17 +76,6 @@ namespace Capstone_Nucleus.Controllers
             return Ok(item);
         }
 
-        [HttpPost("additem")]
-        public IActionResult Add(Item item)
-        {
-            var user = GetCurrentUserProfile();
-            item.UserProfileId = user.Id;
-            item.DateReceived = DateTime.Now;
-            item.IsActive = true;
-            _itemRepo.Add(item);
-            return Ok(item);
-        }
-
         [HttpPut("edititem/{id}")]
         public IActionResult Put(Item item)
         {
@@ -71,32 +92,5 @@ namespace Capstone_Nucleus.Controllers
             _itemRepo.Delete(id);
             return NoContent();
         }
-
-
-
-        [HttpGet("count")]
-        public IActionResult GetByCount()
-        {
-            var item = _itemRepo.GetByCount();
-            if (item == null)
-            {
-                return NotFound();
-            }
-            return Ok(item);
-        }
-
-
-        [HttpGet("month")]
-        public IActionResult GetByMonth()
-        {
-            var item = _itemRepo.GetByMonth();
-            if (item == null)
-            {
-                return NotFound();
-            }
-            return Ok(item);
-        }
-        
-
     }
 }

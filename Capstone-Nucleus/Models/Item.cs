@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Capstone_Nucleus.Models
@@ -40,9 +39,5 @@ namespace Capstone_Nucleus.Models
         public Department Department { get; set; }
 
         public UserProfile UserProfile { get; set; }
-
-
-      
-
     }
 }
