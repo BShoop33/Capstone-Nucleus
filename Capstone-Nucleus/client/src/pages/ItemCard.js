@@ -1,19 +1,20 @@
-import React, { useState, useContext } from "react"
+import React, { useContext } from "react"
 import { useHistory } from "react-router-dom"
 import { Button, Col, Row } from "react-bootstrap"
-import { Modal } from 'react-bootstrap';
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import ReactImageMagnify from 'react-image-magnify';
 
 const ItemCard = ({ item, getItems }) => {
+
     const history = useHistory();
-    // const [confirmDelete, setConfirmDelete] = useState(false)
+
     const { getToken, getCurrentUser } = useContext(UserProfileContext);
+
     const currentUser = getCurrentUser();
-    const totalPrice = (item.unitPrice * item.quantity)
+
+    const totalPrice = (item.unitPrice * item.quantity).toFixed(2)
 
     const deleteItem = () => {
-
         const deletingItem = { id: item.id }
         getToken().then((token) =>
             fetch(`/api/item/deleteitem/${item.id}`, {
@@ -65,7 +66,6 @@ const ItemCard = ({ item, getItems }) => {
     const EditAndDelete = () => {
         if (currentUser.userTypeId !== 1) {
             return <Row className="itemEditAndDeleteButtons">
-                {/* <Col> */}
                 <Button
                     onClick={() => {
                         history.push(`/edititem/${item.id}`)
@@ -83,15 +83,11 @@ const ItemCard = ({ item, getItems }) => {
                     variant="danger"
                 >Delete
                         </Button>
-                {/* </Col> */}
             </Row>
         } else {
             return ""
         }
     }
-
-
-
 
     const Preview = () => {
         return <Row >
@@ -108,19 +104,6 @@ const ItemCard = ({ item, getItems }) => {
             <Col id="itemEditAndDeleteButtons">
                 <EditAndDelete />
             </Col>
-            {/* DELETE CONFIRM MODAL
-            <Modal ref={this} show={pendingDelete}>
-                <Modal.Header>Delete {item.itemName}?</Modal.Header>
-                 <ModalBody> 
-                    Are you sure you want to delete this item? This action cannot be undone. 
-                    </ModalBody> 
-                    <Modal.Footer>
-                    <Button onClick={(e) => setPendingDelete(false)}>No, Cancel</Button>
-                    <Button className="btn btn-outline-danger" onClick={deleteItem}>Yes, Delete</Button>
-                </Modal.Footer>
-            </Modal> 
-            */}
-
         </Row>
     }
     return (

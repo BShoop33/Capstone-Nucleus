@@ -45,7 +45,7 @@ set identity_insert [UserProfile] off
 
 set identity_insert [Item] on
 insert into Item (Id, UserProfileId, ItemPicture, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, TotalPrice, Quantity, DateReceived, IsActive) values (1, 1, null, 9, 'CDW', 'Scalpel', '28034', 183.74, 551.22, 3, '08/06/2019', 1);				
-insert into Item (Id, UserProfileId, ItemPicture, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, TotalPrice, Quantity, DateReceived, IsActive) values (2, 1, null, 8, 'Grainger', 'Werth Sanitary Supply All Purpose Cleaner pkg. 12', '35YL42', 113.98, 341.94, 3, '09/12/2019', 1);
+insert into Item (Id, UserProfileId, ItemPicture, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, TotalPrice, Quantity, DateReceived, IsActive) values (2, 1, null, 8, 'Grainger', 'Werth Sanitary Supply', '35YL42', 113.98, 341.94, 3, '09/12/2019', 1);
 insert into Item (Id, UserProfileId, ItemPicture, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, TotalPrice, Quantity, DateReceived, IsActive) values (3, 1, null, 4, 'Henry Schein', 'Gowns', '82840', 16.34, 163.40, 10, '10/19/2019', 1);				
 insert into Item (Id, UserProfileId, ItemPicture, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, TotalPrice, Quantity, DateReceived, IsActive) values (4, 1, null, 7, 'Staples', 'Paper', 'A4829', 63.23, 6323.00, 100, '07/07/2020', 1);  
 insert into Item (Id, UserProfileId, ItemPicture, DepartmentId, VendorName, ItemName, ItemSKU, UnitPrice, TotalPrice, Quantity, DateReceived, IsActive) values (5, 1, null, 1, '1', '1', '1', 1, 1, 1, '02/20/2020', 1); 

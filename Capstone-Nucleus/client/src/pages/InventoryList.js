@@ -16,7 +16,6 @@ const InventoryList = () => {
     const [locationFilterValue, setItemLocation] = useState(0)
     const [searchTerms, setSearchTerms] = useState('')
     const [value, setValue] = useState('');
-
     const [hideSearch, setHideSearch] = useState(false);
 
     const { getCurrentUser, getToken } = useContext(UserProfileContext);
@@ -242,7 +241,7 @@ const InventoryList = () => {
                             <Dropdown.Item id="dropdownOptions" onSelect={() => {
                                 setItemLocation(23)
                                 setHideSearch(true)
-                            }} eventKey="Records and Reception">Records and Billing</Dropdown.Item>
+                            }} eventKey="Records and Reception">Records and Reception</Dropdown.Item>
                             <Dropdown.Item id="dropdownOptions" onSelect={() => {
                                 setItemLocation(24)
                                 setHideSearch(true)
