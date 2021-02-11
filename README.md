@@ -14,10 +14,10 @@ Upon entering the Nucleus portal, the user immediately sees a listing of all inv
 ### Add Item
 If the user decides to add an item to the hospital's inventory, they may do so by clicking the <em>ADD NEW ITEM</em> button. Clicking that button carries the user to the <em>ADD ITEM</em> page. On this page, if this user decides to return to the <em>Inventory</em> page, they can simply click the <em>CANCEL</em> button to return to that page. If the user instead decides to are a file input field for uploading a picture of the item from the user's computer, selecting the department where the item will reside in the <em>Item Location</em> dropdown menu, entering the name of the vendor from whom the item is sourced in the <em>Vendor Name</em> text input field, entering the name of the item in the <em>Item Name</em> field, entering the vendor's SKU or item number for the item in the <em>Item SKU</em> field, entering the per unit price of the item in the <em>Unit Price</em> field, and entering the quantity of the items being added in the <em>Quantity</em> field. The only field that is optional on this page is the item picture field, and all other fields are required as designated with <em>* Required</em> messaging. After populating those fields, the user may click the <em>SAVE ITEM</em> button to finish saving the item to the hospital's inventory. The user will then be carried back to the <em>Inventory</em> page where they can confirm the item did in fact get added. 
 
-## Edit Item
+### Edit Item
 
 
-## Delete Item
+### Delete Item
 
 
 ## Status
