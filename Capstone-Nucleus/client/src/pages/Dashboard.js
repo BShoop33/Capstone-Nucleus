@@ -128,7 +128,7 @@ const Dashboard = () => {
             return "Physiotherapy"
         }
         if (count.departmentId === 23) {
-            return "Records and Billing"
+            return "Records and Reception"
         }
         if (count.departmentId === 24) {
             return "Surgery"
@@ -257,7 +257,7 @@ const Dashboard = () => {
                         data={{
                             labels: convertedDepartments,
                             datasets: [{
-                                label: '',
+                                label: 'Expenditure $',
                                 data: totalExpenditureYTD,
                                 backgroundColor: [
                                     'rgba(255, 0, 0, 1)',

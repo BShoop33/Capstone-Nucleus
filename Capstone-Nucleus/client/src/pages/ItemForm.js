@@ -126,7 +126,7 @@ const ItemForm = () => {
                 .then((items) => {
                     let itemCheck = 0
                     items.map(item => {
-                        if (itemSKU === currentItem.itemSKU && DepartmentId === currentItem.departmentId && vendorName === currentItem.vendorName) {
+                        if (itemSKU === item.itemSKU && DepartmentId === item.departmentId && vendorName === item.vendorName) {
                             let total = Quantity + item.quantity
                             setItemQuantity(total)
                             setOldUnitPrice(item.unitPrice)
@@ -144,10 +144,9 @@ const ItemForm = () => {
 
     //adding item with previous entries
     const editUniqueItem = (id) => {
-        console.log(oldUnitPrice)
         const item = {
             Id: id,
-            ItemPicture: ItemPicture ? ItemPicture : currentItem.itemPicture,
+            ItemPicture: ItemPicture ? ItemPicture : "https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif",
             DepartmentId,
             vendorName,
             itemName,
