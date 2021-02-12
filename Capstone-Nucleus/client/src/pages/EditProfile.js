@@ -16,7 +16,6 @@ const EditProfile = () => {
     const firstName = useRef();
     const lastName = useRef();
     const displayName = useRef();
-    // const email = useRef();
 
     const [user, setUser] = useState({});
 
@@ -126,25 +125,6 @@ const EditProfile = () => {
                             type="text"
                         />
                     </Row>
-
-                    {/* <p id="requiredProfile" className="mb-1"><i>* Required</i></p>
-                    <Row className="justify-content-md-left mb-4 mt-1" style={{ marginTop: -15 }}>
-                        <label
-                            className="email text-left"
-                            id="input"
-                            style={{ height: 5, width: 197 }}
-                        >Email:
-                        </label>
-                        <input
-                            className="email mb-4 ml-4"
-                            defaultValue={user.email}
-                            id="input"
-                            name="email"
-                            ref={email}
-                            style={{ height: 35, width: 400 }}
-                            type="text"
-                        />
-                    </Row> */}
 
                     <Row className="justify-content-md-left mb-4" style={{ marginTop: 20 }}>
                         <Button

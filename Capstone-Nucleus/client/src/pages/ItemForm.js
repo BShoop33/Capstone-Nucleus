@@ -13,10 +13,8 @@ const ItemForm = () => {
     const hiddenFileInput = useRef(null);
 
     const [value, setValue] = useState('');
-    const [item, setNewItem] = useState({});
     const [ItemPicture, setImage] = useState('')
     const [loading, setLoading] = useState(false)
-
     const [DepartmentId, setItemLocation] = useState(0);
     const [vendorName, setvendorName] = useState('');
     const [itemName, setItemName] = useState('');
@@ -33,9 +31,7 @@ const ItemForm = () => {
     const itemSKUEdit = useRef();
     const unitPriceEdit = useRef();
     const quantityEdit = useRef();
-
     const unitPriceAdd = useRef();
-    const quantityAdd = useRef();
 
     useEffect(() => {
         if (itemId !== undefined) {
@@ -148,10 +144,9 @@ const ItemForm = () => {
 
     //adding item with previous entries
     const editUniqueItem = (id) => {
-        console.log(oldUnitPrice)
         const item = {
             Id: id,
-            ItemPicture,
+            ItemPicture: ItemPicture ? ItemPicture : "https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif",
             DepartmentId,
             vendorName,
             itemName,
@@ -179,7 +174,7 @@ const ItemForm = () => {
         const item = {
             Id: itemId,
             ItemPicture: ItemPicture ? ItemPicture : currentItem.itemPicture,
-            DepartmentId: 1,
+            DepartmentId: DepartmentId ? DepartmentId : currentItem.departmentId,
             vendorName: vendorNameEdit.current.value,
             itemName: itemNameEdit.current.value,
             itemSKU: itemSKUEdit.current.value,
@@ -208,8 +203,6 @@ const ItemForm = () => {
     const handleSelect = (e) => {
         setValue(e)
     }
-
-    console.log(currentItem)
 
     if (itemId) {
         return (
@@ -253,14 +246,12 @@ const ItemForm = () => {
                             >Item Location
                             </label>
                             <Form inline>
-                                {/* {currentItem.department ? null : */}
                                 <DropdownButton
                                     id="itemFormDropdown"
                                     style={{ width: 400, height: 35 }}
-                                    // title={currentItem.department.name ? currentItem.department.name : "Select Department"} //currentItem ? currentItem.departmentId : 
-                                    title={value ? value : currentItem.department.name} //value ? value : "Select Location"
+                                    title={value ? value : currentItem.department.name}
                                     onSelect={handleSelect}
-                                    defaultValue={itemId ? currentItem.departmentId : 0}
+                                    defaultValue={currentItem.departmentId}
                                 >
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(1)} eventKey="Administrative Services">Administrative Services</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(2)} eventKey="Anesthetics">Anesthetics</Dropdown.Item>
@@ -284,10 +275,9 @@ const ItemForm = () => {
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(20)} eventKey="Orthopedics">Orthopedics</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(21)} eventKey="Pharmacy">Pharmacy</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(22)} eventKey="Physiotherapy">Physiotherapy</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(23)} eventKey="Records and Billing">Records and Billing</Dropdown.Item>
+                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(23)} eventKey="Records and Reception">Records and Reception</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(24)} eventKey="Surgery">Surgery</Dropdown.Item>
                                 </DropdownButton>
-                                {/* } */}
                             </Form>
                         </Row>
 
@@ -463,9 +453,8 @@ const ItemForm = () => {
                                 <DropdownButton
                                     id="itemFormDropdown"
                                     style={{ width: 400, height: 35 }}
-                                    title={value ? value : "Select Location"} //value ? value : "Select Location"
+                                    title={value ? value : "Select Location"}
                                     onSelect={handleSelect}
-                                    defaultValue={0}
                                 >
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(1)} eventKey="Administrative Services">Administrative Services</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(2)} eventKey="Anesthetics">Anesthetics</Dropdown.Item>
@@ -489,7 +478,7 @@ const ItemForm = () => {
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(20)} eventKey="Orthopedics">Orthopedics</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(21)} eventKey="Pharmacy">Pharmacy</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(22)} eventKey="Physiotherapy">Physiotherapy</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(23)} eventKey="Records and Billing">Records and Billing</Dropdown.Item>
+                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(23)} eventKey="Records and Reception">Records and Reception</Dropdown.Item>
                                     <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(24)} eventKey="Surgery">Surgery</Dropdown.Item>
                                 </DropdownButton>
                             </Form>

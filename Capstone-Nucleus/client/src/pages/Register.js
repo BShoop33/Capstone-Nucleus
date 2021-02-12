@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import { toast } from "react-toastify";
-import { Button, Col, Form, Dropdown, DropdownButton, Row } from "react-bootstrap";
+import { Button, Col, Dropdown, DropdownButton, Row } from "react-bootstrap";
 import "./Login.css";
 
 const Register = () => {
@@ -137,7 +137,7 @@ const Register = () => {
                                 <Dropdown.Item id="dropdownOptions" onSelect={() => setDepartment("Orthopedics")} eventKey="Orthopedics">Orthopedics</Dropdown.Item>
                                 <Dropdown.Item id="dropdownOptions" onSelect={() => setDepartment("Pharmacy")} eventKey="Pharmacy">Pharmacy</Dropdown.Item>
                                 <Dropdown.Item id="dropdownOptions" onSelect={() => setDepartment("Physiotherapy")} eventKey="Physiotherapy">Physiotherapy</Dropdown.Item>
-                                <Dropdown.Item id="dropdownOptions" onSelect={() => setDepartment("Records and Billing")} eventKey="Records and Billing">Records and Billing</Dropdown.Item>
+                                <Dropdown.Item id="dropdownOptions" onSelect={() => setDepartment("Records and Reception")} eventKey="Records and Reception">Records and Reception</Dropdown.Item>
                                 <Dropdown.Item id="dropdownOptions" onSelect={() => setDepartment("Surgery")} eventKey="Surgery">Surgery</Dropdown.Item>
                             </DropdownButton>
                         </Row>
