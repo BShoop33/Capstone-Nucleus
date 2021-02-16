@@ -88,6 +88,9 @@ const ItemCard = ({ item, getItems }) => {
         }
     }
     console.log(item)
+
+    const totalPrice = item.totalPrice.toFixed(2)
+
     const Preview = () => {
         return <Row >
             <Col md={2} id="itemPicture" >
@@ -98,7 +101,7 @@ const ItemCard = ({ item, getItems }) => {
             <Col className="overflow-auto" id="itemName" md={2}>{item.itemName}</Col>
             <Col className="overflow-auto" id="itemSKU" md={1}>{item.itemSKU}</Col>
             <Col className="overflow-auto" id="itemPrice" md={1}>${item.unitPrice}</Col>
-            <Col className="overflow-auto" id="itemPrice" md={1}>${item.totalPrice}</Col>
+            <Col className="overflow-auto" id="itemPrice" md={1}>${totalPrice}</Col>
             <Col className="overflow-auto" id="itemQuantity" md={1}>{item.quantity}</Col>
             <Col id="itemEditAndDeleteButtons">
                 <EditAndDelete />

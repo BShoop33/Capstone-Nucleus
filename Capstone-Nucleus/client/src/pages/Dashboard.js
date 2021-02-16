@@ -44,13 +44,13 @@ const Dashboard = () => {
 
     //Total Expenditure by Department YTD
     const getTotalExpenditure = () => {
-        return count.map(count => count.totalPrice)
+        return count.map(count => count.totalPrice.toFixed(2))
     };
     const totalExpenditureYTD = getTotalExpenditure();
 
     //Monthly Expenditure YTD
     const getMonthlyExpenditure = () => {
-        return month.map(month => month.monthlyTotalPrice)
+        return month.map(month => month.monthlyTotalPrice.toFixed(2))
     };
     const monthlyExpenditureYTD = getMonthlyExpenditure()
 
