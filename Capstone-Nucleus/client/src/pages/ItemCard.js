@@ -12,7 +12,6 @@ const ItemCard = ({ item, getItems }) => {
 
     const currentUser = getCurrentUser();
 
-    const totalPrice = (item.unitPrice * item.quantity).toFixed(2)
 
     const deleteItem = () => {
         const deletingItem = { id: item.id }
@@ -88,6 +87,9 @@ const ItemCard = ({ item, getItems }) => {
             return ""
         }
     }
+    console.log(item)
+
+    const totalPrice = item.totalPrice.toFixed(2)
 
     const Preview = () => {
         return <Row >

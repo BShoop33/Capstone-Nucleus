@@ -12,14 +12,13 @@ const InventoryList = () => {
     const history = useHistory();
 
     const [filteredItems, setFiltered] = useState([])
+    const [hideSearch, setHideSearch] = useState(false);
     const [items, setItems] = useState([])
     const [locationFilterValue, setItemLocation] = useState(0)
     const [searchTerms, setSearchTerms] = useState('')
     const [value, setValue] = useState('');
-    const [hideSearch, setHideSearch] = useState(false);
 
-    const { getCurrentUser, getToken } = useContext(UserProfileContext);
-    const { logout } = useContext(UserProfileContext);
+    const { getCurrentUser, getToken, logout } = useContext(UserProfileContext);
 
     const currentUser = getCurrentUser();
 
@@ -49,6 +48,25 @@ const InventoryList = () => {
         );
     };
 
+    const Results = () => {
+        if (value !== "") {
+            return <Button
+                className="ClearFilterButton"
+                id="removeFilterButton"
+                onClick={() => {
+                    setValue("")
+                    setHideSearch(false)
+                }}
+                type="button"
+                variant="warning"
+            >Remove Filter
+                </Button>;
+        }
+        else {
+            return <div className="ClearFilterButton" id="removeFilterButton"></div>;
+        }
+    }
+
     useEffect(() => {
         if (searchTerms !== "") {
             const subset = items.filter(items => items.itemName.toLowerCase().includes(searchTerms.toLowerCase().trim()))
@@ -72,25 +90,6 @@ const InventoryList = () => {
     useEffect(() => {
         setSearchTerms("")
     }, [setSearchTerms])
-
-    const Results = () => {
-        if (value !== "") {
-            return <Button
-                className="ClearFilterButton"
-                id="removeFilterButton"
-                onClick={() => {
-                    setValue("")
-                    setHideSearch(false)
-                }}
-                type="button"
-                variant="warning"
-            >Remove Filter
-                </Button>;
-        }
-        else {
-            return <div className="ClearFilterButton" id="removeFilterButton"></div>;
-        }
-    }
 
     return (
         <>

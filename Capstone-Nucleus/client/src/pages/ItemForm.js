@@ -57,9 +57,9 @@ const ItemForm = () => {
                     return
                 } else if (itemSKU === "") {
                     return
-                } else if (UnitPrice === 0) {
+                } else if (UnitPrice === 0 || UnitPrice === NaN) {
                     return
-                } else if (Quantity === 0) {
+                } else if (Quantity === 0 || Quantity === NaN) {
                     return
                 } else {
                     const item = {
@@ -68,8 +68,8 @@ const ItemForm = () => {
                         vendorName,
                         itemName,
                         itemSKU,
-                        UnitPrice,
-                        TotalPrice: UnitPrice * Quantity,
+                        UnitPrice: UnitPrice.toFixed(2),
+                        TotalPrice: (UnitPrice * Quantity).toFixed(2),
                         Quantity
                     };
                     getToken().then((token) => {
@@ -90,6 +90,8 @@ const ItemForm = () => {
             }
         }
     }, [DepartmentId, editCheck, getToken, history, itemName, ItemPicture, itemSKU, Quantity, UnitPrice]);
+
+    console.log(UnitPrice)
 
     const [oldUnitPrice, setOldUnitPrice] = useState(0)
 
@@ -556,7 +558,7 @@ const ItemForm = () => {
                                 className="itemUnitPrice mb-4 ml-4"
                                 id="input"
                                 name="itemUnitPrice"
-                                onChange={(e) => setItemUnitPrice(parseInt(e.target.value))}
+                                onChange={(e) => setItemUnitPrice(parseFloat(e.target.value))}
                                 required="required"
                                 style={{ width: 400, height: 35 }}
                                 type="Unit Price"
