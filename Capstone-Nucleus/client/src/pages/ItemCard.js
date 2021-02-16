@@ -12,7 +12,6 @@ const ItemCard = ({ item, getItems }) => {
 
     const currentUser = getCurrentUser();
 
-    const totalPrice = (item.unitPrice * item.quantity).toFixed(2)
 
     const deleteItem = () => {
         const deletingItem = { id: item.id }
@@ -88,7 +87,7 @@ const ItemCard = ({ item, getItems }) => {
             return ""
         }
     }
-
+    console.log(item)
     const Preview = () => {
         return <Row >
             <Col md={2} id="itemPicture" >
@@ -99,7 +98,7 @@ const ItemCard = ({ item, getItems }) => {
             <Col className="overflow-auto" id="itemName" md={2}>{item.itemName}</Col>
             <Col className="overflow-auto" id="itemSKU" md={1}>{item.itemSKU}</Col>
             <Col className="overflow-auto" id="itemPrice" md={1}>${item.unitPrice}</Col>
-            <Col className="overflow-auto" id="itemPrice" md={1}>${totalPrice}</Col>
+            <Col className="overflow-auto" id="itemPrice" md={1}>${item.totalPrice}</Col>
             <Col className="overflow-auto" id="itemQuantity" md={1}>{item.quantity}</Col>
             <Col id="itemEditAndDeleteButtons">
                 <EditAndDelete />
