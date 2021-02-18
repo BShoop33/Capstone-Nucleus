@@ -2,11 +2,11 @@
 
 namespace Capstone_Nucleus.Models
 {
-    public class GetByQuantity
+    public class GetByPrice
     {
         public int DepartmentId { get; set; }
 
-        public int TotalQuantity { get; set; }
+        public double TotalPrice { get; set; }
 
         public DateTime DateReceived { get; set; }
     }

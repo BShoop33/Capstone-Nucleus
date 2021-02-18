@@ -9,8 +9,11 @@ import "./Inventory.css";
 
 const Dashboard = () => {
     const { logout } = useContext(UserProfileContext);
+
     const history = useHistory();
-    const [count, setCount] = useState([])
+
+    const [quantity, setQuantity] = useState([])
+    const [price, setPrice] = useState([])
     const [month, setMonth] = useState([])
 
     const logoutAndReturn = () => {
@@ -21,10 +24,18 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-        fetch("/api/item/count")
+        fetch("/api/item/quantity")
             .then((res) => res.json())
-            .then((count) => {
-                setCount(count);
+            .then((quantity) => {
+                setQuantity(quantity);
+            });
+    }, []);
+
+    useEffect(() => {
+        fetch("/api/item/price")
+            .then((res) => res.json())
+            .then((price) => {
+                setPrice(price);
             });
     }, []);
 
@@ -36,26 +47,18 @@ const Dashboard = () => {
             });
     }, []);
 
-    // Total # of Items by Department YTD
+    //Total # of Items by Department YTD
     const getTotalQuantity = () => {
-        return count.map(count => count.totalQuantity)
+        return quantity.map(quantity => quantity.totalQuantity)
     };
     const totalQuantityYTD = getTotalQuantity();
-    console.log(totalQuantityYTD)
-
 
     //Total Expenditure by Department YTD
     const getTotalExpenditure = () => {
-        return count.map(count => count.totalPrice.toFixed(2))
+        return price.map(price => price.totalPrice.toFixed(2))
     };
     const totalExpenditureYTD = getTotalExpenditure();
-
-
-    //Monthly Expenditure YTD
-    const getMonthlyExpenditure = () => {
-        return month.map(month => month.monthlyTotalPrice.toFixed(2))
-    };
-    const monthlyExpenditureYTD = getMonthlyExpenditure()
+    console.log(totalExpenditureYTD)
 
 
     //Monthly Quantity YTD
@@ -64,10 +67,69 @@ const Dashboard = () => {
     };
     const monthlyQuantityYTD = getMonthlyQuantity()
 
+    //Monthly Expenditure YTD
+    const getMonthlyExpenditure = () => {
+        return month.map(month => month.monthlyTotalPrice.toFixed(2))
+    };
+    const monthlyExpenditureYTD = getMonthlyExpenditure()
 
+    let convertedQuantityDepartments = quantity.map(quantity => {
+        switch (quantity.departmentId) {
+            case 1:
+                return "Administrative Services";
+            case 2:
+                return "Anesthetics";
+            case 3:
+                return "Billing";
+            case 4:
+                return "Cardiology";
+            case 5:
+                return "Dermatology";
+            case 6:
+                return "Ear, Nose, and Throat (ENT)";
+            case 7:
+                return "Emergency Department (ED)";
+            case 8:
+                return "Environmental Services";
+            case 9:
+                return "Gastroenterology";
+            case 10:
+                return "Hematology";
+            case 11:
+                return "Human Resources (HR)";
+            case 12:
+                return "Imaging and Radiology";
+            case 13:
+                return "Information Technology (IT)";
+            case 14:
+                return "Intensive Care Unit (ICU)";
+            case 15:
+                return "Materials Management";
+            case 16:
+                return "Neonatal";
+            case 17:
+                return "Neurology";
+            case 18:
+                return "Nutrition and Dietics";
+            case 19:
+                return "Oncology";
+            case 20:
+                return "Orthopedics";
+            case 21:
+                return "Pharmacy";
+            case 22:
+                return "Physiotherapy";
+            case 23:
+                return "Records and Reception";
+            case 24:
+                return "Surgery";
+            default:
+                return "";
+        }
+    })
 
-    let convertedDepartments = count.map(count => {
-        switch (count.departmentId) {
+    let convertedPriceDepartments = price.map(price => {
+        switch (price.departmentId) {
             case 1:
                 return "Administrative Services";
             case 2:
@@ -179,7 +241,7 @@ const Dashboard = () => {
                 <div id="chartStyling" style={{ height: 600, width: 900, marginLeft: 30, marginRight: 70 }}>
                     <Doughnut
                         data={{
-                            labels: convertedDepartments,
+                            labels: convertedQuantityDepartments,
                             datasets: [{
                                 label: ["Total # of Items by Department YTD"],
                                 data: totalQuantityYTD,
@@ -232,7 +294,7 @@ const Dashboard = () => {
                 <div id="chartStyling" style={{ height: 600, width: 900 }}>
                     <Pie
                         data={{
-                            labels: convertedDepartments,
+                            labels: convertedPriceDepartments,
                             datasets: [{
                                 label: 'Expenditure $',
                                 data: totalExpenditureYTD,
