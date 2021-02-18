@@ -41,6 +41,8 @@ const Dashboard = () => {
         return count.map(count => count.totalQuantity)
     };
     const totalQuantityYTD = getTotalQuantity();
+    console.log(totalQuantityYTD)
+
 
     //Total Expenditure by Department YTD
     const getTotalExpenditure = () => {
@@ -48,17 +50,21 @@ const Dashboard = () => {
     };
     const totalExpenditureYTD = getTotalExpenditure();
 
+
     //Monthly Expenditure YTD
     const getMonthlyExpenditure = () => {
         return month.map(month => month.monthlyTotalPrice.toFixed(2))
     };
     const monthlyExpenditureYTD = getMonthlyExpenditure()
 
+
     //Monthly Quantity YTD
     const getMonthlyQuantity = () => {
         return month.map(month => month.monthlyTotalQuantity)
     };
     const monthlyQuantityYTD = getMonthlyQuantity()
+
+
 
     let convertedDepartments = count.map(count => {
         switch (count.departmentId) {
