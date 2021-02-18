@@ -11,5 +11,7 @@ namespace Capstone_Nucleus.Models
         public int TotalQuantity { get; set; }
 
         public DateTime DateReceived { get; set; }
+
+
     }
 }
