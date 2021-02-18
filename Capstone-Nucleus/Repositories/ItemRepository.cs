@@ -40,7 +40,7 @@ namespace Capstone_Nucleus.Repositories
                 .Where(f => f.DateReceived >= duration)
                 .GroupBy(i => new { i.DepartmentId })
                 .OrderBy(i => i.Key.DepartmentId)
-                .Select(i => new GetByCount { DepartmentId = i.Key.DepartmentId, TotalQuantity = i.Sum(g => g.Quantity), TotalPrice = i.Sum(g => g.UnitPrice * g.Quantity) })
+                .Select(i => new GetByCount { DepartmentId = i.Key.DepartmentId, TotalQuantity = i.Sum(g => g.Quantity), TotalPrice = i.Sum(g => g.UnitPrice * g.Quantity)})
                 .ToList();
         }
 
@@ -53,7 +53,7 @@ namespace Capstone_Nucleus.Repositories
                 .Where(f => f.DateReceived >= duration)
                 .GroupBy(i => new { i.DateReceived.Month })
                 .OrderBy(i => i.Key.Month)
-                .Select(i => new GetByMonth { DateReceived = i.Key.Month, MonthlyTotalQuantity = i.Sum(g => g.Quantity), MonthlyTotalPrice = i.Sum(g => g.UnitPrice * g.Quantity) })
+                .Select(i => new GetByMonth { DateReceived = i.Key.Month, MonthlyTotalQuantity = i.ToList().Sum(g => g.Quantity), MonthlyTotalPrice = i.ToList().Sum(g => g.UnitPrice * g.Quantity) })
                 .ToList();
         }
         

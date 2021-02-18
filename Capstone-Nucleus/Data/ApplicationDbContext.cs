@@ -8,6 +8,7 @@ namespace Capstone_Nucleus.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
+
         public DbSet<Item> Item { get; set; }
 
         public DbSet<UserProfile> UserProfile { get; set; }

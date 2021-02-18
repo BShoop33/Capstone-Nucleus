@@ -22,6 +22,7 @@ const ItemForm = () => {
     const [UnitPrice, setItemUnitPrice] = useState(0);
     const [Quantity, setItemQuantity] = useState(0);
     const [editCheck, setEditCheck] = useState(0)
+    const [oldUnitPrice, setOldUnitPrice] = useState(0)
     const [currentItem, setCurrentItem] = useState({ department: { name: "" } });
 
     const { itemId } = useParams();
@@ -90,10 +91,6 @@ const ItemForm = () => {
             }
         }
     }, [DepartmentId, editCheck, getToken, history, itemName, ItemPicture, itemSKU, Quantity, UnitPrice]);
-
-    console.log(UnitPrice)
-
-    const [oldUnitPrice, setOldUnitPrice] = useState(0)
 
     const uploadImage = async e => {
         const files = e.target.files
