@@ -61,119 +61,89 @@ const Dashboard = () => {
     const monthlyQuantityYTD = getMonthlyQuantity()
 
     let convertedDepartments = count.map(count => {
-        if (count.departmentId === 1) {
-            return "Administrative Services"
+        switch (count.departmentId) {
+            case 1:
+                return "Administrative Services";
+            case 2:
+                return "Anesthetics";
+            case 3:
+                return "Billing";
+            case 4:
+                return "Cardiology";
+            case 5:
+                return "Dermatology";
+            case 6:
+                return "Ear, Nose, and Throat (ENT)";
+            case 7:
+                return "Emergency Department (ED)";
+            case 8:
+                return "Environmental Services";
+            case 9:
+                return "Gastroenterology";
+            case 10:
+                return "Hematology";
+            case 11:
+                return "Human Resources (HR)";
+            case 12:
+                return "Imaging and Radiology";
+            case 13:
+                return "Information Technology (IT)";
+            case 14:
+                return "Intensive Care Unit (ICU)";
+            case 15:
+                return "Materials Management";
+            case 16:
+                return "Neonatal";
+            case 17:
+                return "Neurology";
+            case 18:
+                return "Nutrition and Dietics";
+            case 19:
+                return "Oncology";
+            case 20:
+                return "Orthopedics";
+            case 21:
+                return "Pharmacy";
+            case 22:
+                return "Physiotherapy";
+            case 23:
+                return "Records and Reception";
+            case 24:
+                return "Surgery";
+            default:
+                return "";
         }
-        if (count.departmentId === 2) {
-            return "Anesthetics"
-        }
-        if (count.departmentId === 3) {
-            return "Billing"
-        }
-        if (count.departmentId === 4) {
-            return "Cardiology"
-        }
-        if (count.departmentId === 5) {
-            return "Dermatology"
-        }
-        if (count.departmentId === 6) {
-            return "Ear, Nose, and Throat (ENT)"
-        }
-        if (count.departmentId === 7) {
-            return "Emergency Department (ED)"
-        }
-        if (count.departmentId === 8) {
-            return "Environmental Services"
-        }
-        if (count.departmentId === 9) {
-            return "Gastroenterology"
-        }
-        if (count.departmentId === 10) {
-            return "Hematology"
-        }
-        if (count.departmentId === 11) {
-            return "Human Resources (HR)"
-        }
-        if (count.departmentId === 12) {
-            return "Imaging and Radiology"
-        }
-        if (count.departmentId === 13) {
-            return "Information Technology (IT)"
-        }
-        if (count.departmentId === 14) {
-            return "Intensive Care Unit (ICU)"
-        }
-        if (count.departmentId === 15) {
-            return "Materials Management"
-        }
-        if (count.departmentId === 16) {
-            return "Neonatal"
-        }
-        if (count.departmentId === 17) {
-            return "Neurology"
-        }
-        if (count.departmentId === 18) {
-            return "Nutrition and Dietics"
-        }
-        if (count.departmentId === 19) {
-            return "Oncology"
-        }
-        if (count.departmentId === 20) {
-            return "Orthopedics"
-        }
-        if (count.departmentId === 21) {
-            return "Pharmacy"
-        }
-        if (count.departmentId === 22) {
-            return "Physiotherapy"
-        }
-        if (count.departmentId === 23) {
-            return "Records and Reception"
-        }
-        if (count.departmentId === 24) {
-            return "Surgery"
-        }
-        else { return "" }
     })
 
     let convertedMonths = month.map(month => {
-        if (month.dateReceived === 1) {
-            return "January"
+        switch (month.dateReceived) {
+            case 1:
+                return "January";
+            case 2:
+                return "February";
+            case 3:
+                return "March";
+            case 4:
+                return "April";
+            case 5:
+                return "May";
+            case 6:
+                return "June";
+            case 7:
+                return "July";
+            case 8:
+                return "August";
+            case 9:
+                return "September";
+            case 10:
+                return "October";
+            case 11:
+                return "November";
+            case 12:
+                return "December";
+            default:
+                return "";
         }
-        else if (month.dateReceived === 2) {
-            return "February"
-        }
-        else if (month.dateReceived === 3) {
-            return "March"
-        }
-        else if (month.dateReceived === 4) {
-            return "April"
-        }
-        else if (month.dateReceived === 5) {
-            return "May"
-        }
-        else if (month.dateReceived === 6) {
-            return "June"
-        }
-        else if (month.dateReceived === 7) {
-            return "July"
-        }
-        else if (month.dateReceived === 8) {
-            return "August"
-        }
-        else if (month.dateReceived === 9) {
-            return "September"
-        }
-        else if (month.dateReceived === 10) {
-            return "October"
-        }
-        else if (month.dateReceived === 11) {
-            return "November"
-        }
-        else if (month.dateReceived === 12) {
-            return "December"
-        }
-        else { return "" }
     })
 
     return (

@@ -30,7 +30,7 @@ namespace Capstone_Nucleus.Models
         public double UnitPrice { get; set; }
 
         public double TotalPrice { get; set; }
-
+        
         [Required]
         public int Quantity { get; set; }
 
