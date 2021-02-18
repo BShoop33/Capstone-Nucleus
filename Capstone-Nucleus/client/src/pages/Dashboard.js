@@ -272,6 +272,10 @@ const Dashboard = () => {
                                 text: "Total Expenditure by Department YTD",
                                 fontColor: 'black',
                                 fontSize: '18'
+                            },
+                            legend: {
+                                display: true,
+                                position: 'left',
                             }
                         }}
                     ></Pie>
