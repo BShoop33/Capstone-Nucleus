@@ -9,7 +9,11 @@ namespace Capstone_Nucleus.Repositories
 
         List<Item> Get();
 
-        public List<GetByCount> GetByCount();
+        public List<GetByQuantity> GetByQuantity();
+
+        public List<GetByPrice> GetByPrice();
+
+
 
         public List<GetByMonth> GetByMonth();
 

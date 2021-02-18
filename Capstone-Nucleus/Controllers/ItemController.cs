@@ -37,16 +37,31 @@ namespace Capstone_Nucleus.Controllers
             return Ok(items);
         }
 
-        [HttpGet("count")]
-        public IActionResult GetByCount()
+        [HttpGet("quantity")]
+        public IActionResult GetByQuantity()
         {
-            var item = _itemRepo.GetByCount();
+            var item = _itemRepo.GetByQuantity();
             if (item == null)
             {
                 return NotFound();
             }
             return Ok(item);
         }
+
+        [HttpGet("price")]
+        public IActionResult GetByPrice()
+        {
+            var item = _itemRepo.GetByPrice();
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item);
+        }
+
+
+
+
 
         [HttpGet("month")]
         public IActionResult GetByMonth()

@@ -2,8 +2,7 @@
 
 namespace Capstone_Nucleus.Models
 {
-    public class GetByCount
-    {
+    public class GetByCount { 
         public double TotalPrice { get; set; }
 
         public int DepartmentId { get; set; }
@@ -11,7 +10,5 @@ namespace Capstone_Nucleus.Models
         public int TotalQuantity { get; set; }
 
         public DateTime DateReceived { get; set; }
-
-
     }
 }
