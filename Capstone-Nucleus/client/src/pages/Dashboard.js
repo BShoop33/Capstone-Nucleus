@@ -223,6 +223,7 @@ const Dashboard = () => {
                             },
                             legend: {
                                 display: true,
+                                position: 'left',
                             }
                         }}
                     ></Doughnut>
