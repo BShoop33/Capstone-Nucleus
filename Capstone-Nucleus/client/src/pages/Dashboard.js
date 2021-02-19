@@ -16,6 +16,7 @@ const Dashboard = () => {
     const [price, setPrice] = useState([])
     const [month, setMonth] = useState([])
     const [quantityYTD, setTotalQuantityYTD] = useState(0)
+    const [priceYTD, setTotalPriceYTD] = useState(0)
 
     const logoutAndReturn = () => {
         return logout().then(() => {
@@ -59,6 +60,21 @@ const Dashboard = () => {
                     console.log(`quantityYTD = ${quantityYTD}`)
                     const quantityFloor = quantity.filter(quantity => quantity.totalQuantity >= quantityYTD)
                     setQuantity(quantityFloor);
+                }
+            });
+    }, [quantity, quantityYTD]);
+
+    useEffect(() => {
+        fetch("/api/item/price")
+            .then((res) => res.json())
+            .then((price) => {
+                if (priceYTD === 0) {
+                    console.log(`quantityYTD = ${quantityYTD}`)
+                    setPrice(price);
+                } else {
+                    console.log(`quantityYTD = ${quantityYTD}`)
+                    const priceFloor = price.filter(price => price.totalPrice >= priceYTD)
+                    setPrice(priceFloor);
                 }
             });
     }, [quantity, quantityYTD]);
@@ -330,17 +346,23 @@ const Dashboard = () => {
                 <div id="chartStyling" style={{ height: 750, width: 900 }}>
                     <Row className="justify-content-md-left" style={{ marginTop: -12, marginLeft: 15 }}>
                         <label
-                            className="priceFloor text-left mr-n5"
+                            className="priceFloor text-left mr-n1"
                             id="input"
-                            style={{ width: 200, height: 5, marginTop: 2, fontSize: 18 }}
-                        >Price Floor:
+                            style={{ width: 725, height: 5, marginTop: 2, fontSize: 18 }}
+                        >Price Floor <span style={{ fontSize: 17 }}>(enter a number to hide departments with lower expenditures)</span>:
                         </label>
-                        <input
+                        <FormControl
+                            type="text"
                             className="priceFloorInput mb-4 ml-n5"
-                            placeholder={"Enter a number to hide all departments that have a smaller expenditure YTD"}
                             id="input"
-                            // onChange= ({ }
-                            style={{ width: 625, height: 35, fontSize: 18 }}
+                            name="quantityFloorValue"
+                            onKeyUp={
+                                (keyEvent) => {
+                                    setTotalPriceYTD(keyEvent.target.value)
+                                }
+                            }
+                            defaultValue={0}
+                            style={{ width: 75, height: 35, fontSize: 18 }}
                         />
                     </Row>
 
