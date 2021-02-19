@@ -2,7 +2,6 @@ import React, { useContext } from "react"
 import { useHistory } from "react-router-dom"
 import { Button, Col, Row } from "react-bootstrap"
 import { UserProfileContext } from "../providers/UserProfileProvider";
-import ReactImageMagnify from 'react-image-magnify';
 
 const ItemCard = ({ item, getItems }) => {
 
