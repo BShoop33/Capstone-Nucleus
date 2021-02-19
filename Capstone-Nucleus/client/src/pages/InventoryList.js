@@ -87,9 +87,9 @@ const InventoryList = () => {
             });
     }, []);
 
-    useEffect(() => {
-        setSearchTerms("")
-    }, [setSearchTerms])
+    // useEffect(() => {
+    //     setSearchTerms("")
+    // }, [setSearchTerms])
 
     return (
         <>
