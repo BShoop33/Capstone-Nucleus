@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Bar, Doughnut, Line, Pie } from 'react-chartjs-2';
-import { Button, Container, Nav, Navbar, Row } from 'react-bootstrap'
+import { Button, Container, FormControl, Nav, Navbar, Row } from 'react-bootstrap'
 import { toast } from "react-toastify";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,6 +15,7 @@ const Dashboard = () => {
     const [quantity, setQuantity] = useState([])
     const [price, setPrice] = useState([])
     const [month, setMonth] = useState([])
+    const [quantityYTD, setTotalQuantityYTD] = useState(0)
 
     const logoutAndReturn = () => {
         return logout().then(() => {
@@ -27,7 +28,7 @@ const Dashboard = () => {
         fetch("/api/item/quantity")
             .then((res) => res.json())
             .then((quantity) => {
-                setQuantity(quantity);
+                setQuantity(quantity)
             });
     }, []);
 
@@ -47,6 +48,21 @@ const Dashboard = () => {
             });
     }, []);
 
+    useEffect(() => {
+        fetch("/api/item/quantity")
+            .then((res) => res.json())
+            .then((quantity) => {
+                if (quantityYTD === 0) {
+                    console.log(`quantityYTD = ${quantityYTD}`)
+                    setQuantity(quantity);
+                } else {
+                    console.log(`quantityYTD = ${quantityYTD}`)
+                    const quantityFloor = quantity.filter(quantity => quantity.totalQuantity >= quantityYTD)
+                    setQuantity(quantityFloor);
+                }
+            });
+    }, [quantity, quantityYTD]);
+
     //Total # of Items by Department YTD
     const getTotalQuantity = () => {
         return quantity.map(quantity => quantity.totalQuantity)
@@ -58,8 +74,6 @@ const Dashboard = () => {
         return price.map(price => price.totalPrice.toFixed(2))
     };
     const totalExpenditureYTD = getTotalExpenditure();
-    console.log(totalExpenditureYTD)
-
 
     //Monthly Quantity YTD
     const getMonthlyQuantity = () => {
@@ -238,7 +252,29 @@ const Dashboard = () => {
                 </Navbar>
             </Container>
             <Row>
-                <div id="chartStyling" style={{ height: 600, width: 900, marginLeft: 30, marginRight: 70 }}>
+                <div id="chartStyling" style={{ height: 750, width: 900, marginLeft: 30, marginRight: 70 }}>
+                    <Row className="justify-content-md-left" style={{ marginTop: -12, marginLeft: 15 }}>
+                        <label
+                            className="quantityFloor text-left mr-n1"
+                            id="input"
+                            style={{ width: 700, height: 5, marginTop: 2, fontSize: 18 }}
+                        >Quantity Floor <span style={{ fontSize: 17 }}>(enter a number to hide departments with fewer items)</span>:
+                        </label>
+                        <FormControl
+                            type="text"
+                            className="quantityFloorInput mb-4 ml-n5"
+                            id="input"
+                            name="quantityFloorValue"
+                            onKeyUp={
+                                (keyEvent) => {
+                                    setTotalQuantityYTD(keyEvent.target.value)
+                                }
+                            }
+                            defaultValue={0}
+                            style={{ width: 75, height: 35, fontSize: 18 }}
+                        />
+                    </Row>
+
                     <Doughnut
                         data={{
                             labels: convertedQuantityDepartments,
@@ -291,7 +327,23 @@ const Dashboard = () => {
                     ></Doughnut>
                 </div>
 
-                <div id="chartStyling" style={{ height: 600, width: 900 }}>
+                <div id="chartStyling" style={{ height: 750, width: 900 }}>
+                    <Row className="justify-content-md-left" style={{ marginTop: -12, marginLeft: 15 }}>
+                        <label
+                            className="priceFloor text-left mr-n5"
+                            id="input"
+                            style={{ width: 200, height: 5, marginTop: 2, fontSize: 18 }}
+                        >Price Floor:
+                        </label>
+                        <input
+                            className="priceFloorInput mb-4 ml-n5"
+                            placeholder={"Enter a number to hide all departments that have a smaller expenditure YTD"}
+                            id="input"
+                            // onChange= ({ }
+                            style={{ width: 625, height: 35, fontSize: 18 }}
+                        />
+                    </Row>
+
                     <Pie
                         data={{
                             labels: convertedPriceDepartments,

@@ -87,7 +87,6 @@ const ItemCard = ({ item, getItems }) => {
             return ""
         }
     }
-    console.log(item)
 
     const totalPrice = item.totalPrice.toFixed(2)
 
