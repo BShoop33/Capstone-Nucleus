@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
-import { Redirect, useHistory, useParams } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 import { Button, Col, Jumbotron, Row } from "react-bootstrap"
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import 'react-toastify/dist/ReactToastify.css';
@@ -21,9 +21,29 @@ const EditProfile = () => {
 
     const [user, setUser] = useState({});
 
+    /*on initial page load, authenticates using the firebase bearer token and then performs a GET operation that retrieves from SQL Server
+    the user profile object that has an id value matching the number in the route parameter. After retrieving that user profile object, 
+    this hook then uses the useState hook to initialize the user variable with the user profile object.*/
+    useEffect(() => {
+        getToken()
+            .then((token) =>
+                fetch(`/api/userprofile/editprofile/${id}`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+            )
+            .then((res) => res.json())
+            .then((user) => {
+                setUser(user);
+            })
+    }, [id]);
 
-
-
+    /*when invoked, initializes the newUserProfile variable with a new user profile object containing values for its required properties. 
+    The values for those properties are set by the firstName, lastName, and displayName inputs in addition to values from the database for 
+    unchanged properties. Then this function carries out an authenticated PUT operation using the firebase bearer token for auth. After 
+    that PUT operation concludes, the function finally navigates the user to the home page using the history hook*/
     const editProfile = () => {
         const newUserProfile = {
             id: user.id,
@@ -51,30 +71,18 @@ const EditProfile = () => {
         );
     };
 
-    useEffect(() => {
-        getToken()
-            .then((token) =>
-                fetch(`/api/userprofile/editprofile/${id}`, {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-            )
-            .then((res) => res.json())
-            .then((user) => {
-                setUser(user);
-            })
-    }, [id]);
-
     return (
+        /*ternary evaluation that checks whether the user's id in the SQL Server database, as returned by the above useEffect hook,
+        matches the currentUser's id as listed in local session storage*/
         user.id === currentUser.id ?
+            //page returned if the route parameter matches the current user's id
             <>
                 <h1 className="my-5">Edit Profile</h1>
                 <hr />
                 <Row>
                     <Col></Col>
                     <Col className="ml-5" id="textInputs">
+                        {/* First Name input */}
                         <p id="requiredProfile" className="mb-1"><i>* Required</i></p>
                         <Row className="justify-content-md-left mb-4 mt-1" >
                             <label
@@ -82,7 +90,7 @@ const EditProfile = () => {
                                 id="input"
                                 style={{ height: 5, width: 200 }}
                             >First Name:
-                        </label>
+                            </label>
                             <input
                                 className="firstNameInput ml-4"
                                 defaultValue={user.firstName}
@@ -94,6 +102,7 @@ const EditProfile = () => {
                             />
                         </Row>
 
+                        {/* Last Name input */}
                         <p id="requiredProfile" className="mb-1"><i>* Required</i></p>
                         <Row className="justify-content-md-left mb-4 mt-1" >
                             <label
@@ -101,7 +110,7 @@ const EditProfile = () => {
                                 id="input"
                                 style={{ height: 5, width: 200 }}
                             >Last Name:
-                        </label>
+                            </label>
                             <input
                                 className="lastNameInput ml-4"
                                 defaultValue={user.lastName}
@@ -114,13 +123,14 @@ const EditProfile = () => {
                         </Row>
 
                         <p id="requiredProfile" className="mb-1"><i>* Required</i></p>
+                        {/* Display Name input */}
                         <Row className="justify-content-md-left mb-4 mt-1">
                             <label
                                 className="displayName text-left"
                                 id="input"
                                 style={{ height: 5, width: 200 }}
                             >Display Name:
-                        </label>
+                            </label>
                             <input
                                 className="displayName ml-4"
                                 defaultValue={user.displayName}
@@ -133,6 +143,7 @@ const EditProfile = () => {
                         </Row>
 
                         <Row className="justify-content-md-left mb-4" style={{ marginTop: 20 }}>
+                            {/* Save Edits Button */}
                             <Button
                                 id="input"
                                 onClick={item => {
@@ -144,8 +155,9 @@ const EditProfile = () => {
                                 type="button"
                                 variant="success"
                             >Save Edits
-                        </Button>
+                            </Button>
 
+                            {/* Cancel Button */}
                             <Button
                                 id="input"
                                 onClick={() => {
@@ -155,21 +167,21 @@ const EditProfile = () => {
                                 type="submit"
                                 variant="danger"
                             >Cancel
-                        </Button>
+                            </Button>
                         </Row>
                     </Col>
                     <Col></Col>
                 </Row>
             </> :
+            //404 page returned if the user enters a route parameter that does not match the current user's id
             <>
                 <Jumbotron>
                     <h1>404 Not Found</h1>
                 </Jumbotron>
                 <Row style={{ height: 100 }}></Row>
-                <Col md={3}></Col>
-                <Col md={3}>
+                <Col md={4} style={{ width: 550 }}></Col>
+                <Col md={2}>
                     <Jumbotron style={{ width: 800, height: 225, textAlign: "center" }}>
-
                         <h2>The page you're looking for could not be found.</h2>
                         <Button
                             className="mt-5"
@@ -177,10 +189,10 @@ const EditProfile = () => {
                             style={{ height: 70, width: 300, fontSize: 18 }}
                         >
                             Return to Homepage
-                    </Button>
+                        </Button>
                     </Jumbotron>
                 </Col>
-                <Col md={3}></Col>
+                <Col md={2}></Col>
             </>
     );
 }

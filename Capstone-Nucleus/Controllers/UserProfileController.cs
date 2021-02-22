@@ -34,7 +34,9 @@ namespace Capstone_Nucleus.Controllers
         public IActionResult Get(int id)
         {
             var currentUser = _userProfileRepo.GetById(id);
-            if (currentUser == null)
+
+            var user = GetCurrentUserProfile();
+            if (user.Id != id)
             {
                 return NotFound();
             }
