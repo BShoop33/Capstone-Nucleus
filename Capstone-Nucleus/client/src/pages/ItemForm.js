@@ -34,6 +34,33 @@ const ItemForm = () => {
     const quantityEdit = useRef();
     const unitPriceAdd = useRef();
 
+    /*This async function first initializes the files variable with the value of the image upload. Then initializes the data variable
+    with an instance of the FormData built-in function. Then attaches the first uploaded file (you could configure the upload to attach
+    multiple files but that's not used in this application) and sets the data's settings use the existing Cloudinary upload preset and 
+    to save the image in the ToolMeOnce folder on Cloudinary. Then defines the fetch function as a POST operation and saves as its body
+    the data object. Then initializes the file variable with the json formated response from Cloudinary. Then uses the useState to set
+    the value of the ItemPicture variable with the secure usl property from the file object that Cloudinary returned)*/
+    const uploadImage = async e => {
+        const files = e.target.files
+        const data = new FormData()
+        data.append('file', files[0])
+        data.append('upload_preset', 'ToolMeOnce')
+        setLoading(true)
+        const res = await fetch(
+            'https://api.cloudinary.com/v1_1/dstfvbrwf/image/upload',
+            {
+                method: 'POST',
+                body: data
+            }
+        )
+        const file = await res.json()
+        setImage(file.secure_url)
+        setLoading(false)
+    }
+
+    /*Evaluates whether the itemId (declared from the route parameter) is undefined. If it is undefined, then fetches the item
+    matching that itemId parameter. Then saves that item return in json format. Then uses the useState hook to declare the currentItem
+    variable with the returned item object.*/
     useEffect(() => {
         if (itemId !== undefined) {
             fetch(`/api/item/${itemId}`)
@@ -44,6 +71,13 @@ const ItemForm = () => {
         }
     }, []);
 
+    /*Evaluates whether editCheck does not equal 0. If it does not, then evaluates whetehr editCheck does not equal 0 and -1. If it 
+    does not equal those values, then invokes the editUniqueItem function passing it the editCheck value. If edit check does equal
+    0 or -1, then performs a series of evaluations to ensure the DepartmentId, vendorName, itemName, itemSKU, UnitPrice, and Quantity
+    variables do not have blank or otherwise in appropriate values. If those variables pass those evaluations, then the item object
+    is assembled using those values. Then the fetch operation is performed using the firebase bearer token for auth. That fetch
+    operation performs a POST call sending the item object in json format as the body of the call. Then the editCheck value is 
+    declared as 0 and the user is naviaged back to the inventory page.*/
     useEffect(() => {
         if (editCheck !== 0) {
             if (editCheck !== 0 && editCheck !== -1) {
@@ -92,24 +126,16 @@ const ItemForm = () => {
         }
     }, [DepartmentId, editCheck, getToken, history, itemName, ItemPicture, itemSKU, Quantity, UnitPrice]);
 
-    const uploadImage = async e => {
-        const files = e.target.files
-        const data = new FormData()
-        data.append('file', files[0])
-        data.append('upload_preset', 'ToolMeOnce')
-        setLoading(true)
-        const res = await fetch(
-            'https://api.cloudinary.com/v1_1/dstfvbrwf/image/upload',
-            {
-                method: 'POST',
-                body: data
-            }
-        )
-        const file = await res.json()
-        setImage(file.secure_url)
-        setLoading(false)
-    }
-
+    /*When invoked, performs a fetch operation with a firebase bearer token for auth. That fetch operation performs a GET call
+    that returns all items. Those items are then saved in the json format. initializes the itemCheck variable with the value of 
+    0. Then performs a map method on the items array to evaluate whether the following user input values match the returned items'
+    values:  itemSKU, DepartmentId, and vendorName. If those values do match the total variable is initialized with the value produced
+    by multiplying the user's quantity input by the returned item's quantity value. The useState hook is then used to declare the 
+    Quantity variable with the value of the total variable and to declare the oldUnitPrice variable with the value of the returned 
+    item's unit price. Then declares the itemCheck variable with the id of the returned item. Finally, evaluates whether the 
+    itemCheck variable does not equal 0. If it does not, then uses the useState hook to declare the editCheck variable with the 
+    value of the itemCheck variable. If it does equal 0, then uses the useState hook to declare the editCheck variable with the 
+    value of -1.*/
     const getItems = () => {
         getToken().then((token) =>
             fetch(`/api/item`, {
@@ -141,7 +167,11 @@ const ItemForm = () => {
         );
     };
 
-    //adding item with previous entries
+    /*This function is used where the values of DepartmentId, vendorName, itemName, and itemSKU match between a newly entered
+    item and an already existing item. When those values match, this function combines the newly entered item values to the 
+    existing item's values. That combined item is assembled and then a fetch call is performed using the firebase bearer token
+    for auth.That fetch call performs a PUT call that updates the already existing item with the item values, in json format,
+    that were assembled. Then the user is navigated to the inventory page.*/
     const editUniqueItem = (id) => {
         const item = {
             Id: id,
@@ -168,7 +198,10 @@ const ItemForm = () => {
         );
     };
 
-    //actual edit item
+    /*When invoked, assembles an item from the values the user input. Then performs a fetch operation using the
+    firebase bearer token for auth. That fetch operation performs a PUT call that carries the assembled item in 
+    json format in its body to update the existing item with the values the user input. Then navigates the user
+    to the inventory page.*/
     const editItem = () => {
         const item = {
             Id: itemId,
@@ -195,14 +228,20 @@ const ItemForm = () => {
         );
     };
 
-    const handleClick = event => {
+    /*When invoked, activates the item picture file input. The input itself is hidden for styling purposes with its
+    activating functionality moved to the imageUploadButton button.*/
+    const handleClick = (e) => {
         hiddenFileInput.current.click();
     };
 
+    /*When invoked, declares the Value variable with the value the user selected in the department dropdown. That Value
+    variable is then used as the title for the dropdown to display.*/
     const handleSelect = (e) => {
         setValue(e)
     }
 
+    /*Evaluates whether the itemId route parameter is present. If it is, then returns the edit item view for rendering on the
+    DOM. If it is not, then returns the add item view for rendering on the DOM.*/
     if (itemId) {
         return (
             <>
@@ -414,7 +453,11 @@ const ItemForm = () => {
                                     <h3 className="NewToolPictureLoading">Loading . . .</h3>
                                 ) : (
                                         ItemPicture === "" ?
-                                            <img alt="Logo" src="https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif" style={{ width: 400, height: 300 }} />
+                                            <img
+                                                alt="Logo"
+                                                src="https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif"
+                                                style={{ width: 400, height: 300 }}
+                                            />
                                             :
                                             <img
                                                 alt="Preview"

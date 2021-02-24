@@ -94,19 +94,11 @@ namespace Capstone_Nucleus.Controllers
         [HttpPut("edititem/{id}")]
         public IActionResult Put(Item item)
         {
-            var currentUser = GetCurrentUserProfile();
-            if (currentUser.Id != 1)
-            {
-                return NotFound();
-            }
-            else
-            {
-                var user = GetCurrentUserProfile();
-                item.UserProfileId = user.Id;
-                item.DateReceived = DateTime.Now;
-                _itemRepo.Update(item);
-                return NoContent();
-            }
+            var user = GetCurrentUserProfile();
+            item.UserProfileId = user.Id;
+            item.DateReceived = DateTime.Now;
+            _itemRepo.Update(item);
+            return NoContent();
         }
 
         [HttpDelete("deleteitem/{id}")]
