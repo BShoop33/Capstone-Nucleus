@@ -59,10 +59,6 @@ namespace Capstone_Nucleus.Controllers
             return Ok(item);
         }
 
-
-
-
-
         [HttpGet("month")]
         public IActionResult GetByMonth()
         {
