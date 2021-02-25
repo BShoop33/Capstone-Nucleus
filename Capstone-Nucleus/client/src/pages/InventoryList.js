@@ -9,6 +9,8 @@ import "./Inventory.css";
 
 const InventoryList = () => {
 
+    const { getCurrentUser, getToken, logout } = useContext(UserProfileContext);
+
     const history = useHistory();
 
     const [filteredItems, setFiltered] = useState([])
@@ -17,8 +19,6 @@ const InventoryList = () => {
     const [locationFilterValue, setItemLocation] = useState(0)
     const [searchTerms, setSearchTerms] = useState('')
     const [value, setValue] = useState('');
-
-    const { getCurrentUser, getToken, logout } = useContext(UserProfileContext);
 
     const currentUser = getCurrentUser();
 
@@ -86,10 +86,6 @@ const InventoryList = () => {
                 setItems(items);
             });
     }, []);
-
-    // useEffect(() => {
-    //     setSearchTerms("")
-    // }, [setSearchTerms])
 
     return (
         <>

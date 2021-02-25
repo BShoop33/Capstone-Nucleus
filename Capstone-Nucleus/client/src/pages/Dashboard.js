@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Inventory.css";
 
 const Dashboard = () => {
+
     const { logout } = useContext(UserProfileContext);
 
     const history = useHistory();
@@ -18,6 +19,8 @@ const Dashboard = () => {
     const [quantityYTD, setTotalQuantityYTD] = useState(0)
     const [priceYTD, setTotalPriceYTD] = useState(0)
 
+    /*When invoked, invokes the logout function, which logs the user out of Nucleus. Then initiates a toast to let the user
+    know they are logged out and navigates the user to the login page*/
     const logoutAndReturn = () => {
         return logout().then(() => {
             toast.dark("You are now logged out");
@@ -25,84 +28,35 @@ const Dashboard = () => {
         });
     };
 
-    useEffect(() => {
-        fetch("/api/item/quantity")
-            .then((res) => res.json())
-            .then((quantity) => {
-                setQuantity(quantity)
-            });
-    }, []);
-
-    useEffect(() => {
-        fetch("/api/item/price")
-            .then((res) => res.json())
-            .then((price) => {
-                setPrice(price);
-            });
-    }, []);
-
-    useEffect(() => {
-        fetch("/api/item/month")
-            .then((res) => res.json())
-            .then((month) => {
-                setMonth(month);
-            });
-    }, []);
-
-    useEffect(() => {
-        fetch("/api/item/quantity")
-            .then((res) => res.json())
-            .then((quantity) => {
-                if (quantityYTD === 0) {
-                    console.log(`quantityYTD = ${quantityYTD}`)
-                    setQuantity(quantity);
-                } else {
-                    console.log(`quantityYTD = ${quantityYTD}`)
-                    const quantityFloor = quantity.filter(quantity => quantity.totalQuantity >= quantityYTD)
-                    setQuantity(quantityFloor);
-                }
-            });
-    }, [quantity, quantityYTD]);
-
-    useEffect(() => {
-        fetch("/api/item/price")
-            .then((res) => res.json())
-            .then((price) => {
-                if (priceYTD === 0) {
-                    console.log(`quantityYTD = ${quantityYTD}`)
-                    setPrice(price);
-                } else {
-                    console.log(`quantityYTD = ${quantityYTD}`)
-                    const priceFloor = price.filter(price => price.totalPrice >= priceYTD)
-                    setPrice(priceFloor);
-                }
-            });
-    }, [quantity, quantityYTD]);
-
-    //Total # of Items by Department YTD
+    /*(Total # of Items by Department YTD) When invoked, returns the totalQuantity value of each item. Then saves those values in the
+    totalQuantityYTD variable.*/
     const getTotalQuantity = () => {
         return quantity.map(quantity => quantity.totalQuantity)
     };
     const totalQuantityYTD = getTotalQuantity();
 
-    //Total Expenditure by Department YTD
+    /*(Total Expenditure by Department YTD) When invoked, returns the totalPrice value of each item. Then saves those values in the
+    totalExpenditureYTD variable.*/
     const getTotalExpenditure = () => {
         return price.map(price => price.totalPrice.toFixed(2))
     };
     const totalExpenditureYTD = getTotalExpenditure();
 
-    //Monthly Quantity YTD
+    /*(Monthly Quantity YTD) When invoked, returns the monthly sum of total item quantities. Then saves those values in the
+    monthlyQuantityYTD variable.*/
     const getMonthlyQuantity = () => {
         return month.map(month => month.monthlyTotalQuantity)
     };
     const monthlyQuantityYTD = getMonthlyQuantity()
 
-    //Monthly Expenditure YTD
+    /*(Monthly Expenditure YTD) When invoked, returns the monthly sum of total item expenditures. Then saves those values in the
+    monthlyQuantityYTD variable.*/
     const getMonthlyExpenditure = () => {
         return month.map(month => month.monthlyTotalPrice.toFixed(2))
     };
     const monthlyExpenditureYTD = getMonthlyExpenditure()
 
+    //For total quantity, converts the numerical values for departments to department names
     let convertedQuantityDepartments = quantity.map(quantity => {
         switch (quantity.departmentId) {
             case 1:
@@ -158,6 +112,7 @@ const Dashboard = () => {
         }
     })
 
+    //For total price, converts the numerical values for departments to department names
     let convertedPriceDepartments = price.map(price => {
         switch (price.departmentId) {
             case 1:
@@ -213,6 +168,7 @@ const Dashboard = () => {
         }
     })
 
+    //Converts the numerical values for month of date received to named months
     let convertedMonths = month.map(month => {
         switch (month.dateReceived) {
             case 1:
@@ -244,6 +200,72 @@ const Dashboard = () => {
         }
     })
 
+    /*On page load, the total quantities grouped by department and declares them in json format as the value for the quantity variable. This 
+    useEffect hook only loads once.*/
+    useEffect(() => {
+        fetch("/api/item/quantity")
+            .then((res) => res.json())
+            .then((quantity) => {
+                setQuantity(quantity)
+            });
+    }, []);
+
+    /*On page load, fetches the total prices grouped by department and declares them in json format as the value for the price variable. This 
+    useEffect hook only loads once.*/
+    useEffect(() => {
+        fetch("/api/item/price")
+            .then((res) => res.json())
+            .then((price) => {
+                setPrice(price);
+            });
+    }, []);
+
+    /*On page load, fetches all item monthly total quantities and monthly total prices grouped by the month of the date received within 
+    the past 12 months and declares them in json format as the value for the month variable. This useEffect hook only loads once.*/
+    useEffect(() => {
+        fetch("/api/item/month")
+            .then((res) => res.json())
+            .then((month) => {
+                setMonth(month);
+            });
+    }, []);
+
+    /*(Quantity Floor Filter). On page load, fetches all item quantities and converts them into json format. Then performs an evaluation to 
+    determine whether the value the user entered (quantityYTD) is 0. If it is, then this filter is not applied so all quantities within the 
+    past 12 months are declared as the value for the quantity variable. If it is not, then the quantityFloor variable is initialized with 
+    the value of the filtered item quantities, which are all item quantities greater than or equal to the value the user entered. This 
+    useEffect hook loads any time the quantity or quantityYTD variables change state using the useState hook.*/
+    useEffect(() => {
+        fetch("/api/item/quantity")
+            .then((res) => res.json())
+            .then((quantity) => {
+                if (quantityYTD === 0) {
+                    setQuantity(quantity);
+                } else {
+                    const quantityFloor = quantity.filter(quantity => quantity.totalQuantity >= quantityYTD)
+                    setQuantity(quantityFloor);
+                }
+            });
+    }, [quantity, quantityYTD]);
+
+    /*(Price Floor Filter). On page load, fetches all item prices and converts them into json format. Then performs an evaluation to 
+    determine whether the value the user entered (priceYTD) is 0. If it is, then this filter is not applied so all prices within the 
+    past 12 months are declared as the value for the price variable. If it is not, then the priceFloor variable is initialized with 
+    the value of the filtered item prices, which are all item prices greater than or equal to the value the user entered. This 
+    useEffect hook loads any time the price or priceYTD variables change state using the useState hook.*/
+    useEffect(() => {
+        fetch("/api/item/price")
+            .then((res) => res.json())
+            .then((price) => {
+                if (priceYTD === 0) {
+                    setPrice(price);
+                } else {
+                    const priceFloor = price.filter(price => price.totalPrice >= priceYTD)
+                    setPrice(priceFloor);
+                }
+            });
+    }, [quantity, quantityYTD]);
+
     return (
         <>
             <Container fluid>
@@ -268,6 +290,7 @@ const Dashboard = () => {
                 </Navbar>
             </Container>
             <Row>
+                {/* Total Quantity by Department YTD Doughnut Chart */}
                 <div id="chartStyling" style={{ height: 750, width: 900, marginLeft: 30, marginRight: 70 }}>
                     <Row className="justify-content-md-left" style={{ marginTop: -12, marginLeft: 15 }}>
                         <label
@@ -343,6 +366,7 @@ const Dashboard = () => {
                     ></Doughnut>
                 </div>
 
+                {/* Total Price by Department YTD Chart */}
                 <div id="chartStyling" style={{ height: 750, width: 900 }}>
                     <Row className="justify-content-md-left" style={{ marginTop: -12, marginLeft: 15 }}>
                         <label
@@ -418,6 +442,7 @@ const Dashboard = () => {
                 </div>
             </Row>
 
+            {/* Total Quantity for Hospital by Month Chart */}
             <Row style={{ marginTop: 25, marginBottom: 75 }}>
                 <div id="chartStyling" style={{ height: 600, width: 900, marginLeft: 30, marginRight: 70 }}>
                     <Bar
@@ -471,6 +496,7 @@ const Dashboard = () => {
                     ></Bar>
                 </div>
 
+                {/* Total Expenditure for Hospital by Month Chart */}
                 <div id="chartStyling" style={{ height: 600, width: 900 }}>
                     <Line
                         data={{

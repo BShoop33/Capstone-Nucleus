@@ -31,20 +31,6 @@ namespace Capstone_Nucleus.Repositories
                 .ToList();
         }
 
-        //public List<GetByCount> GetByCount()
-        //{
-        //    var todaysDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
-        //    var duration = todaysDate.AddMonths(-12);
-        //    return _context.Item
-        //        .Where(g => g.IsActive)
-        //        .Where(f => f.DateReceived >= duration)
-        //        .GroupBy(i => new { i.DepartmentId })
-        //        .OrderBy(i => i.Key.DepartmentId)
-        //        .Select(i => new GetByCount { DepartmentId = i.Key.DepartmentId, TotalQuantity = i.Sum(g => g.Quantity), TotalPrice = i.Sum(g => g.UnitPrice * g.Quantity) })
-        //        .OrderByDescending(o => o.TotalQuantity)
-        //        .ToList();
-        //}
-
         public List<GetByQuantity> GetByQuantity()
         {
             var todaysDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
@@ -72,16 +58,6 @@ namespace Capstone_Nucleus.Repositories
                  .OrderByDescending(q => q.TotalPrice)
                 .ToList();
         }
-
-
-
-
-
-
-
-
-
-
 
         public List<GetByMonth> GetByMonth()
         {
