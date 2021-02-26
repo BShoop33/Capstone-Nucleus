@@ -22,10 +22,14 @@ const InventoryList = () => {
 
     const currentUser = getCurrentUser();
 
+    /*When invoked, declares the value variable with the value the user selected from the department dropdown so that 
+    value will appear as the dropdown menu's title.*/
     const handleSelect = (e) => {
         setValue(e)
     }
 
+    /*When invoked, invokes the logout function to log the user out of Nucleus. Then renders a toast message to  let
+    the user know they are logged out and navigates the user to the login page.*/
     const logoutAndReturn = () => {
         return logout().then(() => {
             toast.dark("You are now logged out");
@@ -33,6 +37,9 @@ const InventoryList = () => {
         });
     };
 
+    /*When invoked, performs a fetch call using the firebase bearer token for auth. This fetch call performs a GET
+    operation that returns all items in the database. Then converts those objects into json format and declares them
+    as the value for the items variable.*/
     const getItems = () => {
         getToken().then((token) =>
             fetch(`/api/item`, {
@@ -48,25 +55,14 @@ const InventoryList = () => {
         );
     };
 
-    const Results = () => {
-        if (value !== "") {
-            return <Button
-                className="ClearFilterButton"
-                id="removeFilterButton"
-                onClick={() => {
-                    setValue("")
-                    setHideSearch(false)
-                }}
-                type="button"
-                variant="warning"
-            >Remove Filter
-                </Button>;
-        }
-        else {
-            return <div className="ClearFilterButton" id="removeFilterButton"></div>;
-        }
-    }
-
+    /*Evaluates whether the searchTerms value, which is entered by the user, is not blank. If it is not, then initializes
+    the subset value with the items objects that include the searchTerms the user input. Then declares the filteredItems
+    variable with the those filtered objects as its value. If the value of searchTerms is blank, then evaluates whether 
+    the value of the value variable is not blank. If it is not, then initializes the subset2 value with the items objects 
+    that include the searchTerms the user input. Then declares the filteredItems variable with the those filtered objects 
+    as its value. If the values of both the searchTerms and value variables are blank, then declares the filteredItems 
+    variable with the value of all items returned by the getItems function. This useEffect hook runs whenever the values 
+    for the items, locationFilterValue, searchTerms, or value variables change state.*/
     useEffect(() => {
         if (searchTerms !== "") {
             const subset = items.filter(items => items.itemName.toLowerCase().includes(searchTerms.toLowerCase().trim()))
@@ -79,6 +75,9 @@ const InventoryList = () => {
         }
     }, [items, locationFilterValue, searchTerms, value])
 
+    /*Performs a fetch call that returns all items in the items table. Then converts that response to json format and
+    declares the items variable with the array of those returned items objects as its value. This useEffect hook runs 
+    whenever the page first loads, and it only runs once.*/
     useEffect(() => {
         fetch("/api/item")
             .then((res) => res.json())
@@ -136,7 +135,19 @@ const InventoryList = () => {
                 <Col md={4} style={{ marginRight: 60 }}></Col>
                 <Row>
                     <Col>
-                        <Results />
+                        value !== "" ?
+                        <Button
+                            className="ClearFilterButton"
+                            id="removeFilterButton"
+                            onClick={() => {
+                                setValue("")
+                                setHideSearch(false)
+                            }}
+                            type="button"
+                            variant="warning"
+                        >Remove Filter
+                        </Button>;
+                    :   <div className="ClearFilterButton" id="removeFilterButton"></div>
                     </Col>
                     <Col>
                         <DropdownButton
