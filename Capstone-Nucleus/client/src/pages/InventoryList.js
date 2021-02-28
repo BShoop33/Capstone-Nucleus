@@ -135,19 +135,21 @@ const InventoryList = () => {
                 <Col md={4} style={{ marginRight: 60 }}></Col>
                 <Row>
                     <Col>
-                        value !== "" ?
-                        <Button
-                            className="ClearFilterButton"
-                            id="removeFilterButton"
-                            onClick={() => {
-                                setValue("")
-                                setHideSearch(false)
-                            }}
-                            type="button"
-                            variant="warning"
-                        >Remove Filter
-                        </Button>;
-                    :   <div className="ClearFilterButton" id="removeFilterButton"></div>
+                        {value !== "" ?
+                            <Button
+                                className="ClearFilterButton"
+                                id="removeFilterButton"
+                                onClick={() => {
+                                    setValue("")
+                                    setHideSearch(false)
+                                }}
+                                type="button"
+                                variant="warning"
+                            >Remove Filter
+                        </Button>
+                            :
+                            <div className="ClearFilterButton" id="removeFilterButton"></div>
+                        }
                     </Col>
                     <Col>
                         <DropdownButton
