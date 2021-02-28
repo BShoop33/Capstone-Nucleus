@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
 import { useHistory, useParams } from "react-router-dom"
-import { Button, Col, Form, Dropdown, DropdownButton, Row } from "react-bootstrap"
+import { Button, Col, Dropdown, DropdownButton, Form, Jumbotron, Row } from "react-bootstrap"
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import "./Inventory.css";
 
@@ -24,6 +24,7 @@ const ItemForm = () => {
     const [editCheck, setEditCheck] = useState(0)
     const [oldUnitPrice, setOldUnitPrice] = useState(0)
     const [currentItem, setCurrentItem] = useState({ department: { name: "" } });
+    const [imageURL, setImageURL] = useState('');
 
     const { itemId } = useParams();
 
@@ -33,6 +34,7 @@ const ItemForm = () => {
     const unitPriceEdit = useRef();
     const quantityEdit = useRef();
     const unitPriceAdd = useRef();
+    // const imageURL = useRef();
 
     /*This async function first initializes the files variable with the value of the image upload. Then initializes the data variable
     with an instance of the FormData built-in function. Then attaches the first uploaded file (you could configure the upload to attach
@@ -71,6 +73,21 @@ const ItemForm = () => {
         }
     }, []);
 
+    const picture = () => {
+        if (ItemPicture !== "") {
+            console.log(ItemPicture)
+            return ItemPicture
+        } else if (ItemPicture === "" && imageURL !== "") {
+            console.log(imageURL)
+            return imageURL
+        } else {
+            return "https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif"
+        }
+    }
+    const returnedPicture = picture();
+
+    // ItemPicture ? ItemPicture : "https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif",
+
     /*Evaluates whether editCheck does not equal 0. If it does not, then evaluates whetehr editCheck does not equal 0 and -1. If it 
     does not equal those values, then invokes the editUniqueItem function passing it the editCheck value. If edit check does equal
     0 or -1, then performs a series of evaluations to ensure the DepartmentId, vendorName, itemName, itemSKU, UnitPrice, and Quantity
@@ -98,7 +115,7 @@ const ItemForm = () => {
                     return
                 } else {
                     const item = {
-                        ItemPicture: ItemPicture ? ItemPicture : "https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif",
+                        ItemPicture: returnedPicture,
                         DepartmentId,
                         vendorName,
                         itemName,
@@ -444,214 +461,224 @@ const ItemForm = () => {
             <>
                 <h1 className="AddItemHeader my-5">Add Item</h1>
                 <hr />
-                <Row>
-                    <Col>
-                        <Row style={{ height: 50 }}></Row>
-                        <Row className="justify-content-md-left" style={{ marginTop: -15, marginLeft: 300 }}>
-                            <div className="NewToolPicture">
-                                {loading ? (
-                                    <h3 className="NewToolPictureLoading">Loading . . .</h3>
-                                ) : (
-                                        ItemPicture === "" ?
-                                            <img
-                                                alt="Logo"
-                                                src="https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif"
-                                                style={{ width: 400, height: 300 }}
-                                            />
-                                            :
-                                            <img
-                                                alt="Preview"
-                                                className="imageUploadBoard"
-                                                src={ItemPicture ? ItemPicture : "https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif"}
-                                                style={{ width: 500, height: 400 }}
-                                            />
-                                    )
-                                }
-                                <h1 className="UploadTitle my-5">Upload Image</h1>
-                                <Button id="imageUploadButton" onClick={handleClick}>Upload a file
-                                </Button>
-                                <input
-                                    name="file"
-                                    onChange={uploadImage}
-                                    placeholder="Upload an image"
-                                    ref={hiddenFileInput}
-                                    style={{ display: 'none' }}
-                                    type="file"
-                                />
-                            </div>
-                        </Row>
-                    </Col>
+                <Jumbotron style={{ height: 660, marginLeft: 160, marginTop: 20, width: 1600 }}>
 
-                    <Col id="textInputs" className="ml-5">
-                        <p id="required" className="mb-4"><i>* Required</i></p>
-                        <Row style={{ marginTop: -15 }} className="justify-content-md-left mb-4 text-left">
-                            <label
-                                className="LocationTitle"
-                                id="input"
-                                style={{ width: 200, height: 5 }}
-                            >Item Location
-                            </label>
-                            <Form inline>
-                                <DropdownButton
-                                    id="itemFormDropdown"
-                                    style={{ width: 400, height: 35 }}
-                                    title={value ? value : "Select Location"}
-                                    onSelect={handleSelect}
-                                >
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(1)} eventKey="Administrative Services">Administrative Services</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(2)} eventKey="Anesthetics">Anesthetics</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(3)} eventKey="Billing">Billing</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(4)} eventKey="Cardiology">Cardiology</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(5)} eventKey="Dermatology">Dermatology</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(6)} eventKey="Ear, Nose, and Throat (ENT)">Ear, Nose, and Throat (ENT)</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(7)} eventKey="Emergency Department (ED)">Emergency Department (ED)</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(8)} eventKey="Environmental Services">Environmental Services</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(9)} eventKey="Gastroenterology">Gastroenterology</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(10)} eventKey="Hematology">Hematology</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(11)} eventKey="Human Resources (HR)">Human Resources (HR)</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(12)} eventKey="Imaging and Radiology">Imaging and Radiology</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(13)} eventKey="Information Technology (IT)">Information Technology (IT)</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(14)} eventKey="Intensive Care Unit (ICU)">Intensive Care Unit (ICU)</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(15)} eventKey="Materials Management">Materials Management</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(16)} eventKey="Neonatal">Neonatal</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(17)} eventKey="Neurology">Neurology</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(18)} eventKey="Nutrition and Dietics">Nutrition and Dietics</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(19)} eventKey="Oncology">Oncology</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(20)} eventKey="Orthopedics">Orthopedics</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(21)} eventKey="Pharmacy">Pharmacy</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(22)} eventKey="Physiotherapy">Physiotherapy</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(23)} eventKey="Records and Reception">Records and Reception</Dropdown.Item>
-                                    <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(24)} eventKey="Surgery">Surgery</Dropdown.Item>
-                                </DropdownButton>
-                            </Form>
-                        </Row>
-                        <Form>
-                            <p className="mb-4" id="required" ><i>* Required</i></p>
-                            <Row className="justify-content-md-left" style={{ marginTop: -15 }}>
-                                <label
-                                    className="vendorNameTitle text-left"
-                                    id="input"
-                                    style={{ width: 200, height: 5 }}
-                                >Vendor Name:
-                            </label>
-                                <div className="form-group">
+                    <Row style={{ marginTop: -20 }}>
+                        <Col>
+                            <Row style={{ height: 50 }}></Row>
+                            <Row className="justify-content-md-left" style={{ marginTop: -15, marginLeft: 300 }}>
+                                <div className="NewToolPicture" style={{ marginTop: -20 }}>
+                                    {loading ? (
+                                        <h3 className="NewToolPictureLoading">Loading . . .</h3>
+                                    ) : (
+                                            ItemPicture === "" ?
+                                                <img
+                                                    alt="Logo"
+                                                    src="https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif"
+                                                    style={{ width: 400, height: 300 }}
+                                                />
+                                                :
+                                                <img
+                                                    alt="Preview"
+                                                    className="imageUploadBoard"
+                                                    src={ItemPicture ? ItemPicture : "https://res.cloudinary.com/dstfvbrwf/image/upload/v1612906044/ToolMeOnce/qcr8iyezvaocm9z8yj6o.gif"}
+                                                    style={{ width: 500, height: 400 }}
+                                                />
+                                        )
+                                    }
+                                    <Button className="my-5" id="imageUploadButton" onClick={handleClick}>Upload Image
+                                    </Button>
                                     <input
-                                        className="vendorNameInput mb-4 ml-4"
-                                        id="input"
-                                        name="vendorName"
-                                        onChange={(e) => setvendorName(e.target.value)}
-                                        required="required"
-                                        style={{ width: 400, height: 35 }}
-                                        type="Vendor Name"
+                                        name="file"
+                                        onChange={uploadImage}
+                                        placeholder="Upload an image"
+                                        ref={hiddenFileInput}
+                                        style={{ display: 'none' }}
+                                        type="file"
+                                    />
+                                    <p style={{ fontSize: 22, fontWeight: 600 }}>or enter an image URL</p>
+                                    <input
+                                        className="my-4"
+                                        onChange={(e) => setImageURL(e.target.value)}
+                                        placeholder="Enter an image URL here"
+                                        style={{ fontSize: 20, width: 400 }}
+                                        type="text"
                                     />
                                 </div>
                             </Row>
-                        </Form>
-                        <p className="mb-4" id="required"><i>* Required</i></p>
-                        <Row className="justify-content-md-left" style={{ marginTop: -15 }}>
-                            <label
-                                className="itemNameTitle text-left"
-                                id="input"
-                                style={{ width: 200, height: 5 }}
-                            >Item Name:
+                        </Col>
+
+                        <Col id="textInputs" className="ml-5">
+                            <p id="required" className="mb-4"><i>* Required</i></p>
+                            <Row style={{ marginTop: -15 }} className="justify-content-md-left mb-4 text-left">
+                                <label
+                                    className="LocationTitle"
+                                    id="input"
+                                    style={{ width: 200, height: 5 }}
+                                >Item Location
                             </label>
-                            <input
-                                className="itemNameInput mb-4 ml-4"
-                                id="input"
-                                name="itemName"
-                                onChange={(e) => setItemName(e.target.value)}
-                                required="required"
-                                style={{ width: 400, height: 35 }}
-                                type="Item Name"
-                            />
-                        </Row>
-
-                        <p id="required" className="mb-4"><i>* Required</i></p>
-                        <Row style={{ marginTop: -15 }} className="justify-content-md-left">
-                            <label
-                                className="itemSKUTitle text-left"
-                                id="input"
-                                style={{ width: 200, height: 5 }}
-                            >Item SKU:
+                                <Form inline>
+                                    <DropdownButton
+                                        id="itemFormDropdown"
+                                        style={{ width: 400, height: 35 }}
+                                        title={value ? value : "Select Location"}
+                                        onSelect={handleSelect}
+                                    >
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(1)} eventKey="Administrative Services">Administrative Services</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(2)} eventKey="Anesthetics">Anesthetics</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(3)} eventKey="Billing">Billing</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(4)} eventKey="Cardiology">Cardiology</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(5)} eventKey="Dermatology">Dermatology</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(6)} eventKey="Ear, Nose, and Throat (ENT)">Ear, Nose, and Throat (ENT)</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(7)} eventKey="Emergency Department (ED)">Emergency Department (ED)</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(8)} eventKey="Environmental Services">Environmental Services</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(9)} eventKey="Gastroenterology">Gastroenterology</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(10)} eventKey="Hematology">Hematology</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(11)} eventKey="Human Resources (HR)">Human Resources (HR)</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(12)} eventKey="Imaging and Radiology">Imaging and Radiology</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(13)} eventKey="Information Technology (IT)">Information Technology (IT)</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(14)} eventKey="Intensive Care Unit (ICU)">Intensive Care Unit (ICU)</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(15)} eventKey="Materials Management">Materials Management</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(16)} eventKey="Neonatal">Neonatal</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(17)} eventKey="Neurology">Neurology</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(18)} eventKey="Nutrition and Dietics">Nutrition and Dietics</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(19)} eventKey="Oncology">Oncology</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(20)} eventKey="Orthopedics">Orthopedics</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(21)} eventKey="Pharmacy">Pharmacy</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(22)} eventKey="Physiotherapy">Physiotherapy</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(23)} eventKey="Records and Reception">Records and Reception</Dropdown.Item>
+                                        <Dropdown.Item id="dropdownOptions" onSelect={() => setItemLocation(24)} eventKey="Surgery">Surgery</Dropdown.Item>
+                                    </DropdownButton>
+                                </Form>
+                            </Row>
+                            <Form>
+                                <p className="mb-4" id="required" ><i>* Required</i></p>
+                                <Row className="justify-content-md-left" style={{ marginTop: -15 }}>
+                                    <label
+                                        className="vendorNameTitle text-left"
+                                        id="input"
+                                        style={{ width: 200, height: 5 }}
+                                    >Vendor Name:
                             </label>
-                            <input
-                                className="itemSKUInput mb-4 ml-4"
-                                id="input"
-                                name="itemSKU"
-                                onChange={(e) => setItemSKU(e.target.value)}
-                                required="required"
-                                style={{ width: 400, height: 35 }}
-                                type="Item SKU"
-                            />
-                        </Row>
+                                    <div className="form-group">
+                                        <input
+                                            className="vendorNameInput mb-4 ml-4"
+                                            id="input"
+                                            name="vendorName"
+                                            onChange={(e) => setvendorName(e.target.value)}
+                                            required="required"
+                                            style={{ width: 400, height: 35 }}
+                                            type="Vendor Name"
+                                        />
+                                    </div>
+                                </Row>
+                            </Form>
+                            <p className="mb-4" id="required"><i>* Required</i></p>
+                            <Row className="justify-content-md-left" style={{ marginTop: -15 }}>
+                                <label
+                                    className="itemNameTitle text-left"
+                                    id="input"
+                                    style={{ width: 200, height: 5 }}
+                                >Item Name:
+                            </label>
+                                <input
+                                    className="itemNameInput mb-4 ml-4"
+                                    id="input"
+                                    name="itemName"
+                                    onChange={(e) => setItemName(e.target.value)}
+                                    required="required"
+                                    style={{ width: 400, height: 35 }}
+                                    type="Item Name"
+                                />
+                            </Row>
 
-                        <p id="required" className="mb-4"><i>* Required</i></p>
-                        <Row className="justify-content-md-left" style={{ marginTop: -15 }}>
-                            <label
-                                className="ItemUnitPrice text-left"
-                                id="input"
-                                style={{ width: 197, height: 5 }}
-                            >Unit Price:
+                            <p id="required" className="mb-4"><i>* Required</i></p>
+                            <Row style={{ marginTop: -15 }} className="justify-content-md-left">
+                                <label
+                                    className="itemSKUTitle text-left"
+                                    id="input"
+                                    style={{ width: 200, height: 5 }}
+                                >Item SKU:
+                            </label>
+                                <input
+                                    className="itemSKUInput mb-4 ml-4"
+                                    id="input"
+                                    name="itemSKU"
+                                    onChange={(e) => setItemSKU(e.target.value)}
+                                    required="required"
+                                    style={{ width: 400, height: 35 }}
+                                    type="Item SKU"
+                                />
+                            </Row>
+
+                            <p id="required" className="mb-4"><i>* Required</i></p>
+                            <Row className="justify-content-md-left" style={{ marginTop: -15 }}>
+                                <label
+                                    className="ItemUnitPrice text-left"
+                                    id="input"
+                                    style={{ width: 197, height: 5 }}
+                                >Unit Price:
                             </label>
 
-                            <input
-                                className="itemUnitPrice mb-4 ml-4"
-                                id="input"
-                                name="itemUnitPrice"
-                                onChange={(e) => setItemUnitPrice(parseFloat(e.target.value))}
-                                required="required"
-                                style={{ width: 400, height: 35 }}
-                                type="Unit Price"
-                                ref={unitPriceAdd}
-                            />
-                        </Row>
+                                <input
+                                    className="itemUnitPrice mb-4 ml-4"
+                                    id="input"
+                                    name="itemUnitPrice"
+                                    onChange={(e) => setItemUnitPrice(parseFloat(e.target.value))}
+                                    required="required"
+                                    style={{ width: 400, height: 35 }}
+                                    type="Unit Price"
+                                    ref={unitPriceAdd}
+                                />
+                            </Row>
 
-                        <p className="mb-4" id="required"><i>* Required</i></p>
-                        <Row className="justify-content-md-left text-left" style={{ marginTop: -15 }}>
-                            <label
-                                className="itemQuantity"
-                                id="input"
-                                style={{ width: 197, height: 5 }}
-                            >Quantity:
+                            <p className="mb-4" id="required"><i>* Required</i></p>
+                            <Row className="justify-content-md-left text-left" style={{ marginTop: -15 }}>
+                                <label
+                                    className="itemQuantity"
+                                    id="input"
+                                    style={{ width: 197, height: 5 }}
+                                >Quantity:
                             </label>
 
-                            <input
-                                className="itemQuantityInput mb-4 ml-4"
-                                id="input"
-                                name="itemQuantity"
-                                onChange={(e) => setItemQuantity(parseInt(e.target.value))}
-                                required="required"
-                                style={{ width: 400 }}
-                                type="Quantity"
-                            />
-                        </Row>
+                                <input
+                                    className="itemQuantityInput mb-4 ml-4"
+                                    id="input"
+                                    name="itemQuantity"
+                                    onChange={(e) => setItemQuantity(parseInt(e.target.value))}
+                                    required="required"
+                                    style={{ width: 400 }}
+                                    type="Quantity"
+                                />
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Row className="justify-content-md-left" style={{ marginLeft: 450, marginTop: 20 }}>
+                        <Button
+                            id="input"
+                            onClick={item => {
+                                item.preventDefault()
+                                getItems()
+                            }}
+                            style={{ height: 50, width: 200, marginLeft: 75 }}
+                            type="submit"
+                            variant="success"
+                        >Save Item
+                        </Button>
 
-                        <Row className="justify-content-md-left" style={{ marginTop: 20 }}>
-                            <Button
-                                id="input"
-                                onClick={item => {
-                                    item.preventDefault()
-                                    getItems()
-                                }}
-                                style={{ width: 150, marginLeft: 75 }}
-                                type="submit"
-                                variant="success"
-                            >Save Item
-                            </Button>
+                        <Button
+                            id="input"
+                            onClick={() => {
+                                history.push(`/`)
+                            }}
+                            style={{ height: 50, width: 200, marginLeft: 150 }}
+                            type="submit"
+                            variant="danger"
+                        >Cancel
+                        </Button>
+                    </Row>
+                </Jumbotron>
 
-                            <Button
-                                id="input"
-                                onClick={() => {
-                                    history.push(`/`)
-                                }}
-                                style={{ width: 150, marginLeft: 150 }}
-                                type="submit"
-                                variant="danger"
-                            >Cancel
-                            </Button>
-                        </Row>
-                    </Col>
-                </Row>
             </>
         )
     }
